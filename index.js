@@ -7,9 +7,11 @@ const server = Hapi.server({
   host: 'localhost'
 });
 
-server.route(require('./routes'));
+
 
 async function init() {
+  await server.register(require('inert'));
+  server.route(require('./routes'));
   await server.start();
   console.log(`Server running at: ${server.info.uri}`);
 }
