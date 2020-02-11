@@ -1,0 +1,15 @@
+{
+  "name": "walkway",
+  "version": "1.0.0",
+  "description": "an application to catalogue walks in ireland",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "walk",
+    "assignment1"
+  ],
+  "author": "Killian O'Neachtain",
+  "license": "ISC"
+}
