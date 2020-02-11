@@ -1,9 +1,19 @@
+'use strict';
+
+const Accounts = require('./app/controllers/accounts');
 const Walkways = require('./app/controllers/walkways');
 
 module.exports = [
-  { method: 'GET', path: '/', config: Walkways.index },
-  { method: 'GET', path: '/signup', config: Walkways.signup },
-  { method: 'GET', path: '/login', config: Walkways.login },
+  { method: 'GET', path: '/', config: Accounts.index },
+  { method: 'GET', path: '/signup', config: Accounts.showSignup },
+  { method: 'GET', path: '/login', config: Accounts.showLogin },
+  { method: 'GET', path: '/logout', config: Accounts.logout },
+  { method: 'POST', path: '/signup', config: Accounts.signup },
+  { method: 'POST', path: '/login', config: Accounts.login },
+
+  { method: 'GET', path: '/home', config: Walkways.home },
+  { method: 'GET', path: '/report', config: Walkways.report },
+
   {
     method: 'GET',
     path: '/{param*}',

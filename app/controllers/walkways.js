@@ -1,17 +1,14 @@
+'use strict';
+
 const Walkways = {
-  index: {
+  home: {
     handler: function(request, h) {
-      return h.file('./app/views/main.html');
+      return h.view('home', { title: 'Make a Review' });
     }
   },
-  signup: {
+  report: {
     handler: function(request, h) {
-      return h.file('./app/views/signup.html');
-    }
-  },
-  login: {
-    handler: function(request, h) {
-      return h.file('./app/views/login.html');
+      return h.view('report', { title: 'Walkways so far' });
     }
   }
 };

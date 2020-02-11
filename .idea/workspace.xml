@@ -2,11 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="88a427c8-b76f-468c-9560-87c10a270964" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/controllers/walkways.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/main.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/signup.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/controllers/accounts.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/views/home.hbs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/views/layouts/layout.hbs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/views/partials/donate.hbs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/views/partials/welcomemenu.hbs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/walkways.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/walkways.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/login.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/main.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/signup.hbs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
@@ -20,8 +25,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -44,6 +49,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -95,34 +101,37 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1581437210176</updated>
-      <workItem from="1581437211360" duration="1756000" />
+      <workItem from="1581437211360" duration="3947000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
   <component name="WindowStateProjectService">
     <state x="1408" y="177" key="CommitChangelistDialog2" timestamp="1581437852371">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
     <state x="1408" y="177" key="CommitChangelistDialog2/0.23.2560.1337@0.23.2560.1337" timestamp="1581437852371" />
-    <state width="1194" height="343" key="GridCell.Tab.0.bottom" timestamp="1581439098049">
+    <state width="1194" height="343" key="GridCell.Tab.0.bottom" timestamp="1581441119420">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
-    <state width="1194" height="343" key="GridCell.Tab.0.bottom/0.23.2560.1337@0.23.2560.1337" timestamp="1581439098049" />
-    <state width="1194" height="343" key="GridCell.Tab.0.center" timestamp="1581439098048">
+    <state width="1194" height="343" key="GridCell.Tab.0.bottom/0.23.2560.1337@0.23.2560.1337" timestamp="1581441119420" />
+    <state width="1194" height="343" key="GridCell.Tab.0.center" timestamp="1581441119419">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
-    <state width="1194" height="343" key="GridCell.Tab.0.center/0.23.2560.1337@0.23.2560.1337" timestamp="1581439098048" />
-    <state width="1194" height="343" key="GridCell.Tab.0.left" timestamp="1581439098048">
+    <state width="1194" height="343" key="GridCell.Tab.0.center/0.23.2560.1337@0.23.2560.1337" timestamp="1581441119419" />
+    <state width="1194" height="343" key="GridCell.Tab.0.left" timestamp="1581441119419">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
-    <state width="1194" height="343" key="GridCell.Tab.0.left/0.23.2560.1337@0.23.2560.1337" timestamp="1581439098048" />
-    <state width="1194" height="343" key="GridCell.Tab.0.right" timestamp="1581439098048">
+    <state width="1194" height="343" key="GridCell.Tab.0.left/0.23.2560.1337@0.23.2560.1337" timestamp="1581441119419" />
+    <state width="1194" height="343" key="GridCell.Tab.0.right" timestamp="1581441119420">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
-    <state width="1194" height="343" key="GridCell.Tab.0.right/0.23.2560.1337@0.23.2560.1337" timestamp="1581439098048" />
+    <state width="1194" height="343" key="GridCell.Tab.0.right/0.23.2560.1337@0.23.2560.1337" timestamp="1581441119420" />
     <state x="1328" y="299" key="SettingsEditor" timestamp="1581437677542">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
