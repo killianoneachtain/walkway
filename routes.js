@@ -14,6 +14,9 @@ module.exports = [
   { method: 'GET', path: '/home', config: Walkways.home },
   { method: 'GET', path: '/report', config: Walkways.report },
 
+  { method: 'GET', path: '/settings', config: Accounts.showSettings },
+  { method: 'POST', path: '/settings', config: Accounts.updateSettings },
+
   {
     method: 'GET',
     path: '/{param*}',
@@ -21,6 +24,7 @@ module.exports = [
       directory: {
         path: './public'
       }
-    }
+    },
+    options: { auth: false }
   }
 ];
