@@ -1,7 +1,9 @@
 'use strict';
 
 const User = require('../models/user');
+const Admin = require('../models/admin');
 const Boom = require('@hapi/boom');
+
 
 const Accounts = {
   index: {
@@ -22,7 +24,9 @@ const Accounts = {
       try {
         const payload = request.payload;
         let user = await User.findByEmail(payload.email);
-        if (user) {
+        let admin = await Admin.findByEmail(payload.email);
+
+        if ((user) || (admin)) {
           const message = 'Email address is already registered';
           throw Boom.badData(message);
         }
@@ -30,7 +34,8 @@ const Accounts = {
           firstName: payload.firstName,
           lastName: payload.lastName,
           email: payload.email,
-          password: payload.password
+          password: payload.password,
+          type: "user"
         });
         user = await newUser.save();
         request.cookieAuth.set({ id: user.id });
@@ -51,14 +56,27 @@ const Accounts = {
     handler: async function(request, h) {
       const { email, password } = request.payload;
       try {
+
         let user = await User.findByEmail(email);
-        if (!user) {
+        console.log(user);
+
+        if ((user) && (user.type == "admin"))
+        {
+          user.comparePassword(password);
+          request.cookieAuth.set({ id: user.id });
+          return h.redirect('/admin');
+        } else if (user) {
+          user.comparePassword(password);
+          request.cookieAuth.set({ id: user.id });
+          return h.redirect('/home');
+        }
+
+        else if (!user)
+        {
           const message = 'Email address is not registered';
           throw Boom.unauthorized(message);
         }
-        user.comparePassword(password);
-        request.cookieAuth.set({ id: user.id });
-        return h.redirect('/home');
+
       } catch (err) {
         return h.view('login', { errors: [{ message: err.message }] });
       }
@@ -79,7 +97,17 @@ const Accounts = {
         if (!user) {
           throw Boom.unauthorized();
         }
-        return h.view('settings', { title: 'Walkway Settings', user: user });
+
+        if (user.type == "user")
+        {
+          return h.view('settings', { title: 'Walkway Settings', user: user });
+        }
+
+        if (user.type == "admin")
+        {
+          return h.view('adminsettings', { title: 'Walkway Adminstrator Settings', user: user });
+        }
+
       } catch (err) {
         return h.view('login', { errors: [{ message: err.message }] });
       }

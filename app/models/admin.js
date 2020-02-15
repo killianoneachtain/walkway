@@ -5,19 +5,18 @@ const Schema = Mongoose.Schema;
 const Boom = require('@hapi/boom');
 
 
-const userSchema = new Schema({
+const adminSchema = new Schema({
   firstName: String,
   lastName: String,
   email: String,
-  password: String,
-  type: String
+  password: String
 });
 
-userSchema.statics.findByEmail = function(email) {
+adminSchema.statics.findByEmail = function(email) {
   return this.findOne({ email : email});
 };
 
-userSchema.methods.comparePassword = function(candidatePassword) {
+adminSchema.methods.comparePassword = function(candidatePassword) {
   const isMatch = this.password === candidatePassword;
   if (!isMatch) {
     throw Boom.unauthorized('Password mismatch');
@@ -25,4 +24,4 @@ userSchema.methods.comparePassword = function(candidatePassword) {
   return this;
 };
 
-module.exports = Mongoose.model('User', userSchema);
+module.exports = Mongoose.model('Admin', adminSchema);

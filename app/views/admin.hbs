@@ -1,0 +1,42 @@
+{{> adminmenu _id="home" }}
+
+<section class="ui raised segment">
+
+    <div> YOU ARE AN ADMINISTRATOR OF WALKWAYS. WELL DONE!!!! </div>
+
+    <div> FORM HERE TO ADD A POI TO THE DATABASE.
+            require,
+        county: String,
+        trailName: String,
+        type: String, loop / linear / out and back
+        traillength: Number, to be displayed in KM
+        grade: String, drop down easy moderate strenuous very difficult buggy and wheelchair friendly
+        time: Number, time to complete walk
+        nearesttown: String,
+        description: String, blurb on specific walk
+        startcoordinates: {
+        longitude: {
+        type: Number,
+        minimum: -180,
+        maximum: 180
+        },
+        latitude: {
+        type: Number,
+        minimum: -90,
+        maximum: 90
+        }
+        },
+        endcoordinates: {
+        longitude:{
+        type: Number,
+        minimum: -180,
+        maximum: 180
+        },
+        latitude:{
+        type: Number,
+        minimum: -90,
+        maximum: 90
+        }
+    </div>
+
+</section>

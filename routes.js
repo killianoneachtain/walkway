@@ -8,13 +8,19 @@ module.exports = [
   { method: 'GET', path: '/signup', config: Accounts.showSignup },
   { method: 'GET', path: '/login', config: Accounts.showLogin },
   { method: 'GET', path: '/logout', config: Accounts.logout },
+
   { method: 'POST', path: '/signup', config: Accounts.signup },
   { method: 'POST', path: '/login', config: Accounts.login },
 
   { method: 'GET', path: '/home', config: Walkways.home },
+  { method: 'GET', path: '/admin', config: Walkways.admin },
   { method: 'GET', path: '/report', config: Walkways.report },
 
   { method: 'GET', path: '/settings', config: Accounts.showSettings },
+  { method: 'GET', path: '/adminsettings', config: Accounts.showSettings },
+
+  { method: 'POST', path: '/adminsettings', config: Accounts.updateSettings },
+  
   { method: 'POST', path: '/settings', config: Accounts.updateSettings },
 
   {
