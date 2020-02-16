@@ -20,8 +20,9 @@ module.exports = [
   { method: 'GET', path: '/adminsettings', config: Accounts.showSettings },
 
   { method: 'POST', path: '/adminsettings', config: Accounts.updateSettings },
-  
   { method: 'POST', path: '/settings', config: Accounts.updateSettings },
+
+  { method: 'POST', path: '/addtrail', config: Walkways.addtrail },
 
   {
     method: 'GET',

@@ -7,35 +7,35 @@ const Boom = require('@hapi/boom');
 
 const trailSchema = new Schema({
   county: String,
-  trailName: String,
-  type: String,
+  trailname: String,
+  trailtype: String,
   traillength: Number,
-  grade: String,
-  time: Number,
+  grade: Array,
+  time: String,
   nearesttown: String,
   description: String,
   startcoordinates: {
-    longitude: {
-      type: Number,
-      minimum: -180,
-      maximum: 180
-    },
     latitude: {
       type: Number,
-      minimum: -90,
-      maximum: 90
+      minimum: 51.000000,
+      maximum: 56.000000
+    },
+    longitude: {
+      type: Number,
+      minimum: -10.00000,
+      maximum: -5.00000
     }
   },
     endcoordinates: {
-      longitude:{
-        type: Number,
-        minimum: -180,
-        maximum: 180
-      },
       latitude:{
         type: Number,
-        minimum: -90,
-        maximum: 90
+        minimum: 51.000000,
+        maximum: 56.000000
+      },
+      longitude: {
+        type: Number,
+        minimum: -10.000000,
+        maximum: -5.000000
       }
   }
 });
