@@ -1,7 +1,9 @@
 {{> mainmenu _id="home" }}
 
 <section class="ui raised segment">
-    <div> Welcome to Walk Ways. </div>
+
+    <div> Welcome {{ user.firstName }} {{ user.lastName }}. </div>
+
 
     {{> traillist }}
 

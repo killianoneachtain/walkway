@@ -17,6 +17,10 @@ userSchema.statics.findByEmail = function(email) {
   return this.findOne({ email : email});
 };
 
+userSchema.statics.findByID = function(id) {
+  return this.findOne({ _id : id});
+};
+
 userSchema.statics.findByType = function(type) {
   return this.findOne({ type : type});
 };

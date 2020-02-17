@@ -63,9 +63,7 @@ const Accounts = {
     handler: async function(request, h) {
       const { email, password } = request.payload;
       try {
-
         let user = await User.findByEmail(email);
-        console.log(user);
 
         if ((user) && (user.type == "admin"))
         {

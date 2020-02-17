@@ -9,8 +9,12 @@ const Walkways = {
   home: {
     handler: async function(request, h) {
       const id = request.auth.credentials.id;
+      const user = await User.findById(id).lean();
+      console.log(user);
+
       const walkways = await Trail.find( { creator: id }).populate('trail').lean();
-      return h.view('home', { title: 'Welcome to Walkways', walkways: walkways });
+
+      return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user});
     }
   },
   admin: {
@@ -32,6 +36,13 @@ const Walkways = {
         const user = await User.findById(id);
         const payload = request.payload;
 
+        let time = payload.time;
+
+        let hours = time.slice(0,2);
+        let minutes = time.slice(3);
+        let display_time = hours + "hrs " + minutes + " mins"
+
+
         const newTrail = new Trail({
           creator: user._id,
           county: payload.county,
@@ -39,7 +50,7 @@ const Walkways = {
           trailtype: payload.trailtype,
           traillength: payload.traillength,
           grade: payload.grade,
-          time: payload.time,
+          time: display_time,
           nearesttown: payload.nearesttown,
           description: payload.description,
           startcoordinates: {
