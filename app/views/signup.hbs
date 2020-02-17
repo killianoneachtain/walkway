@@ -15,12 +15,42 @@
                             </div>
                         </div>
                         <div class="field"><label>Email</label> <input placeholder="Email" type="text" name="email"/></div>
-                        <div class="field"><label>Password</label> <input type="password" name="password"/></div>
-                        <button class="ui green submit button">Submit</button>
+                        <div class="required field">
+                            <label>Password</label>
+                            <input type="password" name="new_password" id="new"required>
+                            <br>
+                            <br>
+                            <label>Confirm Password</label>
+                            <input type="password" name="confirm_password" id="confirm" required>
+                            <br>
+                            <br>
+                            <input type="checkbox" onclick="togglePassword()">Show Passwords
+                        </div>
+                        <button class="ui green submit button"> Submit</button>
                     </form>
                     {{> error}}
                 </div>
             </div>
-            <aside class="ui six wide column"><img src="images/family.png" class="ui huge image"/></aside>
+            <aside class="ui six wide column"><img src="images/family.png" class="ui image"/></aside>
         </div>
     </section>
+
+<script>
+    function togglePassword() {
+        var x = document.getElementById("new");
+        var y = document.getElementById("confirm");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+        if (y.type === "password") {
+            y.type = "text";
+        } else {
+            y.type = "password";
+        }
+    }
+</script>
+
+<!-- https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_toggle_password -->
+

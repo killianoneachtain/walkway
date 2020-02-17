@@ -30,11 +30,18 @@ const Accounts = {
           const message = 'Email address is already registered';
           throw Boom.badData(message);
         }
+
+        if ((payload.new_password != payload.confirm_password))
+        {
+          const message = 'Passwords do NOT match!';
+          throw Boom.badData(message);
+        }
+
         const newUser = new User({
           firstName: payload.firstName,
           lastName: payload.lastName,
           email: payload.email,
-          password: payload.password,
+          password: payload.confirm_password,
           type: "user"
         });
         user = await newUser.save();

@@ -7,7 +7,7 @@
     <section class="ui raised segment">
         <div class="ui two column grid basic middle aligned segment">
             <div class="ten wide column">
-                <form class="ui stacked segment form" action="/addtrail" method="POST">
+                <form class="ui stacked segment form" action="/addPOI" method="POST">
                     <h3 class="ui header">Add New Walkway</h3>
                     <div class="two fields">
                         <div class="required field">
@@ -17,38 +17,38 @@
                                 <i class="dropdown icon"></i>
                                 <div class="default text">Select County</div>
                                 <div class="menu">
-                                    <div class="item" data-value="ant">Antrim</div>
-                                    <div class="item" data-value="arm">Armagh</div>
-                                    <div class="item" data-value="car">Carlow</div>
-                                    <div class="item" data-value="cav">Cavan</div>
-                                    <div class="item" data-value="clr">Clare</div>
-                                    <div class="item" data-value="crk">Cork</div>
-                                    <div class="item" data-value="der">Derry</div>
-                                    <div class="item" data-value="dgl">Donegal</div>
-                                    <div class="item" data-value="dwn">Down</div>
-                                    <div class="item" data-value="dub">Dublin</div>
-                                    <div class="item" data-value="frm">Fermanagh</div>
-                                    <div class="item" data-value="gwy">Galway</div>
-                                    <div class="item" data-value="kry">Kerry</div>
-                                    <div class="item" data-value="kdr">Kildare</div>
-                                    <div class="item" data-value="kky">Kilkenny</div>
-                                    <div class="item" data-value="lao">Laois</div>
-                                    <div class="item" data-value="ltr">Leitrim</div>
-                                    <div class="item" data-value="lmk">Limerick</div>
-                                    <div class="item" data-value="lgf">Longford</div>
-                                    <div class="item" data-value="lth">Louth</div>
-                                    <div class="item" data-value="may">Mayo</div>
-                                    <div class="item" data-value="mea">Meath</div>
-                                    <div class="item" data-value="mon">Monaghan</div>
-                                    <div class="item" data-value="off">Offaly</div>
-                                    <div class="item" data-value="rsc">Roscommon</div>
-                                    <div class="item" data-value="sgo">Sligo</div>
-                                    <div class="item" data-value="tip">Tipperary</div>
-                                    <div class="item" data-value="tyr">Tyrone</div>
-                                    <div class="item" data-value="wfd">Waterford</div>
-                                    <div class="item" data-value="wmh">Westmeath</div>
-                                    <div class="item" data-value="wxd">Wexford</div>
-                                    <div class="item" data-value="wkl">Wicklow</div>
+                                    <div class="item" data-value="Antrim">Antrim</div>
+                                    <div class="item" data-value="Armagh">Armagh</div>
+                                    <div class="item" data-value="Carlow">Carlow</div>
+                                    <div class="item" data-value="Cavan">Cavan</div>
+                                    <div class="item" data-value="Clare">Clare</div>
+                                    <div class="item" data-value="Cork">Cork</div>
+                                    <div class="item" data-value="Derry">Derry</div>
+                                    <div class="item" data-value="Donegal">Donegal</div>
+                                    <div class="item" data-value="Down">Down</div>
+                                    <div class="item" data-value="Dublin">Dublin</div>
+                                    <div class="item" data-value="Fermanagh">Fermanagh</div>
+                                    <div class="item" data-value="Galway">Galway</div>
+                                    <div class="item" data-value="Kerry">Kerry</div>
+                                    <div class="item" data-value="Kildare">Kildare</div>
+                                    <div class="item" data-value="Kilkenny">Kilkenny</div>
+                                    <div class="item" data-value="Laois">Laois</div>
+                                    <div class="item" data-value="Leitrim">Leitrim</div>
+                                    <div class="item" data-value="Limerick">Limerick</div>
+                                    <div class="item" data-value="Longford">Longford</div>
+                                    <div class="item" data-value="Louth">Louth</div>
+                                    <div class="item" data-value="Mayo">Mayo</div>
+                                    <div class="item" data-value="Meath">Meath</div>
+                                    <div class="item" data-value="Monaghan">Monaghan</div>
+                                    <div class="item" data-value="Offaly">Offaly</div>
+                                    <div class="item" data-value="Roscommon">Roscommon</div>
+                                    <div class="item" data-value="Sligo">Sligo</div>
+                                    <div class="item" data-value="Tipperary">Tipperary</div>
+                                    <div class="item" data-value="Tyrone">Tyrone</div>
+                                    <div class="item" data-value="Waterford">Waterford</div>
+                                    <div class="item" data-value="Westmeath">Westmeath</div>
+                                    <div class="item" data-value="Wexford">Wexford</div>
+                                    <div class="item" data-value="Wicklow">Wicklow</div>
 
                                 </div>
                             </div>
@@ -94,11 +94,11 @@
                                 <label>Grade</label>
                                 <select multiple="" class="ui dropdown" name="grade">
                                     <option value="">Select Grade</option>
-                                    <option value="esy">Easy</option>
-                                    <option value="mod">Moderate</option>
-                                    <option value="str">Strenuous</option>
-                                    <option value="dif">Very Difficult</option>
-                                    <option value="wba">Wheelchair and Buggy Accessible</option>
+                                    <option value="Easy">Easy</option>
+                                    <option value="Moderate">Moderate</option>
+                                    <option value="Strenuous">Strenuous</option>
+                                    <option value="Very Difficult">Very Difficult</option>
+                                    <option value="Wheelchair and Buggy Accessible">Wheelchair and Buggy Accessible</option>
                                 </select>
                             </div>
                         </div>
@@ -180,6 +180,7 @@
                     <button class="ui blue submit button">Submit</button>
                     <i class="red asterisk icon"></i>Denotes required field
                 </form>
+                {{> error}}
             </div>
             <div class="six wide column">
                 <img class="ui image" src="images/trail.png">

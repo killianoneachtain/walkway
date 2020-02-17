@@ -1,0 +1,28 @@
+<section class="ui raised segment">
+    <div class="ui grid">
+        <aside class="six wide column">
+            <img src="images/hike.png" class="ui medium image">
+        </aside>
+        <article class="eight wide column">
+            <table class="ui celled table segment">
+                <thead>
+                <tr>
+                    <th>Trail Name</th>
+                    <th>County</th>
+                    <th>Grade</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each walkways}}
+                    <tr>
+                        <td> {{trailname}} </td>
+                        <td> {{county}} </td>
+                        <td> {{grade}} </td>
+                {{/each}}
+
+                </tr>
+                </tbody>
+            </table>
+        </article>
+    </div>
+</section>

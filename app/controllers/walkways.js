@@ -1,17 +1,16 @@
 'use strict';
 
-const Trail = require('../models/trail');
 const User = require('../models/user');
+const Trail = require('../models/trail');
+const Boom = require('@hapi/boom');
+const Accounts = require('../controllers/accounts');
 
 const Walkways = {
   home: {
-    handler: function(request, h) {
-      return h.view('home', { title: 'Make a Review' });
-    }
-  },
-  report: {
-    handler: function(request, h) {
-      return h.view('report', { title: 'Walkways so far' });
+    handler: async function(request, h) {
+      const id = request.auth.credentials.id;
+      const walkways = await Trail.find( { creator: id }).populate('trail').lean();
+      return h.view('home', { title: 'Welcome to Walkways', walkways: walkways });
     }
   },
   admin: {
@@ -19,14 +18,22 @@ const Walkways = {
       return h.view('admin', { title: 'Administrator Home' });
     }
   },
-  addtrail: {
-    auth: false,
+  trailform: {
     handler: async function(request, h) {
-      try {
+      const id = request.auth.credentials.id;
+      return h.view('addPOI', { title: 'Add Trail to your Walkways' });
+    }
 
+  },
+  addtrail: {
+     handler: async function(request, h) {
+       const id = request.auth.credentials.id;
+      try {
+        const user = await User.findById(id);
         const payload = request.payload;
 
         const newTrail = new Trail({
+          creator: user._id,
           county: payload.county,
           trailname: payload.trailname,
           trailtype: payload.trailtype,
@@ -45,16 +52,13 @@ const Walkways = {
           }
         });
         await newTrail.save();
-        return h.redirect('/admin');
+        return h.redirect('/home');
       } catch (err) {
-        return h.view('signup', { errors: [{ message: err.message }] });
+        return h.view('addPOI', { errors: [{ message: err.message }] });
 
       }
     }
   },
-
-
-
 };
 
 module.exports = Walkways;

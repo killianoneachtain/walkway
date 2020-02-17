@@ -14,7 +14,6 @@ module.exports = [
 
   { method: 'GET', path: '/home', config: Walkways.home },
   { method: 'GET', path: '/admin', config: Walkways.admin },
-  { method: 'GET', path: '/report', config: Walkways.report },
 
   { method: 'GET', path: '/settings', config: Accounts.showSettings },
   { method: 'GET', path: '/adminsettings', config: Accounts.showSettings },
@@ -22,7 +21,8 @@ module.exports = [
   { method: 'POST', path: '/adminsettings', config: Accounts.updateSettings },
   { method: 'POST', path: '/settings', config: Accounts.updateSettings },
 
-  { method: 'POST', path: '/addtrail', config: Walkways.addtrail },
+  { method: 'GET', path: '/addPOI', config: Walkways.trailform },
+  { method: 'POST', path: '/addPOI', config: Walkways.addtrail },
 
   {
     method: 'GET',

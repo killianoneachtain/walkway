@@ -6,6 +6,10 @@ const Boom = require('@hapi/boom');
 
 
 const trailSchema = new Schema({
+  creator: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
   county: String,
   trailname: String,
   trailtype: String,
@@ -40,8 +44,12 @@ const trailSchema = new Schema({
   }
 });
 
-trailSchema.statics.findByType = function(type) {
-  return this.findOne({ type : type});
+trailSchema.statics.findByID = function(id) {
+  return this.findOne({ _id : id});
+};
+
+trailSchema.statics.findByCreator = function(id) {
+  return this.find({ creator : id});
 };
 
 module.exports = Mongoose.model('Trail', trailSchema);
