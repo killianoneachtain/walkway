@@ -24,6 +24,8 @@ module.exports = [
   { method: 'GET', path: '/addPOI', config: Walkways.trailform },
   { method: 'POST', path: '/addPOI', config: Walkways.addtrail },
 
+  { method: 'GET', path: '/deleteTrail/{id}', config: Walkways.deleteTrail },
+
   {
     method: 'GET',
     path: '/{param*}',

@@ -11,9 +11,7 @@ const Walkways = {
       const id = request.auth.credentials.id;
       const user = await User.findById(id).lean();
       console.log(user);
-
       const walkways = await Trail.find( { creator: id }).populate('trail').lean();
-
       return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user});
     }
   },
@@ -70,6 +68,19 @@ const Walkways = {
       }
     }
   },
+  deleteTrail: {
+    handler: async function(request, h) {
+      try {
+        const trailID = request.params.id;
+
+        await Trail.findOneAndDelete( { _id : trailID });
+
+        return h.redirect('/home');
+      } catch (err) {
+      return h.view('home', { errors: [{ message: err.message }] });
+      }
+    }
+  }
 };
 
 module.exports = Walkways;
