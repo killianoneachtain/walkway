@@ -26,6 +26,10 @@ module.exports = [
 
   { method: 'GET', path: '/deleteTrail/{id}', config: Walkways.deleteTrail },
 
+  { method: 'GET', path: '/viewPOI/{id}', config: Walkways.viewTrail },
+
+
+
   {
     method: 'GET',
     path: '/{param*}',

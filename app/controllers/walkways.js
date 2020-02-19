@@ -38,7 +38,18 @@ const Walkways = {
 
         let hours = time.slice(0,2);
         let minutes = time.slice(3);
-        let display_time = hours + "hrs " + minutes + " mins"
+        let display_time = hours + "hrs " + minutes + " mins";
+
+        let name = payload.trailname;
+        console.log("Entered Name is :", name);
+        const checkName = await Trail.find( { trailname: name });
+        console.log("Checkeed Name is :", checkName);
+
+        if (!checkName)
+          {
+            const message = 'Please choose a different POI name. "' + name + '" is already taken.';
+            throw Boom.notAcceptable(message);
+          }
 
 
         const newTrail = new Trail({
@@ -78,6 +89,24 @@ const Walkways = {
         return h.redirect('/home');
       } catch (err) {
       return h.view('home', { errors: [{ message: err.message }] });
+      }
+    }
+  },
+  viewTrail: {
+    handler: async function(request, h) {
+      try {
+        const trailID = request.params.id;
+        console.log("Trail ID is : ",trailID);
+
+
+        const trail = await Trail.find( { _id : trailID }).lean();
+        console.log(trail);
+
+        let trailName = trail.trailname;
+
+        return h.view('viewPOI', { title: "Walkway POI" , trail: trail} );
+      } catch (err) {
+        return h.view('home', { errors: [{ message: err.message }] });
       }
     }
   }
