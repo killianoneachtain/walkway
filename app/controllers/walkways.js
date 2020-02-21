@@ -95,11 +95,15 @@ const Walkways = {
   viewTrail: {
     handler: async function(request, h) {
       try {
+        const id = request.auth.credentials.id;
+        console.log("VIEWING ID IS :",id);
+        const user = await User.findById(id).lean();
+
         const trailID = request.params.id;
         const trail = await Trail.find( { _id : trailID }).lean();
         console.log("This is the current Trail : ", trail);
 
-        return h.view('viewPOI', { title: "Walkway POI" , trail: trail} );
+        return h.view('viewPOI', { title: "Walkway POI" , trail: trail, user: user} );
       } catch (err) {
         return h.view('home', { errors: [{ message: err.message }] });
       }

@@ -4,7 +4,7 @@
     <div class="ui grid">
         <div class="twelve wide column">
 
-            <!--<img src="images/poimap.png" class="ui centered middle aligned image"> -->HERE IS A PICTURE OR MAP
+            <!--<img src="images/poimap.png" class="ui centered middle aligned image"> -->Hello {{user.firstName }} HERE IS A PICTURE OR MAP
         </div>
 
     </div>
@@ -15,18 +15,17 @@
         <table class="ui fixed table">
             <tr><td><button id="upload_widget" class="cloudinary-button">Upload Photos</button>
 
-                <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
-
                 <script type="text/javascript">
                     var myWidget = cloudinary.createUploadWidget({
                                 cloudName: 'walkways',
-                                uploadPreset: 'my_preset'}, (error, result) => {
+                                uploadPreset: 'my_preset',
+                                folder: '/ObjectID',
+                                tags: [ 'POI', '{{user.firstName}}', '{{user.id}}', 'POI Name']}, (error, result) => {
                                 if (!error && result && result.event === "success") {
                                     console.log('Done! Here is the image info: ', result.info);
                                 }
                             }
                     )
-
                     document.getElementById("upload_widget").addEventListener("click", function(){
                         myWidget.open();
                     }, false);
