@@ -9,7 +9,7 @@
 
     </div>
 </section>
-
+{{#each trail}}
 <section class="ui raised segment">
     <div class="ui grid">
         <table class="ui fixed table">
@@ -20,7 +20,7 @@
                                 cloudName: 'walkways',
                                 uploadPreset: 'my_preset',
                                 folder: '/ObjectID',
-                                tags: [ 'POI', '{{user.firstName}}', '{{user.id}}', 'POI Name']}, (error, result) => {
+                                tags: [ 'POI', '{{creator}}', '{{trailname}}', '{{_id}}']}, (error, result) => {
                                 if (!error && result && result.event === "success") {
                                     console.log('Done! Here is the image info: ', result.info);
                                 }
@@ -47,7 +47,7 @@
 <section class="ui raised segment">
     <div class="four wide column">
     <div class="ui grid">
-        {{#each trail}}
+
         <table class="ui large collapsing table">
             <tbody>
                 <tr>
