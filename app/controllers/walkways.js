@@ -3,7 +3,7 @@
 const User = require('../models/user');
 const Trail = require('../models/trail');
 const Boom = require('@hapi/boom');
-const Accounts = require('../controllers/accounts');
+const Cloudinary = require('cloudinary').v2;
 
 const Walkways = {
   home: {
@@ -96,13 +96,8 @@ const Walkways = {
     handler: async function(request, h) {
       try {
         const trailID = request.params.id;
-        console.log("Trail ID is : ",trailID);
-
-
         const trail = await Trail.find( { _id : trailID }).lean();
-        console.log(trail);
-
-        let trailName = trail.trailname;
+        console.log("This is the current Trail : ", trail);
 
         return h.view('viewPOI', { title: "Walkway POI" , trail: trail} );
       } catch (err) {

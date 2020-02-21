@@ -1,0 +1,17 @@
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="jquery.ui.widget.js"></script>
+<script type="text/javascript" src="jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="jquery.fileupload.js"></script>
+<script type="text/javascript" src="jquery.cloudinary.js"></script>
+
+<script>
+    $(function() {
+if($.fn.cloudinary_fileupload !== undefined) {
+$("input.cloudinary-fileupload[type=file]").cloudinary_fileupload();
+}
+});
+</script>
+
+<script>
+    cloudinary.setCloudName("walkways");
+</script>
