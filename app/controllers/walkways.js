@@ -15,11 +15,6 @@ const Walkways = {
       return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user});
     }
   },
-  admin: {
-    handler: function(request, h) {
-      return h.view('admin', { title: 'Administrator Home' });
-    }
-  },
   trailform: {
     handler: async function(request, h) {
       const id = request.auth.credentials.id;
@@ -82,7 +77,6 @@ const Walkways = {
     handler: async function(request, h) {
       try {
         const trailID = request.params.id;
-
         await Trail.findOneAndDelete( { _id : trailID });
 
         return h.redirect('/home');
