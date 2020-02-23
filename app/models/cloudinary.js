@@ -1,4 +1,3 @@
-'use strict';
 
 
 $(function() {
@@ -7,7 +6,7 @@ $(function() {
   }
 });
 
-var myWidget = cloudinary.createUploadWidget({
+let myWidget = cloudinary.createUploadWidget({
     cloudName: 'walkways',
     uploadPreset: 'my_preset',
     folder: '/ObjectID',
