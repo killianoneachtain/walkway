@@ -4,7 +4,6 @@ const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
 const Boom = require('@hapi/boom');
 
-
 const adminSchema = new Schema({
   firstName: String,
   lastName: String,

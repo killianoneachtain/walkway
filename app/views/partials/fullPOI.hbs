@@ -1,0 +1,98 @@
+{{> cloudinary_libraries }}
+
+<section class="ui raised segment">
+    <div class="ui grid">
+        <div class="twelve wide column">
+            <!--<img src="images/poimap.png" class="ui centered middle aligned image"> -->Hello {{user.firstName }} HERE IS A PICTURE OR MAP
+        </div>
+
+    </div>
+</section>
+{{#each trail}}
+<section class="ui raised segment">
+    <div class="ui grid">
+        <table class="ui fixed table">
+            <tr><td><button id="upload_widget" class="cloudinary-button">Upload Photos</button>
+
+                <script type="text/javascript">
+                    var myWidget = cloudinary.createUploadWidget({
+                                cloudName: 'walkways',
+                                uploadPreset: 'my_preset',
+                                folder: '/ObjectID',
+                                tags: [ 'POI', '{{creator}}', '{{trailname}}', '{{_id}}']}, (error, result) => {
+                                if (!error && result && result.event === "success") {
+                                    console.log('Done! Here is the image info: ', result.info);
+                                }
+                            }
+                    )
+                    document.getElementById("upload_widget").addEventListener("click", function(){
+                        myWidget.open();
+                    }, false);
+                </script>
+            </td>
+
+            <td>Edit POI</td>
+                <td>Delete POI</td></tr></table>
+
+        </table>
+
+    </div>
+
+
+</section>
+
+
+
+<section class="ui raised segment">
+    <div class="four wide column">
+    <div class="ui grid">
+
+        <table class="ui large collapsing table">
+            <tbody>
+                <tr>
+                    <td class="blue" style="font-size: large">{{trailname}} Overview Details</td>
+                    <td class="blue"></td>
+                </tr>
+                <tr>
+                    <td class="olive">Grade</td>
+                    <td>{{grade}}</td>
+                </tr>
+                <tr>
+                    <td class="olive">Trail Type</td>
+                    <td>{{trailtype}}</td>
+                </tr>
+                <tr>
+                    <td>County</td>
+                    <td>{{county}}</td>
+                </tr>
+                <tr>
+                    <td>Trail Length (Km)</td>
+                    <td>{{traillength}}</td>
+                </tr>
+                <tr>
+                    <td>Walking Time</td>
+                    <td>{{time}}</td>
+                </tr>
+                <tr>
+                    <td>Nearest Town</td>
+                    <td>{{nearesttown}}</td>
+                </tr>
+                <tr>
+                    <td>Start Coordinates (lat, long) : </td>
+                    <td>{{startcoordinates.latitude}}, {{startcoordinates.longitude}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="one wide column"></div>
+        <div class="six wide column" style="font-size: 120%">
+            <article>Description of Trail:<br><br>
+            {{description}}</article>
+        </div>
+    </div>
+    </div>
+
+
+{{/each}}
+</section>
+
