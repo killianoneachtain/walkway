@@ -2,16 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="88a427c8-b76f-468c-9560-87c10a270964" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/controllers/gallery.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/utils/image-store.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/gallery.hbs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/partials/card.hbs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/partials/upload.hbs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/layouts/layout.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/layouts/layout.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/partials/mainmenu.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/partials/mainmenu.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/gallery.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/gallery.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/cloudinary.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/utils/image-store.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils/image-store.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/partials/cloudinary_libraries.hbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/views/partials/fullPOI.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/partials/fullPOI.hbs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/temp.img" beforeDir="false" afterPath="$PROJECT_DIR$/public/temp.img" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +49,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="javascript.nodejs.core.library.configured.version" value="12.14.1" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/app/views" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -57,6 +57,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
@@ -132,6 +133,10 @@
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
     <state x="1565" y="338" key="#Images/0.23.2560.1337@0.23.2560.1337" timestamp="1581972288088" />
+    <state x="1675" y="471" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1582639531694">
+      <screen x="0" y="23" width="2560" height="1337" />
+    </state>
+    <state x="1675" y="471" key="#com.intellij.fileTypes.FileTypeChooser/0.23.2560.1337@0.23.2560.1337" timestamp="1582639531694" />
     <state x="1640" y="414" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1581860583324">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
@@ -140,22 +145,22 @@
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
     <state x="1408" y="177" key="CommitChangelistDialog2/0.23.2560.1337@0.23.2560.1337" timestamp="1581437852371" />
-    <state width="1168" height="343" key="GridCell.Tab.0.bottom" timestamp="1582624364269">
+    <state width="1168" height="343" key="GridCell.Tab.0.bottom" timestamp="1582641822983">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
-    <state width="1168" height="343" key="GridCell.Tab.0.bottom/0.23.2560.1337@0.23.2560.1337" timestamp="1582624364269" />
-    <state width="1168" height="343" key="GridCell.Tab.0.center" timestamp="1582624364269">
+    <state width="1168" height="343" key="GridCell.Tab.0.bottom/0.23.2560.1337@0.23.2560.1337" timestamp="1582641822983" />
+    <state width="1168" height="343" key="GridCell.Tab.0.center" timestamp="1582641822982">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
-    <state width="1168" height="343" key="GridCell.Tab.0.center/0.23.2560.1337@0.23.2560.1337" timestamp="1582624364269" />
-    <state width="1168" height="343" key="GridCell.Tab.0.left" timestamp="1582624364268">
+    <state width="1168" height="343" key="GridCell.Tab.0.center/0.23.2560.1337@0.23.2560.1337" timestamp="1582641822982" />
+    <state width="1168" height="343" key="GridCell.Tab.0.left" timestamp="1582641822982">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
-    <state width="1168" height="343" key="GridCell.Tab.0.left/0.23.2560.1337@0.23.2560.1337" timestamp="1582624364268" />
-    <state width="1168" height="343" key="GridCell.Tab.0.right" timestamp="1582624364269">
+    <state width="1168" height="343" key="GridCell.Tab.0.left/0.23.2560.1337@0.23.2560.1337" timestamp="1582641822982" />
+    <state width="1168" height="343" key="GridCell.Tab.0.right" timestamp="1582641822983">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
-    <state width="1168" height="343" key="GridCell.Tab.0.right/0.23.2560.1337@0.23.2560.1337" timestamp="1582624364269" />
+    <state width="1168" height="343" key="GridCell.Tab.0.right/0.23.2560.1337@0.23.2560.1337" timestamp="1582641822983" />
     <state x="1328" y="299" key="SettingsEditor" timestamp="1581437677542">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>

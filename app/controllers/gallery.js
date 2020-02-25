@@ -20,9 +20,11 @@ const Gallery = {
   uploadFile: {
     handler: async function(request, h) {
       try {
+        const user_id = request.auth.credentials.id;
+        console.log("USER ID on file upload is  : ", user_id);
         const file = request.payload.imagefile;
         if (Object.keys(file).length > 0) {
-          await ImageStore.uploadImage(request.payload.imagefile);
+          await ImageStore.uploadImage(request.payload.imagefile, user_id);
           return h.redirect('/gallery');
         }
         return h.view('gallery', {

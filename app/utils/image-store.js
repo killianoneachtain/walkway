@@ -20,9 +20,16 @@ const ImageStore = {
     return result.resources;
   },
 
-  uploadImage: async function(imagefile) {
+  getUserImages: async function(id) {
+    const result = await cloudinary.v2.api.publish_by_tag(id);
+    return result.resources;
+  },
+
+  uploadImage: async function(imagefile, string) {
+    console.log("HERE in uploading");
     await writeFile('./public/temp.img', imagefile);
-    await cloudinary.uploader.upload('./public/temp.img');
+    await cloudinary.v2.uploader.upload('./public/temp.img', { folder: string, tags: string });
+
   },
 
   deleteImage: async function(id) {

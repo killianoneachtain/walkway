@@ -1,10 +1,24 @@
 'use strict';
 
-const cloudinary = require('cloudinary').v2;
+const ImageStore = require('./app/utils/image-store');
 
 const Hapi = require('@hapi/hapi');
 
+require('./app/models/db');
+
+const server = Hapi.server({
+  port: 3000,
+  host: 'localhost'
+});
+
+
 const dotenv = require('dotenv');
+
+const credentials = {
+  cloud_name: process.env.name,
+  api_key: process.env.key,
+  api_secret: process.env.secret
+};
 
 const result = dotenv.config();
 if (result.error) {
@@ -12,19 +26,15 @@ if (result.error) {
   process.exit(1);
 }
 
-const server = Hapi.server({
-  port: 3000,
-  host: 'localhost'
-});
-
-require('./app/models/db');
-
 async function init() {
   await server.register(require('@hapi/inert'));
   await server.register(require('@hapi/vision'));
   await server.register(require('@hapi/cookie'));
 
+  ImageStore.configure(credentials);
+
   server.validator(require('@hapi/joi'));
+
 
   server.views({
     engines: {
@@ -58,12 +68,6 @@ async function init() {
 process.on('unhandledRejection', err => {
   console.log(err);
   process.exit(1);
-});
-
-cloudinary.config( {
-  cloud_name: process.env.cloudname,
-  api_key: process.env.API_key,
-  api_secret: process.env.API_secret
 });
 
 init();
