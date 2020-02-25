@@ -1,7 +1,6 @@
 'use strict';
 
 const ImageStore = require('./app/utils/image-store');
-
 const Hapi = require('@hapi/hapi');
 
 require('./app/models/db');

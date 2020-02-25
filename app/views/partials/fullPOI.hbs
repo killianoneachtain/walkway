@@ -1,5 +1,3 @@
-
-
 <section class="ui raised segment">
     <div class="ui grid">
         <div class="twelve wide column">
@@ -11,11 +9,11 @@
 <section class="ui raised segment">
     <div class="ui grid">
         <table class="ui fixed table">
-            <tr><td><button id="upload_widget" class="cloudinary-button">Upload Photos</button>
-
-            <td>Edit POI</td>
-                <td>Delete POI</td></tr></table>
-
+            <tr>
+                <td> {{> upload}}</td>
+                <td>Edit POI</td>
+                <td>Delete POI</td>
+            </tr>
         </table>
     </div>
 </section>
@@ -25,40 +23,39 @@
 <section class="ui raised segment">
     <div class="four wide column">
     <div class="ui grid">
-        {{#each trail}}
         <table class="ui large collapsing table">
             <tbody>
                 <tr>
-                    <td class="blue" style="font-size: large">{{trailname}} Overview Details</td>
+                    <td class="blue" style="font-size: large">{{trail.trailname}} Overview Details</td>
                     <td class="blue"></td>
                 </tr>
                 <tr>
                     <td class="olive">Grade</td>
-                    <td>{{grade}}</td>
+                    <td>{{trail.grade}}</td>
                 </tr>
                 <tr>
                     <td class="olive">Trail Type</td>
-                    <td>{{trailtype}}</td>
+                    <td>{{trail.trailtype}}</td>
                 </tr>
                 <tr>
                     <td>County</td>
-                    <td>{{county}}</td>
+                    <td>{{trail.county}}</td>
                 </tr>
                 <tr>
                     <td>Trail Length (Km)</td>
-                    <td>{{traillength}}</td>
+                    <td>{{trail.traillength}}</td>
                 </tr>
                 <tr>
                     <td>Walking Time</td>
-                    <td>{{time}}</td>
+                    <td>{{trail.time}}</td>
                 </tr>
                 <tr>
                     <td>Nearest Town</td>
-                    <td>{{nearesttown}}</td>
+                    <td>{{trail.nearesttown}}</td>
                 </tr>
                 <tr>
                     <td>Start Coordinates (lat, long) : </td>
-                    <td>{{startcoordinates.latitude}}, {{startcoordinates.longitude}}</td>
+                    <td>{{trail.startcoordinates.latitude}}, {{trail.startcoordinates.longitude}}</td>
                 </tr>
             </tbody>
         </table>
@@ -66,12 +63,9 @@
         <div class="one wide column"></div>
         <div class="six wide column" style="font-size: 120%">
             <article>Description of Trail:<br><br>
-            {{description}}</article>
+            {{trail.description}}</article>
         </div>
     </div>
     </div>
-
-
-{{/each}}
 </section>
 
