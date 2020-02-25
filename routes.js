@@ -3,6 +3,7 @@
 const Accounts = require('./app/controllers/accounts');
 const Walkways = require('./app/controllers/walkways');
 const Admin = require('./app/controllers/admin');
+const Gallery = require('./app/controllers/gallery');
 
 module.exports = [
   { method: 'GET', path: '/', config: Accounts.index },
@@ -32,6 +33,10 @@ module.exports = [
   { method: 'GET', path: '/viewPOI/{id}', config: Walkways.viewTrail },
 
   { method: 'GET', path:  '/deleteUser/{id}', config: Admin.deleteUser },
+
+  { method: 'GET', path: '/gallery', config: Gallery.index },
+  { method: 'POST', path: '/uploadfile', config: Gallery.uploadFile },
+  { method: 'GET', path: '/deleteimage/{id}', config: Gallery.deleteImage },
 
 
   {

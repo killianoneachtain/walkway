@@ -61,7 +61,7 @@ process.on('unhandledRejection', err => {
 });
 
 cloudinary.config( {
-  cloud_name: process.env.cloud_name,
+  cloud_name: process.env.cloudname,
   api_key: process.env.API_key,
   api_secret: process.env.API_secret
 });
