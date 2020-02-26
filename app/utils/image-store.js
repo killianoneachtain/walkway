@@ -29,7 +29,6 @@ const ImageStore = {
   uploadImage: async function(imagefile, user_id, trail_id) {
 
     let trail = await Trail.find( { _id : trail_id });
-    console.log("TRAIL IS :", trail);
     let trailname = trail[0].trailname;
     let folder = user_id + '/' + trailname;
     await writeFile('./public/temp.img', imagefile);

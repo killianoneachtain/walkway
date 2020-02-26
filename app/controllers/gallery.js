@@ -16,15 +16,12 @@ const Gallery = {
       }
     }
   },
-
   uploadFile: {
     handler: async function(request, h) {
       try {
         const user_id = request.auth.credentials.id;
-
         const trailID = request.params.id;
-        console.log("USER ID on file upload is  : ", user_id);
-        console.log("TRAIL ID for upload is :", trailID);
+
         const file = request.payload.imagefile;
         if (Object.keys(file).length > 0) {
           await ImageStore.uploadImage(request.payload.imagefile, user_id, trailID);

@@ -30,10 +30,9 @@ async function init() {
   await server.register(require('@hapi/vision'));
   await server.register(require('@hapi/cookie'));
 
-  ImageStore.configure(credentials);
-
   server.validator(require('@hapi/joi'));
 
+  ImageStore.configure(credentials);
 
   server.views({
     engines: {
