@@ -16,19 +16,20 @@ const Gallery = {
       }
     }
   },
-
   uploadFile: {
     handler: async function(request, h) {
       try {
-        const user = request.auth.credentials.id;
-        console.log("upload user is : ", user);
+        const user_id = request.auth.credentials.id;
+        const trailID = request.params.id;
+
         const file = request.payload.imagefile;
         if (Object.keys(file).length > 0) {
-          await ImageStore.uploadImage(request.payload.imagefile, user);
-          return h.redirect('/gallery');
+          await ImageStore.uploadImage(request.payload.imagefile, user_id, trailID);
+          return h.redirect('/viewPOI/'+ trailID);
+
         }
-        return h.view('gallery', {
-          title: 'Cloudinary Gallery',
+        return h.redirect('/viewPOI/' + trailID, {
+          title: 'UPLOAD ERROR!',
           error: 'No file selected'
         });
       } catch (err) {

@@ -1,10 +1,12 @@
 'use strict';
 
+
+const cloudinary = require('cloudinary').v2;
 const User = require('../models/user');
-const cloudinary = require('cloudinary');
 const fs = require('fs');
 const util = require('util');
 const writeFile = util.promisify(fs.writeFile);
+const Trail = require('../models/trail');
 
 const ImageStore = {
   configure: function() {
@@ -17,14 +19,23 @@ const ImageStore = {
   },
 
   getAllImages: async function() {
-    const result = await cloudinary.v2.api.resources();
+    const result = await cloudinary.api.resources();
     return result.resources;
   },
 
-  uploadImage: async function(imagefile, user_id) {
-    console.log("upload image id for user is : ", user_id);
+  getUserImages: async function(id) {
+    const result = await cloudinary.api.publish_by_tag(id);
+    return result.resources;
+  },
+
+  uploadImage: async function(imagefile, user_id, trail_id) {
+
+    let trail = await Trail.find( { _id : trail_id });
+    let trailname = trail[0].trailname;
+    let folder = user_id + '/' + trailname;
     await writeFile('./public/temp.img', imagefile);
-    await cloudinary.uploader.upload('./public/temp.img', { tags: user_id });
+    await cloudinary.uploader.upload('./public/temp.img', { folder: folder, tags: [user_id, trail_id, trailname] },
+      function(error,result) {console.log(result,error)} );
   },
 
   deleteImage: async function(id) {
