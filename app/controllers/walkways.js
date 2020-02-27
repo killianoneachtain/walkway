@@ -4,6 +4,7 @@ const User = require('../models/user');
 const Trail = require('../models/trail');
 const Boom = require('@hapi/boom');
 const Cloudinary = require('cloudinary').v2;
+const Joi = require('@hapi/joi');
 
 const Walkways = {
   home: {
@@ -23,47 +24,75 @@ const Walkways = {
 
   },
   addtrail: {
-     handler: async function(request, h) {
-       const id = request.auth.credentials.id;
-      try {
-        const user = await User.findById(id);
-        const payload = request.payload;
 
-        let name = payload.trailname;
-        const checkName = await Trail.find( { trailname: name, creator: id } );
+    validate: {
+      payload: {
+        county: Joi.string().required(),
+        trailname: Joi.string().required(),
+        trailtype: Joi.string().required(),
+        traillength: Joi.number().required(),
+        grade: Joi.array(),
+        time: Joi.string().required(),
+        nearesttown: Joi.string(),
+        description: Joi.string(),
+        startlat: Joi.number().precision(6).required() ,
+        startlong: Joi.number().precision(6).negative().required(),
+        endlat: Joi.number().precision(6) ,
+        endlong: Joi.number().precision(6).negative()
+        },
+      options: {
+        abortEarly: false
+      },
+      failAction: async function(request, h, error) {
+        return h
+          .view('addPOI', {
+            title: 'Add POI Error',
+            errors: error.details,
+          })
+          .takeover()
+          .code(400);
+      }
+    },
+      handler: async function(request, h) {
+        let walking_time = payload.time.lean();
+        const id = request.auth.credentials.id;
+        try {
+          const user = await User.findById(id);
+          const payload = request.payload;
 
-        if (checkName.length >= 1)
-          {
+          let name = payload.trailname;
+          const checkName = await Trail.find({ trailname: name, creator: id });
+
+          if (checkName.length >= 1) {
             const message = 'Please choose a different Trail Name. "' + name + '" is already in use.';
             throw Boom.notAcceptable(message);
           }
 
-        const newTrail = new Trail({
-          creator: user._id,
-          county: payload.county,
-          trailname: payload.trailname,
-          trailtype: payload.trailtype,
-          traillength: payload.traillength,
-          grade: payload.grade,
-          time: payload.time,
-          nearesttown: payload.nearesttown,
-          description: payload.description,
-          startcoordinates: {
-            latitude: payload.startlat,
-            longitude: payload.startlong,
-          },
-          endcoordinates: {
-            latitude: payload.endlat,
-            longitude: payload.endlong
-          }
-        });
-        await newTrail.save();
-        return h.redirect('/home');
-      } catch (err) {
-        return h.view('addPOI', { errors: [{ message: err.message }] });
-
+          const newTrail = new Trail({
+            creator: user._id,
+            county: payload.county,
+            trailname: payload.trailname,
+            trailtype: payload.trailtype,
+            traillength: payload.traillength,
+            grade: payload.grade,
+            time: payload.time,
+            nearesttown: payload.nearesttown,
+            description: payload.description,
+            startcoordinates: {
+              latitude: payload.startlat,
+              longitude: payload.startlong,
+            },
+            endcoordinates: {
+              latitude: payload.endlat,
+              longitude: payload.endlong
+            }
+          });
+          await newTrail.save();
+          return h.redirect('/home', walking_time);
+        } catch (err) {
+          return h.view('addPOI', { errors: [{ message: err.message }] });
+        }
       }
-    }
   },
   deleteTrail: {
     handler: async function(request, h) {
