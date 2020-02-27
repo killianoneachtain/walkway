@@ -1,6 +1,8 @@
 'use strict';
 
+
 const cloudinary = require('cloudinary').v2;
+const User = require('../models/user');
 const fs = require('fs');
 const util = require('util');
 const writeFile = util.promisify(fs.writeFile);

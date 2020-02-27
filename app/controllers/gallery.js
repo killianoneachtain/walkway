@@ -26,6 +26,7 @@ const Gallery = {
         if (Object.keys(file).length > 0) {
           await ImageStore.uploadImage(request.payload.imagefile, user_id, trailID);
           return h.redirect('/viewPOI/'+ trailID);
+
         }
         return h.redirect('/viewPOI/' + trailID, {
           title: 'UPLOAD ERROR!',
