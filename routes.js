@@ -27,7 +27,7 @@ module.exports = [
   { method: 'POST', path: '/addPOI', config: Walkways.addtrail },
 
   { method: 'GET', path: '/editTrail/{id}', config: Walkways.showTrail },
-  { method: 'POST', path: '/saveTrail', config: Walkways.updateTrail },
+  { method: 'POST', path: '/saveTrail/{id}', config: Walkways.updateTrail },
   { method: 'GET', path: '/deleteTrail/{id}', config: Walkways.deleteTrail },
 
   { method: 'GET', path: '/viewPOI/{id}', config: Walkways.viewTrail },

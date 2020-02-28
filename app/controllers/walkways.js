@@ -161,10 +161,16 @@ const Walkways = {
         abortEarly: false
       },
       failAction: async function(request, h, error) {
+        const trailID = request.params.id;
+        let trail = await Trail.find( { _id : trailID }).lean();
+        const id = request.auth.credentials.id;
+        const user = await User.findById(id).lean();
         return h
           .view('editPOI', {
             title: 'Edit POI Error',
             errors: error.details,
+            trail: trail,
+            user: user
           })
           .takeover()
           .code(400);
@@ -172,9 +178,27 @@ const Walkways = {
     },
     handler: async function(request, h) {
       try {
-        console.log("")
-        const trailEdit = request.params.id;
-        console.log("Trail to Edit is : ", trailEdit);
+        const trailID = request.params.id;
+        let trails = await Trail.find( { _id : trailID });
+        let trail = trails[0];
+        console.log("Trail to Edit is : ", trail);
+
+        const trailEdit = request.payload;
+
+        trail.county = trailEdit.county;
+        trail.trailname = trailEdit.trailname;
+        trail.trailtype = trailEdit.trailtype;
+        trail.traillength = trailEdit.traillength;
+        trail.grade = trailEdit.grade;
+        trail.time = trailEdit.time;
+        trail.nearesttown = trailEdit.nearesttown;
+        trail.description = trailEdit.description;
+        trail.startlat = trailEdit.startlat;
+        trail.startlong = trailEdit.startlong;
+        trail.endlat = trailEdit.endlat;
+        trail.endlong = trailEdit.endlong;
+
+        await trail.save();
         return h.redirect('/home');
 
       } catch (err) {

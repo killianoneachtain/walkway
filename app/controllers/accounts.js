@@ -200,7 +200,7 @@ const Accounts = {
       failAction: function(request, h, error) {
         return h
           .view('settings', {
-            title: 'Sign up error',
+            title: 'Update error',
             errors: error.details
           })
           .takeover()

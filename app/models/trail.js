@@ -52,5 +52,4 @@ trailSchema.statics.findByCreator = function(id) {
   return this.find({ creator : id});
 };
 
-
 module.exports = Mongoose.model('Trail', trailSchema);
