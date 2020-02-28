@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="88a427c8-b76f-468c-9560-87c10a270964" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/accounts.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/accounts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/walkways.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/walkways.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/partials/POIform.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/partials/POIform.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/partials/mainmenu.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/partials/mainmenu.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-    </list>
+    <list default="true" id="88a427c8-b76f-468c-9560-87c10a270964" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
