@@ -15,11 +15,6 @@ const Walkways = {
       return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user});
     }
   },
-  admin: {
-    handler: function(request, h) {
-      return h.view('admin', { title: 'Administrator Home' });
-    }
-  },
   trailform: {
     handler: async function(request, h) {
       const id = request.auth.credentials.id;
@@ -34,16 +29,8 @@ const Walkways = {
         const user = await User.findById(id);
         const payload = request.payload;
 
-        let user_id = user._id;
-        console.log("Current ID is : ", user_id);
-
         let name = payload.trailname;
         const checkName = await Trail.find( { trailname: name, creator: id } );
-
-        console.log("checkName is : ", checkName);
-
-        //let first_creator = checkName[0].creator;
-        //console.log("First creator ia : ",first_creator);
 
         if (checkName.length >= 1)
           {
@@ -82,7 +69,6 @@ const Walkways = {
     handler: async function(request, h) {
       try {
         const trailID = request.params.id;
-
         await Trail.findOneAndDelete( { _id : trailID });
 
         return h.redirect('/home');
@@ -97,11 +83,16 @@ const Walkways = {
         const id = request.auth.credentials.id;
         const user = await User.findById(id).lean();
 
-        const trailID = request.params.id;
-        const trail = await Trail.find( { _id : trailID }).lean();
-        console.log("This is the current Trail : ", trail);
+        console.log(user);
 
-        return h.view('viewPOI', { title: "Walkway POI" , trail: trail, user: user} );
+        const trailID = request.params.id;
+        let trail = await Trail.find( { _id : trailID }).lean();
+        console.log("This is the current Trail : ", trail);
+        let current_trail = trail[0];
+        console.log("This is the ONLY Trail : ", current_trail);
+
+
+        return h.view('viewPOI', { title: "Walkway POI" , trail: current_trail, user: user} );
       } catch (err) {
         return h.view('home', { errors: [{ message: err.message }] });
       }
@@ -115,9 +106,8 @@ const Walkways = {
 
         const trailID = request.params.id;
         const trail = await Trail.find( { _id : trailID }).lean();
-        console.log("This is the current Trail : ", trail);
 
-        return h.view('editPOI', { title: "Edit POI" + trail.trailname , trail: trail, user: user} );
+        return h.view('editPOI', { title: "Edit POI" + trail.trailname , trail: trail , user: user} );
       } catch (err) {
         return h.view('home', { errors: [{ message: err.message }] });
       }

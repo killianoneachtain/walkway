@@ -2,6 +2,8 @@
 
 const Accounts = require('./app/controllers/accounts');
 const Walkways = require('./app/controllers/walkways');
+const Admin = require('./app/controllers/admin');
+const Gallery = require('./app/controllers/gallery');
 
 module.exports = [
   { method: 'GET', path: '/', config: Accounts.index },
@@ -13,7 +15,7 @@ module.exports = [
   { method: 'POST', path: '/login', config: Accounts.login },
 
   { method: 'GET', path: '/home', config: Walkways.home },
-  { method: 'GET', path: '/admin', config: Walkways.admin },
+  { method: 'GET', path: '/admin', config: Admin.admin },
 
   { method: 'GET', path: '/settings', config: Accounts.showSettings },
   { method: 'GET', path: '/adminsettings', config: Accounts.showSettings },
@@ -26,11 +28,15 @@ module.exports = [
 
   { method: 'GET', path: '/editTrail/{id}', config: Walkways.showTrail },
   { method: 'POST', path: '/saveTrail', config: Walkways.updateTrail },
-
   { method: 'GET', path: '/deleteTrail/{id}', config: Walkways.deleteTrail },
 
   { method: 'GET', path: '/viewPOI/{id}', config: Walkways.viewTrail },
 
+  { method: 'GET', path:  '/deleteUser/{id}', config: Admin.deleteUser },
+
+  { method: 'GET', path: '/gallery', config: Gallery.index },
+  { method: 'POST', path: '/uploadfile/{id}', config: Gallery.uploadFile },
+  { method: 'GET', path: '/deleteimage/{id}', config: Gallery.deleteImage },
 
 
   {

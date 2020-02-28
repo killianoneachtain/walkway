@@ -1,0 +1,34 @@
+<section class="ui raised segment" style="column-gap: 0px;grid-column-gap: 0px">
+    <h3> Welcome {{user.firstName}} {{user.lastName}} to Walkways Administration.</h3>
+    <table class="ui very basic striped table">
+        <thead>
+        <tr>
+            <th class="fifteen wide"><h2>MEMBER</h2></th>
+            <th class="one wide"></th>
+        </tr>
+        </thead>
+    </table>
+    <div class="ui grid" style="grid-column-gap: 0px; padding: 0px;">
+        <div class="sixteen wide column" style="padding: 0px; text-transform: uppercase">
+            <table class="ui very basic striped table">
+                <tbody>
+                {{#each members}}
+                    <td style="font-size: 120%"><a href="/viewUser/{{_id}}" style="font-weight: bold">
+                        <h2>{{firstName}} {{lastName}}</h2></a><p>
+                        <div class="ui large label">
+                            Email :
+                            <div class="detail">{{email}}</div>
+                        </div>
+                    </td>
+                    <td class="center aligned"><a href="/deleteUser/{{_id}}">
+                        <i class="large red trash alternate icon"></i></a></td>
+                    </tr>
+                {{> error}}
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+
