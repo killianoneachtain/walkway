@@ -24,14 +24,13 @@ const Walkways = {
 
   },
   addtrail: {
-
     validate: {
       payload: {
         county: Joi.string().required(),
         trailname: Joi.string().required(),
         trailtype: Joi.string().required(),
         traillength: Joi.number().required(),
-        grade: Joi.array(),
+        grade: Joi.array().items(Joi.string()).single(),
         time: Joi.string().required(),
         nearesttown: Joi.string(),
         description: Joi.string(),
@@ -54,7 +53,7 @@ const Walkways = {
       }
     },
       handler: async function(request, h) {
-        let walking_time = payload.time.lean();
+
         const id = request.auth.credentials.id;
         try {
           const user = await User.findById(id);
@@ -88,7 +87,7 @@ const Walkways = {
             }
           });
           await newTrail.save();
-          return h.redirect('/home', walking_time);
+          return h.redirect('/home');
         } catch (err) {
           return h.view('addPOI', { errors: [{ message: err.message }] });
         }
@@ -143,11 +142,39 @@ const Walkways = {
     }
   },
   updateTrail: {
+    validate: {
+      payload: {
+        county: Joi.string().required(),
+        trailname: Joi.string().required(),
+        trailtype: Joi.string().required(),
+        traillength: Joi.number().required(),
+        grade: Joi.array().items(Joi.string()).single(),
+        time: Joi.string().required(),
+        nearesttown: Joi.string(),
+        description: Joi.string(),
+        startlat: Joi.number().precision(6).required() ,
+        startlong: Joi.number().precision(6).negative().required(),
+        endlat: Joi.number().precision(6) ,
+        endlong: Joi.number().precision(6).negative()
+      },
+      options: {
+        abortEarly: false
+      },
+      failAction: async function(request, h, error) {
+        return h
+          .view('editPOI', {
+            title: 'Edit POI Error',
+            errors: error.details,
+          })
+          .takeover()
+          .code(400);
+      }
+    },
     handler: async function(request, h) {
       try {
+        console.log("")
         const trailEdit = request.params.id;
         console.log("Trail to Edit is : ", trailEdit);
-
         return h.redirect('/home');
 
       } catch (err) {

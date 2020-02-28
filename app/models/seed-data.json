@@ -1,0 +1,91 @@
+{
+  "users": {
+    "_model": "User",
+    "homer": {
+      "firstName": "Homer",
+      "lastName": "Simpson",
+      "email": "homer@simpson.com",
+      "password": "secretP@ssword",
+      "type": "user"
+    },
+    "marge": {
+      "firstName": "Marge",
+      "lastName": "Simpson",
+      "email": "marge@simpson.com",
+      "password": "secretP@ssword",
+      "type": "admin"
+    },
+    "killian": {
+      "firstName": "Killian",
+      "lastName": "O'Neachtain",
+      "email": "killianoneachtain@hotmail.com",
+      "password": "secretP@ssword",
+      "type": "user"
+    }
+  },
+  "trails": {
+    "_model": "Trail",
+    "one": {
+      "grade" : [
+        "Moderate"
+      ],
+      "creator" : "->users.killian",
+      "county" : "Waterford",
+      "trailname" : "Killians Way",
+      "trailtype" : "Loop",
+      "traillength" : 2.5,
+      "time" : "01:05",
+      "nearesttown" : "Tramore",
+      "description" : "Best walk in Tramore",
+      "startcoordinates" : {
+        "latitude" : 52.158240,
+        "longitude" : -7.153736
+      },
+      "endcoordinates" : {
+        "latitude" : 52.155548,
+        "longitude" : -7.158210
+      }
+    },
+    "two": {
+      "grade" : [
+        "Moderate"
+      ],
+      "creator" : "->users.homer",
+      "county" : "Waterford",
+      "trailname" : "Killians Way",
+      "trailtype" : "Loop",
+      "traillength" : 2.5,
+      "time" : "01:05",
+      "nearesttown" : "Tramore",
+      "description" : "Best walk in Tramore",
+      "startcoordinates" : {
+        "latitude" : 52.158240,
+        "longitude" : -7.153736
+      },
+      "endcoordinates" : {
+        "latitude" : 52.155548,
+        "longitude" : -7.158210
+      }
+    },
+    "three": {
+      "grade" : [
+        "Moderate"
+      ],
+      "creator" : "->users.killian",
+      "county" : "Waterford",
+      "trailname" : "Back Strand Walk",
+      "trailtype" : "Out and Back",
+      "traillength" : 2.5,
+      "time" : "01:05",
+      "nearesttown" : "Tramore",
+      "description" : "Best walk in Tramore",
+      "startcoordinates" : {
+        "latitude" : 52.159796,
+        "longitude" : -7.137537
+      }
+    }
+  }
+}
+
+
+
