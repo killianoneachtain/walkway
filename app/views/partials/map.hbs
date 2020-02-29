@@ -6,6 +6,7 @@
     }
 </style>
 <h3>Start Location of Walkway : {{trail.trailname}}</h3>
+
 <!--The div element for the map -->
 <div id="map"></div>
 
@@ -13,12 +14,16 @@
     // Initialize and add the map
     function initMap() {
         // The location of Uluru
-        var trail = {lat: {{trail.startcoordinates.latitude}}, lng: {{trail.startcoordinates.longitude}} };
+        var trail_start = {lat: {{trail.startcoordinates.latitude}}, lng: {{trail.startcoordinates.longitude}} };
+        //var trail_end = {lat: {{trail.endcoordinates.latitude}}, lng: {{end.startcoordinates.longitude}} };
         // The map, centered at Uluru
         var map = new google.maps.Map(
-                document.getElementById('map'), {zoom: 17, center: trail, mapTypeId: 'hybrid'});
+                document.getElementById('map'), {zoom: 17, center: trail_start, mapTypeId: 'hybrid'});
         // The marker, positioned at Uluru
-        var marker = new google.maps.Marker({position: trail, map: map});
+        var marker = new google.maps.Marker({position: trail_start, map: map, title: "Start {{trail.trailname}}"});
+        //var end_marker = new google.maps.Marker({position: trail_end, map: map, title: "End {{trail.trailname}}"});
+
+        marker.setMap(map);
     }
 </script>
 <!--Load the API from the specified URL
@@ -27,5 +32,5 @@
 * The callback parameter executes the initMap() function
 -->
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmqFv56wJAJ8_HWK553x58KWqyE8MmdUw&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key={{google_API}}&callback=initMap">
 </script>
