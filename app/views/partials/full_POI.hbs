@@ -1,7 +1,7 @@
 <section class="ui raised segment">
     <div class="ui grid">
         <div class="twelve wide column">
-            <!--<img src="images/poimap.png" class="ui centered middle aligned image"> -->Hello {{user.firstName }} HERE IS A PICTURE OR MAP
+            {{> map }}
         </div>
     </div>
 </section>
@@ -10,8 +10,7 @@
     <div class="ui grid">
         <table class="ui fixed table">
             <tr>
-                <td>View Gallery</td>
-                <td>Edit POI</td>
+                <td>{{> POIgallery}}</td>
             </tr>
             <tr>
                 <td> {{> upload_modal}}</td>
@@ -29,7 +28,8 @@
             <tbody>
                 <tr>
                     <td class="blue" style="font-size: large">{{trail.trailname}} Overview Details</td>
-                    <td class="blue"></td>
+                    <td class="blue"><a href="/editTrail/{{trail._id}}">
+                        <i class="olive wrench icon"></i>Edit Trail</a></td>
                 </tr>
                 <tr>
                     <td class="olive">Grade</td>
