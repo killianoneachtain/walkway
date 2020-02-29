@@ -4,6 +4,8 @@ const User = require('../models/user');
 const Trail = require('../models/trail');
 const Boom = require('@hapi/boom');
 const Cloudinary = require('cloudinary').v2;
+const ImageStore = require('../utils/image-store');
+
 const Joi = require('@hapi/joi');
 
 const Walkways = {
@@ -11,7 +13,7 @@ const Walkways = {
     handler: async function(request, h) {
       const id = request.auth.credentials.id;
       const user = await User.findById(id).lean();
-      console.log(user);
+
       const walkways = await Trail.find( { creator: id }).populate('trail').lean();
       return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user});
     }
@@ -111,16 +113,17 @@ const Walkways = {
         const id = request.auth.credentials.id;
         const user = await User.findById(id).lean();
 
-        console.log(user);
-
         const trailID = request.params.id;
         let trail = await Trail.find( { _id : trailID }).lean();
-        console.log("This is the current Trail : ", trail);
+
         let current_trail = trail[0];
-        console.log("This is the ONLY Trail : ", current_trail);
 
+        const allImages = await ImageStore.getUserImages(id, trailID);
 
-        return h.view('viewPOI', { title: "Walkway POI" , trail: current_trail, user: user} );
+        process.env.google_maps_API;
+
+        return h.view('viewPOI', { title: "Walkway POI" , trail: current_trail, user: user,
+          google_API: process.env.google_maps_API, images: allImages } );
       } catch (err) {
         return h.view('home', { errors: [{ message: err.message }] });
       }
@@ -134,6 +137,9 @@ const Walkways = {
 
         const trailID = request.params.id;
         const trail = await Trail.find( { _id : trailID }).lean();
+
+
+
 
         return h.view('editPOI', { title: "Edit POI" + trail.trailname , trail: trail , user: user} );
       } catch (err) {
@@ -181,7 +187,6 @@ const Walkways = {
         const trailID = request.params.id;
         let trails = await Trail.find( { _id : trailID });
         let trail = trails[0];
-        console.log("Trail to Edit is : ", trail);
 
         const trailEdit = request.payload;
 

@@ -23,8 +23,8 @@ const ImageStore = {
     return result.resources;
   },
 
-  getUserImages: async function(id) {
-    const result = await cloudinary.api.publish_by_tag(id);
+  getUserImages: async function(user_id, trail_id) {
+    const result = await cloudinary.api.resources_by_tag(user_id, trail_id);
     return result.resources;
   },
 
@@ -34,8 +34,12 @@ const ImageStore = {
     let trailname = trail[0].trailname;
     let folder = user_id + '/' + trailname;
     await writeFile('./public/temp.img', imagefile);
-    await cloudinary.uploader.upload('./public/temp.img', { folder: folder, tags: [user_id, trail_id, trailname] },
-      function(error,result) {console.log(result,error)} );
+    const uploaded_image = await cloudinary.uploader.upload('./public/temp.img', { folder: folder,
+        tags: [user_id, trail_id, trailname], crop: 'pad' , type: 'authenticated', quality_analysis: true, format: 'jpg',
+      eager: [ { width: 600, height: 800 } ] },
+      function(error,result) {console.log("Error is :", error)} );
+
+    console.log("Uploaded image is : ", uploaded_image);
   },
 
   deleteImage: async function(id) {

@@ -6,6 +6,7 @@
     }
 </style>
 <h3>Start Location of Walkway : {{trail.trailname}}</h3>
+
 <!--The div element for the map -->
 <div id="map"></div>
 
@@ -31,5 +32,5 @@
 * The callback parameter executes the initMap() function
 -->
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmqFv56wJAJ8_HWK553x58KWqyE8MmdUw&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key={{google_API}}&callback=initMap">
 </script>
