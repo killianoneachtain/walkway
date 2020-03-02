@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="88a427c8-b76f-468c-9560-87c10a270964" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/controllers/gallery.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/utils/image-store.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/gallery.hbs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/partials/card.hbs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/views/partials/upload.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/layouts/layout.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/layouts/layout.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/partials/mainmenu.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/partials/mainmenu.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
