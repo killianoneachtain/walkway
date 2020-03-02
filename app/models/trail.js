@@ -41,7 +41,8 @@ const trailSchema = new Schema({
           minimum: -10.000000,
           maximum: -5.000000
     }
-  }
+  },
+  images: Array
 });
 
 trailSchema.statics.findByID = function(id) {
@@ -51,5 +52,9 @@ trailSchema.statics.findByID = function(id) {
 trailSchema.statics.findByCreator = function(id) {
   return this.find({ creator : id});
 };
+
+trailSchema.statics.findByName = function(name) {
+  return this.find({ trailname : name });
+}
 
 module.exports = Mongoose.model('Trail', trailSchema);
