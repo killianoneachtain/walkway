@@ -4,6 +4,7 @@ const User = require('../models/user');
 const Trail = require('../models/trail');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
+const cloudinary = require('cloudinary');
 
 
 const Admin = {
@@ -29,21 +30,18 @@ const Admin = {
       try {
         const id = request.params.id;
         const user = await User.findById(id).lean();
-        console.log("This is the USER to be deleted : ", user);
 
         const trailID = request.params.id;
         await Trail.findOneAndDelete( { _id : trailID });
 
         try {
           await Trail.deleteMany( { creator: user._id } );
-          //Trail.save();
         } catch (err) {
           console.log(err);
         }
 
         try {
           await User.deleteOne({ _id: user._id });
-          //User.save();
         } catch (err) {
           console.log(err);
         }
@@ -57,7 +55,23 @@ const Admin = {
         return h.view('admin', { errors: [{ message: err.message }] });
       }
     }
-   }
+   },
+  viewUser: {
+    handler: async function(request, h) {
+      try {
+        const id = request.params.id;
+        const user = await User.findById(id).lean();
+        console.log("This is the USER to be deleted : ", user);
+
+
+
+        return h.redirect('/admin', {members: members});
+      }
+      catch (err) {
+        return h.view('admin', { errors: [{ message: err.message }] });
+      }
+    }
+  }
 };
 
 module.exports = Admin;
