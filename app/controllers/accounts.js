@@ -36,12 +36,7 @@ const Accounts = {
           .regex(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/)
           //.error((errors) => ('"Password" requires at least ONE special character.'))
           .required().required(),
-        confirm_password: Joi.string()
-          .min(8)
-          .max(15)
-          .regex(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/)
-          //.error(new Error('"Password" requires at least ONE special character.'))
-          .required().required()
+        confirm_password: Joi.ref('new_password')
       },
       options: {
         abortEarly: false
@@ -96,6 +91,26 @@ const Accounts = {
   },
   login: {
     auth: false,
+    validate: {
+      payload: {
+        email: Joi.string()
+          .email()
+          .required(),
+        password: Joi.string().required()
+      },
+      options: {
+        abortEarly: false
+      },
+      failAction: function(request, h, error) {
+        return h
+          .view('login', {
+            title: 'Sign in error',
+            errors: error.details
+          })
+          .takeover()
+          .code(400);
+      }
+    },
     handler: async function(request, h) {
       const { email, password } = request.payload;
       try {
@@ -170,6 +185,28 @@ const Accounts = {
     }
   },
   updateSettings: {
+    validate: {
+      payload: {
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        email: Joi.string()
+          .email()
+          .required(),
+        password: Joi.string().required()
+      },
+      options: {
+        abortEarly: false
+      },
+      failAction: function(request, h, error) {
+        return h
+          .view('settings', {
+            title: 'Update error',
+            errors: error.details
+          })
+          .takeover()
+          .code(400);
+      }
+    },
     handler: async function(request, h) {
       try {
         const userEdit = request.payload;

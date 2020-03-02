@@ -1,6 +1,6 @@
 <div class="uk-card uk-card-primary uk-card-body">
     <h3 class="uk-card-title">Image Upload</h3>
-    <form class="uk-form-horizontal" action="/uploadfile" method="POST" enctype="multipart/form-data">
+    <form class="uk-form-horizontal" action="/uploadfile/{{trail._id}}" method="POST" enctype="multipart/form-data">
         <div class="uk-margin">
             <label class="uk-form-label" for="form-horizontal-text">Select Image</label>
             <div class="uk-form-controls">
@@ -8,7 +8,7 @@
             </div>
         </div>
         <p uk-margin>
-            <input type="submit" value="Upload" class="uk-button uk-button-default">
+            <input type="submit" value="Upload for {{trail.trailname}}" class="uk-button uk-button-default">
         </p>
     </form>
 </div>
