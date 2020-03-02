@@ -1,6 +1,5 @@
 'use strict';
 
-
 const cloudinary = require('cloudinary').v2;
 const User = require('../models/user');
 const fs = require('fs');
@@ -23,8 +22,9 @@ const ImageStore = {
     return result.resources;
   },
 
-  getUserImages: async function(id) {
-    const result = await cloudinary.api.publish_by_tag(id);
+  getUserImages: async function(user_id, trail_id) {
+    const result = await cloudinary.api.resources_by_tag(user_id, trail_id);
+    console.log("RESULTS FROM getUserImages : ",result);
     return result.resources;
   },
 
@@ -33,13 +33,29 @@ const ImageStore = {
     let trail = await Trail.find( { _id : trail_id });
     let trailname = trail[0].trailname;
     let folder = user_id + '/' + trailname;
+
     await writeFile('./public/temp.img', imagefile);
-    await cloudinary.uploader.upload('./public/temp.img', { folder: folder, tags: [user_id, trail_id, trailname] },
-      function(error,result) {console.log(result,error)} );
+    const uploaded_image = await cloudinary.uploader.upload('./public/temp.img', { folder: folder,
+        tags: [user_id, trail_id, trailname], width: 600, height: 600, gravity: "east", crop: 'pad',
+        fetch_format: "auto", type: 'authenticated', quality_analysis: true, format: 'jpg' },
+      function(error,result) {console.log("Error is :", error)} );
+
+    let this_trail = trail[0];
+    this_trail.images.push(uploaded_image.public_id);
+    await this_trail.save();
+
+    console.log("Uploaded image is : ", uploaded_image);
   },
 
   deleteImage: async function(id) {
-    await cloudinary.v2.uploader.destroy(id, {});
+    try {
+      console.log("VALUE OF ID is : ", id);
+      let deleteFunction = await cloudinary.api.delete_resources([id], {type: 'authenticated' },function(error, result)
+      { console.log( "RESULT: ",result,error) });
+      console.log("result of delete is ", deleteFunction);
+    } catch (err) {
+      console.log(err);
+    }
   },
 
 };

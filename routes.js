@@ -27,7 +27,7 @@ module.exports = [
   { method: 'POST', path: '/addPOI', config: Walkways.addtrail },
 
   { method: 'GET', path: '/editTrail/{id}', config: Walkways.showTrail },
-  { method: 'POST', path: '/saveTrail', config: Walkways.updateTrail },
+  { method: 'POST', path: '/saveTrail/{id}', config: Walkways.updateTrail },
   { method: 'GET', path: '/deleteTrail/{id}', config: Walkways.deleteTrail },
 
   { method: 'GET', path: '/viewPOI/{id}', config: Walkways.viewTrail },
@@ -36,8 +36,22 @@ module.exports = [
 
   { method: 'GET', path: '/gallery', config: Gallery.index },
   { method: 'POST', path: '/uploadfile/{id}', config: Gallery.uploadFile },
-  { method: 'GET', path: '/deleteimage/{id}', config: Gallery.deleteImage },
+  { method: 'GET', path: '/deleteimage/{id}/{foldername}/{imagename}', config: Gallery.deleteImage },
 
+  /*{
+    method: 'GET',
+    path: '/deleteimage/{id}',
+    handler: async function(request, h) {
+        console.log("HERE IS DELETEIMAGE!!!!");
+        try {
+          console.log("Request PARAMS are are: ", (request.params.id));
+          await ImageStore.deleteImage(request.params.id);
+          return h.redirect('/home');
+        } catch (err) {
+          console.log(err);
+        }
+      }
+  },*/
 
   {
     method: 'GET',

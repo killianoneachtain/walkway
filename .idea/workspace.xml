@@ -39,7 +39,6 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="javascript.nodejs.core.library.configured.version" value="12.14.1" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/app/views" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -47,17 +46,16 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="nodejs_package_manager_path" value="npm" />
     <property name="prettierjs.PrettierConfiguration.Package" value="$PROJECT_DIR$/node_modules/prettier" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/views" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/public/images" />
       <recent name="$PROJECT_DIR$/app" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/views" />
     </key>
   </component>
   <component name="RunManager">
@@ -107,10 +105,6 @@
       <workItem from="1582207863743" duration="9054000" />
       <workItem from="1582286376190" duration="4180000" />
       <workItem from="1582384583270" duration="4496000" />
-      <workItem from="1582410291071" duration="12163000" />
-      <workItem from="1582560290408" duration="2019000" />
-      <workItem from="1582660716289" duration="8050000" />
-      <workItem from="1582730746802" duration="1465000" />
     </task>
     <servers />
   </component>
@@ -125,10 +119,6 @@
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
     <state x="1565" y="338" key="#Images/0.23.2560.1337@0.23.2560.1337" timestamp="1581972288088" />
-    <state x="1675" y="471" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1582639531694">
-      <screen x="0" y="23" width="2560" height="1337" />
-    </state>
-    <state x="1675" y="471" key="#com.intellij.fileTypes.FileTypeChooser/0.23.2560.1337@0.23.2560.1337" timestamp="1582639531694" />
     <state x="1640" y="414" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1581860583324">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
@@ -137,6 +127,7 @@
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
     <state x="1408" y="177" key="CommitChangelistDialog2/0.23.2560.1337@0.23.2560.1337" timestamp="1581437852371" />
+
     <state width="1168" height="342" key="GridCell.Tab.0.bottom" timestamp="1582802795793">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
@@ -153,6 +144,7 @@
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
     <state width="1168" height="342" key="GridCell.Tab.0.right/0.23.2560.1337@0.23.2560.1337" timestamp="1582802795793" />
+
     <state x="1328" y="299" key="SettingsEditor" timestamp="1581437677542">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
