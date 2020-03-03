@@ -22,8 +22,8 @@ const ImageStore = {
     return result.resources;
   },
 
-  getUserImages: async function(user_id, trail_id) {
-    const result = await cloudinary.api.resources_by_tag(user_id, trail_id);
+  getUserImages: async function(trail_id) {
+    const result = await cloudinary.api.resources_by_tag(trail_id);
     console.log("RESULTS FROM getUserImages : ",result);
     return result.resources;
   },

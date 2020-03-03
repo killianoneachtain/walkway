@@ -104,4 +104,8 @@ dist
 .tern-port
 
 # idea files
+<<<<<<< HEAD
 .idea
+=======
+.idea
+>>>>>>> 949970a8ba8b4454fb6b76a0c340c11422e4f13f
