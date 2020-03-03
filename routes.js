@@ -40,25 +40,8 @@ module.exports = [
   { method: 'POST', path: '/uploadfile/{id}', config: Gallery.uploadFile },
   { method: 'GET', path: '/deleteimage/{id}/{foldername}/{imagename}', config: Gallery.deleteImage },
 
-<<<<<<< HEAD
-  { method: 'GET', path: '/viewUser/{id}', config: Admin.viewUser },
 
-=======
-  /*{
-    method: 'GET',
-    path: '/deleteimage/{id}',
-    handler: async function(request, h) {
-        console.log("HERE IS DELETEIMAGE!!!!");
-        try {
-          console.log("Request PARAMS are are: ", (request.params.id));
-          await ImageStore.deleteImage(request.params.id);
-          return h.redirect('/home');
-        } catch (err) {
-          console.log(err);
-        }
-      }
-  },*/
->>>>>>> 949970a8ba8b4454fb6b76a0c340c11422e4f13f
+  { method: 'GET', path: '/viewUser/{id}', config: Admin.viewUser },
 
   {
     method: 'GET',

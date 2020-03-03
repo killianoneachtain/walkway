@@ -1,0 +1,24 @@
+{{> adminmenu _id="home" }}
+
+<section class="ui raised segment">
+
+<div>
+    This is for the User {{user.firstName}} {{user.lastName}}
+
+    Total Number of Walkways : {{ POI_total}}
+
+    {{#each walkways}}
+            {{trailname}}
+           Total number of Images {{ images.length }}
+   {{/each}}
+    </div>
+
+</section>
+
+<section class="ui raised segment">
+show password
+change password for user
+enter twice to confirm
+view
+
+</section>

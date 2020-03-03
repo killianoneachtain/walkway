@@ -118,11 +118,13 @@ const Walkways = {
 
         let current_trail = trail[0];
 
-        const userImages = await ImageStore.getUserImages(id, trailID);
+        let trail_name = current_trail.trailname;
+
+        let userImages = await ImageStore.getUserImages(trailID);
 
         process.env.google_maps_API;
 
-        return h.view('viewPOI', { title: "Walkway POI" , trail: current_trail, user: user,
+        return h.view('viewPOI', { title: trail_name + " Details" , trail: current_trail, user: user,
           google_API: process.env.google_maps_API, images: userImages } );
       } catch (err) {
         return h.view('home', { errors: [{ message: err.message }] });
