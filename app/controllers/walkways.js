@@ -3,7 +3,6 @@
 const User = require('../models/user');
 const Trail = require('../models/trail');
 const Boom = require('@hapi/boom');
-const Cloudinary = require('cloudinary').v2;
 const ImageStore = require('../utils/image-store');
 
 const Joi = require('@hapi/joi');
@@ -14,8 +13,12 @@ const Walkways = {
       const id = request.auth.credentials.id;
       const user = await User.findById(id).lean();
 
+      const types = await Trail.distinct( "trailtype" ).populate('type').lean();
+
       const walkways = await Trail.find( { creator: id }).populate('trail').lean();
-      return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user});
+
+
+      return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user, types: types });
     }
   },
   trailform: {
@@ -23,7 +26,6 @@ const Walkways = {
       const id = request.auth.credentials.id;
       return h.view('addPOI', { title: 'Add Trail to your Walkways' });
     }
-
   },
   addtrail: {
     validate: {
@@ -140,10 +142,7 @@ const Walkways = {
         const trailID = request.params.id;
         const trail = await Trail.find( { _id : trailID }).lean();
 
-
-
-
-        return h.view('editPOI', { title: "Edit POI" + trail.trailname , trail: trail , user: user} );
+        return h.view('editPOI', { title: "Edit " + trail.trailname , trail: trail , user: user} );
       } catch (err) {
         return h.view('home', { errors: [{ message: err.message }] });
       }

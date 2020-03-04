@@ -10,7 +10,6 @@ const server = Hapi.server({
   host: 'localhost'
 });
 
-
 const dotenv = require('dotenv');
 
 const credentials = {

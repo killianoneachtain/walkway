@@ -1,3 +1,10 @@
+<section>
+    <p>The trail types are : </p>
+    {{#each trails}}
+        {{trailtype}}
+    {{/each}}
+</section>
+
 <section class="ui raised segment">
     <div class="ui grid">
         <div class="four wide column"></div>
@@ -5,10 +12,10 @@
             <img src="images/poimap.png" class="ui centered middle aligned image">
         </div>
         <article class="sixteen wide column">
-            <table class="ui celled striped table">
+            <table class="ui sortable celled striped table">
                 <thead>
                 <tr>
-                    <th>Trail Name</th>
+                    <th class="sorted ascending">Trail Name</th>
                     <th>County</th>
                     <th>Type</th>
                     <th>Length (Km)</th>
@@ -43,3 +50,9 @@
         </article>
     </div>
 </section>
+
+
+
+<script>
+    $('table').tablesort()
+</script>

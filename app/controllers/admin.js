@@ -32,39 +32,40 @@ const Admin = {
       try {
         const id = request.params.id;
         const user = await User.findById(id).lean();
-
         const trails = await Trail.findByCreator(id).lean();
         let user_images=[];
-        let index = 0;
-        for (index=0; index< trails.length; index++)
-        {
-          let image_index = 0;
-          let current_images = trails[index].images;
-          for (image_index = 0; image_index < current_images.length; image_index++)
-          {
-            try {
-              user_images.push(current_images[image_index]);
-              } catch (err) {
-                  console.log(err);
-              }
-          }
-        }
 
-        for (index = 0; index < user_images.length; index++)
+        if (user_images.length > 0)
         {
+
+          for (let index = 0; index < trails.length; index++) {
+            let image_index = 0;
+            let current_images = trails[index].images;
+            for (image_index = 0; image_index < current_images.length; image_index++) {
+              try {
+                user_images.push(current_images[image_index]);
+              } catch (err) {
+                console.log(err);
+              }
+            }
+          }
+
+          for (let index = 0; index < user_images.length; index++) {
+            try {
+              await ImageStore.deleteImage(user_images[index]);
+            } catch (err) {
+              console.log(err);
+            }
+          }
+
           try {
-            await ImageStore.deleteImage(user_images[index]);
+            await cloudinary.api.delete_folder(user._id, function(error, result) {
+              console.log(result);
+            });
           } catch (err) {
             console.log(err);
           }
         }
-
-        try{
-          await cloudinary.api.delete_folder(user._id , function(error, result){console.log(result);});
-        } catch (err) {
-          console.log(err);
-        }
-
 
         try {
           await Trail.deleteMany( { creator: user._id } );
