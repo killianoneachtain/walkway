@@ -1,16 +1,22 @@
-<section>
-    <p>The trail types are : </p>
-    {{#each trails}}
-        {{trailtype}}
-    {{/each}}
+{{> adminmenu _id="home" }}
+
+<section class="ui raised segment">
+
+<div>
+    This is for the User {{user.firstName}} {{user.lastName}}
+
+    Total Number of Walkways : {{ POI_total}}
+
+    {{#each walkways}}
+              {{trailname}}
+             Total number of Images {{ images.length }}
+     {{/each}}
+    </div>
+
 </section>
 
 <section class="ui raised segment">
     <div class="ui grid">
-        <div class="four wide column"></div>
-        <div class="eight wide column">
-            <img src="images/poimap.png" class="ui centered middle aligned image">
-        </div>
         <article class="sixteen wide column">
             <table class="ui sortable celled striped table">
                 <thead>
@@ -51,8 +57,14 @@
     </div>
 </section>
 
-
-
 <script>
     $('table').tablesort()
 </script>
+
+<section class="ui raised segment">
+show password {{user.password}}
+change password for user
+enter twice to confirm
+view
+
+</section>

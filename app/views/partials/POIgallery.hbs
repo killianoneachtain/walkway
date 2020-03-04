@@ -1,28 +1,7 @@
-<section>
-    <script type="text/javascript" src="https://product-gallery.cloudinary.com/all.js"></script>
-    <div id="my-gallery" style="max-width:80%;margin:auto">
-    </div>
-    <script type="text/javascript">
-        const myGallery= cloudinary.galleryWidget({
-            container: "#my-gallery",
-            cloudName: "walkways",
-            mediaAssets: [
-                {tag: "{{trail._id}}"}, // by default mediaType: "image"
-                {tag: "{{trail._id}}", mediaType: "video"},
-                {tag: "{{trail._id}}", mediaType: "spin"}
-            ]
-        });
-        myGallery.render();
-        myGallery.update();
-
-    </script>
-</section>
-
-
 <h1>Gallery for {{trail.trailname}}</h1>
 <br>
 <div class="ui stackable four column grid">
-    <div class="ui special cards">
+    <div class="ui cards">
         {{#each images}}
             {{> card}}
         {{/each}}
