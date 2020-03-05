@@ -1,6 +1,15 @@
 {{> adminmenu _id="home" }}
 
 <section class="ui raised segment">
-    {{> memberList}}
+    <h2> Welcome {{user.firstName}} {{user.lastName}} to Walkways Administration.</h2>
+    <h3> Total Number of Users: {{total_users}}</h3>
+    <a class="ui big blue button"
+       href="https://cloudinary.com/console/c-2d0dc7dff6bf1d27d6696694538c11/reports">View Cloudinary Reports</a>
+    <br>
+    <br>
+
+        {{> images_graph}}
+
+        {{> memberList}}
 
 </section>
