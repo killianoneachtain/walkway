@@ -5,21 +5,21 @@
       "firstName": "Homer",
       "lastName": "Simpson",
       "email": "homer@simpson.com",
-      "password": "secretP@ssword",
+      "password": "secretP@ssw0rd",
       "type": "user"
     },
     "marge": {
       "firstName": "Marge",
       "lastName": "Simpson",
       "email": "marge@simpson.com",
-      "password": "secretP@ssword",
+      "password": "secretP@ssw0rd",
       "type": "admin"
     },
     "killian": {
       "firstName": "Killian",
       "lastName": "O'Neachtain",
       "email": "killianoneachtain@hotmail.com",
-      "password": "secretP@ssword",
+      "password": "secretP@ssw0rd",
       "type": "user"
     }
   },
@@ -33,7 +33,7 @@
       "county" : "Waterford",
       "trailname" : "Doneraile Walk",
       "trailtype" : "Linear",
-      "traillength" : 2.5,
+      "traillength" : 6.8,
       "time" : "01:05",
       "nearesttown" : "Tramore",
       "description" : "Best walk in Tramore",
@@ -54,7 +54,7 @@
       "county" : "Waterford",
       "trailname" : "Killians Way",
       "trailtype" : "Loop",
-      "traillength" : 2.5,
+      "traillength" : 12.5,
       "time" : "01:05",
       "nearesttown" : "Tramore",
       "description" : "Best walk in Tramore",
@@ -70,13 +70,13 @@
     },
     "three": {
       "grade" : [
-        "Moderate"
+        "Strenuous"
       ],
       "creator" : "->users.killian",
       "county" : "Waterford",
       "trailname" : "Back Strand Walk",
       "trailtype" : "Out and Back",
-      "traillength" : 2.5,
+      "traillength" : 5.5,
       "time" : "01:05",
       "nearesttown" : "Tramore",
       "description" : "Best walk in Tramore",
