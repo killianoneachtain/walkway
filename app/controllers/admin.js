@@ -35,8 +35,8 @@ const Admin = {
         const id = request.params.id;
         const user = await User.findById(id).lean();
         const trails = await Trail.findByCreator(id).lean();
-        let user_images=[];
 
+        let user_images=[];
         if (user_images.length > 0)
         {
 

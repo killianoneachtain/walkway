@@ -4,7 +4,7 @@ const User = require('../models/user');
 const Admin = require('../models/admin');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
-const Cloudinary = require('cloudinary').v2;
+const cloudinary = require('cloudinary').v2;
 
 
 
@@ -62,7 +62,7 @@ const Accounts = {
           throw Boom.badData(message);
         }
 
-        if ((payload.new_password != payload.confirm_password))
+        if ((payload.new_password !== payload.confirm_password))
         {
           const message = 'Passwords do NOT match!';
           throw Boom.badData(message);
@@ -116,7 +116,7 @@ const Accounts = {
       try {
         let user = await User.findByEmail(email);
 
-        if ((user) && (user.type == "admin"))
+        if ((user) && (user.type === "admin"))
         {
           user.comparePassword(password);
           request.cookieAuth.set({ id: user.id });

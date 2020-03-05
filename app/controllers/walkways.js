@@ -4,6 +4,7 @@ const User = require('../models/user');
 const Trail = require('../models/trail');
 const Boom = require('@hapi/boom');
 const ImageStore = require('../utils/image-store');
+const cloudinary = require('cloudinary').v2;
 
 const Joi = require('@hapi/joi');
 
@@ -91,7 +92,7 @@ const Walkways = {
             }
           });
           await newTrail.save();
-          return h.redirect('/home');
+          return h.redirect('home');
         } catch (err) {
           return h.view('addPOI', { errors: [{ message: err.message }] });
         }
@@ -101,6 +102,32 @@ const Walkways = {
     handler: async function(request, h) {
       try {
         const trailID = request.params.id;
+        const id = request.auth.credentials.id;
+        const user = await User.findById(id);
+        const trail = await Trail.findById(trailID);
+        console.log("The trail is :", trail);
+
+        if (trail.images.length > 0) {
+          for (let i = 0; i < trail.images.length; i++) {
+            try {
+              await ImageStore.deleteImage(trail.images[i]);
+            } catch (err) {
+              console.log(err);
+            }
+          }
+          let folderToDelete = user._id + '/' + trail.trailname;
+          console.log("Folder name:", folderToDelete);
+
+          try {
+            await cloudinary.api.delete_folder(folderToDelete, function(error, result) {
+              console.log(result);
+            });
+          } catch (error)
+          {
+            console.log(error);
+          }
+        }
+
         await Trail.findOneAndDelete( { _id : trailID });
 
         return h.redirect('/home');
