@@ -42,6 +42,8 @@ module.exports = [
 
 
   { method: 'GET', path: '/viewUser/{id}', config: Admin.viewUser },
+  { method: 'POST', path: '/viewUser/{id}', config: Admin.resetPassword },
+
 
   {
     method: 'GET',

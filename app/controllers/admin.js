@@ -20,6 +20,8 @@ const Admin = {
 
         let total_users = members.length;
 
+        // query up to cloud for image data
+
         return h.view('admin', { title: 'Administrator Home', user: user, members: members, total_users: total_users });
       }
       catch (err) {
@@ -94,7 +96,6 @@ const Admin = {
       try {
         const id = request.params.id;
         const user = await User.findById(id).lean();
-        console.log("Trying to view user: ", user);
 
         let username = user.firstName + ' ' + user.lastName;
 
@@ -102,11 +103,79 @@ const Admin = {
 
         let POI_total = walkways.length;
 
+        let total_images = 0;
+
+        for (let i =0; i < walkways.length; i++)
+        {
+          let imageNumber = walkways[i].images.length;
+          total_images = total_images + imageNumber;
+        }
+
         return h.view('viewUser', { title: username + ' Details', walkways: walkways,
-          user: user, POI_total: POI_total});
+          user: user, POI_total: POI_total, total_images: total_images});
       }
       catch (err) {
         return h.view('admin', { errors: [{ message: err.message }] });
+      }
+    }
+  },
+  resetPassword: {
+    validate: {
+      payload: {
+        new_password: Joi.string()
+          .min(8)
+          .max(15)
+          .regex(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/)
+          //.error((errors) => ('"Password" requires at least ONE special character.'))
+          .required().required(),
+        confirm_password: Joi.ref('new_password')
+      },
+      options: {
+        abortEarly: false
+      },
+      failAction: async function(request, h, error) {
+        const id = request.params.id;
+        const user = await User.findById(id).lean();
+        if (!user) {
+          throw Boom.unauthorized();
+        }
+        const walkways = await Trail.find( { creator: id }).populate('trail').lean();
+        let POI_total = walkways.length;
+        let total_images = 0;
+        for (let i =0; i < walkways.length; i++)
+        {
+          let imageNumber = walkways[i].images.length;
+          total_images = total_images + imageNumber;
+        }
+        return h.view('viewUser', {
+            title: 'Password Reset error',
+            errors: error.details,
+            walkways: walkways,
+            user: user,
+            POI_total: POI_total,
+            total_images: total_images
+          })
+          .takeover()
+          .code(400);
+      }
+    },
+    handler: async function(request, h) {
+      try {
+        const id = request.params.id;
+        const user = await User.findById(id);
+        if (!user) {
+          throw Boom.unauthorized();
+        }
+
+        const passwordEdit = request.payload.new_password;
+
+        user.password = passwordEdit;
+        await user.save();
+
+        return h.redirect('/viewUser/' + user._id, {user: user });
+      } catch (err)
+      {
+        console.log(err);
       }
     }
   }
