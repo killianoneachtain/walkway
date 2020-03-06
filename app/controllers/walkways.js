@@ -15,12 +15,28 @@ const Walkways = {
       const id = request.auth.credentials.id;
       const user = await User.findById(id).lean();
 
-      const types = await Trail.distinct( "trailtype" ).populate('type').lean();
+      const categories = await Category.find( { creator : id }, { title: true, _id: false } ).populate('category').lean();
+      //console.log("The categories are : ",categories);
 
-      const walkways = await Trail.find( { creator: id }).populate('trail').lean();
+      const trails = await Category.find( { creator : id } ).populate('category').lean();
 
+      let walkways = [];
+      for (let i = 0 ; i < trails.length; i++)
+      {
+        for (let j=0; j < trails[i].pois.length; j++) {
+          let tr = trails[i].pois[j];
+          walkways.push(tr);
+        }
+      }
+      //console.log("Walkways are:", walkways);
 
-      return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user, types: types });
+      const load = [];
+      load.push(categories);
+      load.push(walkways);
+
+      console.log("LOAD IS :",load);
+
+      return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user, categories: categories });
     }
   },
   trailform: {

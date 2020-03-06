@@ -1,9 +1,38 @@
 {{> mainmenu _id="home" }}
 
 <section class="ui raised segment">
-
     <h1> Welcome {{ user.firstName }} {{ user.lastName }} </h1>
-
-    {{> traillist }}
-
 </section>
+
+<section class="ui raised segment">
+    <h1>POI Categories</h1>
+    <div class="ui styled fluid accordion">
+        {{#each categories}}
+        <div class="title">
+            <i class="dropdown icon"></i>
+            {{title}}
+        </div>
+        <div class="content">
+            {{#each walkways}}
+                {{this.trailname}}
+            {{/each}}
+        </div>
+        {{/each}}
+    </div>
+</section>
+
+{{#each categories}}
+    <div>
+        <h1>The Catgories are: {{title}}</h1> <h2>with Trails : </h2>
+        <h3>{{#with (lookup ../walkways [title])~}}
+            {{this}}
+        {{/with}}</h3>
+
+
+    </div>
+    <div>
+    </div>
+{{/each}}
+{{#each walkways}}
+    {{trailname}}
+{{/each}}

@@ -29,4 +29,7 @@ CategorySchema.statics.findByName = function(name) {
   return this.find({ trailTypename : name });
 }
 
+
+
+
 module.exports = Mongoose.model('Category', CategorySchema);
