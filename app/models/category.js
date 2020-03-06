@@ -2,6 +2,8 @@
 
 const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
+const Trail = require('./trail');
+
 
 const CategorySchema = new Schema({
   title: String,
@@ -9,7 +11,10 @@ const CategorySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  
+  pois: {
+    type: Array,
+    ref: Trail
+  }
 });
 
 CategorySchema.statics.findByID = function(id) {

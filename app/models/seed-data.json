@@ -26,82 +26,107 @@
   "categories": {
     "_model": "Category",
     "one": {
-        "title": "Loop",
-        "creator": "->users.killian"
-      },
-    "two": {
-        "title": "Out and Back",
-        "creator": "->users.killian"
-    },
-    "three" : {
-        "title": "Loop",
-        "creator": "->users.homer"
-    }
-  },
-  "trails": {
-    "_model": "Trail",
-    "one": {
-      "grade" : [
-        "Moderate"
-      ],
-      "creator" : "->users.killian",
-      "county" : "Waterford",
-      "trailname" : "Doneraile Walk",
-      "trailtype" : "Linear",
-      "traillength" : 6.8,
-      "time" : "03:25",
-      "nearesttown" : "Tramore",
-      "description" : "Best walk in Tramore",
-      "startcoordinates" : {
-        "latitude" : 52.158240,
-        "longitude" : -7.153736
-      },
-      "endcoordinates" : {
-        "latitude" : 52.155548,
-        "longitude" : -7.158210
+      "title": "Loop",
+      "creator": "->users.killian",
+      "pois": {
+        "one": {
+          "creator": "->users.killian",
+          "grade": [
+            "Strenuous"
+          ],
+          "county": "Waterford",
+          "trailname": "Back Strand Walk",
+          "trailtype": "Loop",
+          "traillength": 5.5,
+          "time": "01:05",
+          "nearesttown": "Tramore",
+          "description": "Best walk in Tramore",
+          "startcoordinates": {
+            "latitude": 52.159796,
+            "longitude": -7.137537
+          }
+        },
+        "two": {
+          "creator": "->users.killian",
+          "grade": [
+            "Strenuous"
+          ],
+          "county": "Waterford",
+          "trailname": "Metal Man Loop",
+          "trailtype": "Loop",
+          "traillength": 5.5,
+          "time": "01:15",
+          "nearesttown": "Tramore",
+          "description": "Walk Around Newtown",
+          "startcoordinates": {
+            "latitude": 52.159796,
+            "longitude": -7.137537
+          }
+        }
       }
     },
     "two": {
-      "grade" : [
-        "Moderate"
-      ],
-      "creator" : "->users.homer",
-      "county" : "Waterford",
-      "trailname" : "Killians Way",
-      "trailtype" : "Loop",
-      "traillength" : 12.5,
-      "time" : "01:05",
-      "nearesttown" : "Tramore",
-      "description" : "Best walk in Tramore",
-      "startcoordinates" : {
-        "latitude" : 52.158240,
-        "longitude" : -7.153736
-      },
-      "endcoordinates" : {
-        "latitude" : 52.155548,
-        "longitude" : -7.158210
+      "title": "Out and Back",
+      "creator": "->users.killian",
+      "pois": {
+        "one": {
+          "grade": [
+            "Strenuous"
+          ],
+          "creator": "->users.killian",
+          "county": "Waterford",
+          "trailname": "Back Strand Walk",
+          "trailtype": "Out and Back",
+          "traillength": 5.5,
+          "time": "01:05",
+          "nearesttown": "Tramore",
+          "description": "Best walk in Tramore",
+          "startcoordinates": {
+            "latitude": 52.159796,
+            "longitude": -7.137537
+          }
+        }
       }
-
     },
     "three": {
-      "grade" : [
-        "Strenuous"
-      ],
-      "creator" : "->users.killian",
-      "county" : "Waterford",
-      "trailname" : "Back Strand Walk",
-      "trailtype" : "Out and Back",
-      "traillength" : 5.5,
-      "time" : "01:05",
-      "nearesttown" : "Tramore",
-      "description" : "Best walk in Tramore",
-      "startcoordinates" : {
-        "latitude" : 52.159796,
-        "longitude" : -7.137537
+      "title": "Loop",
+      "creator": "->users.homer",
+      "pois": {
+        "one": {
+          "creator": "->users.homer",
+          "grade": [
+            "Strenuous"
+          ],
+          "county": "Waterford",
+          "trailname": "Back Strand Walk",
+          "trailtype": "Loop",
+          "traillength": 6.3,
+          "time": "02:45",
+          "nearesttown": "Tramore",
+          "description": "Best walk in Tramore",
+          "startcoordinates": {
+            "latitude": 52.159796,
+            "longitude": -7.137537
+          }
+        },
+        "two": {
+          "creator": "->users.homer",
+          "grade": [
+            "Strenuous"
+          ],
+          "county": "Waterford",
+          "trailname": "Metal Man Loop",
+          "trailtype": "Loop",
+          "traillength": 4.5,
+          "time": "01:35",
+          "nearesttown": "Tramore",
+          "description": "Walk Around Newtown",
+          "startcoordinates": {
+            "latitude": 52.159796,
+            "longitude": -7.137537
+          }
+        }
       }
     }
   }
 }
-
-
-
