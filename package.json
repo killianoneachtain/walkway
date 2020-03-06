@@ -21,6 +21,7 @@
     "@hapi/vision": "^6.0.0",
     "cloudinary": "^1.19.0",
     "dotenv": "^8.2.0",
+    "fomantic-ui": "^2.8.4",
     "handlebars": "^4.7.3",
     "mais-mongoose-seeder": "^1.0.7",
     "mongoose": "^5.8.11"

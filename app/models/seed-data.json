@@ -23,6 +23,21 @@
       "type": "user"
     }
   },
+  "categories": {
+    "_model": "Category",
+    "one": {
+        "title": "Loop",
+        "creator": "->users.killian"
+      },
+    "two": {
+        "title": "Out and Back",
+        "creator": "->users.killian"
+    },
+    "three" : {
+        "title": "Loop",
+        "creator": "->users.homer"
+    }
+  },
   "trails": {
     "_model": "Trail",
     "one": {
@@ -34,7 +49,7 @@
       "trailname" : "Doneraile Walk",
       "trailtype" : "Linear",
       "traillength" : 6.8,
-      "time" : "01:05",
+      "time" : "03:25",
       "nearesttown" : "Tramore",
       "description" : "Best walk in Tramore",
       "startcoordinates" : {

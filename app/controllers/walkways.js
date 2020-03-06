@@ -2,6 +2,7 @@
 
 const User = require('../models/user');
 const Trail = require('../models/trail');
+const Category = require('../models/category');
 const Boom = require('@hapi/boom');
 const ImageStore = require('../utils/image-store');
 const cloudinary = require('cloudinary').v2;
@@ -25,7 +26,10 @@ const Walkways = {
   trailform: {
     handler: async function(request, h) {
       const id = request.auth.credentials.id;
-      return h.view('addPOI', { title: 'Add Trail to your Walkways' });
+      const categories = await Category.find({ creator: id }).lean();
+      console.log("Categories are : ", categories);
+
+      return h.view('addPOI', { title: 'Add Trail to your Walkways', categories: categories });
     }
   },
   addtrail: {
@@ -70,6 +74,22 @@ const Walkways = {
           if (checkName.length >= 1) {
             const message = 'Please choose a different Trail Name. "' + name + '" is already in use.';
             throw Boom.notAcceptable(message);
+          }
+
+          let type = payload.trailtype;
+          const check_type = await Category.find({ title: type, creator: id });
+          if (check_type.length === 0)
+          {
+            try {
+              const newCategory = new Category({
+                title: type,
+                creator: id
+              });
+              await newCategory.save();
+            } catch (err)
+            {
+              console.log(err);
+            }
           }
 
           const newTrail = new Trail({
