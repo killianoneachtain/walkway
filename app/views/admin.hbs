@@ -2,14 +2,34 @@
 
 <section class="ui raised segment">
     <h2> Welcome {{user.firstName}} {{user.lastName}} to Walkways Administration.</h2>
-    <h3> Total Number of Users: {{total_users}}</h3>
-    <a class="ui big blue button"
-       href="https://cloudinary.com/console/c-2d0dc7dff6bf1d27d6696694538c11/reports">View Cloudinary Reports</a>
-    <br>
-    <br>
 
-        {{> images_graph}}
-
-        {{> memberList}}
-
+    <div class="ui styled fluid accordion">
+        <div class="title">
+            <i class="dropdown icon"></i>
+            <h2 style="color: #3232cb ">mongo DB Atlas Data Analytics</h2>
+        </div>
+        <div class="content">
+            {{> cloudatlas_analytics}}
+        </div>
+        <div class="title">
+            <i class="dropdown icon"></i>
+            <h2 style="color: #cb3232 ">Cloudinary Data Analytics</h2>
+        </div>
+        <div class="content">
+            {{> cloudinary_analytics}}
+        </div>
+        <div class="title">
+            <i class="dropdown icon"></i>
+            <h2 style="color: #cb7f32">View / Edit Users</h2>
+        </div>
+        <div class="content">
+            {{> memberList}}
+        </div>
+    </div>
 </section>
+
+<script>
+$('.ui.accordion')
+.accordion({ exclusive: false})
+;
+</script>

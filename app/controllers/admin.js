@@ -5,7 +5,7 @@ const Trail = require('../models/trail');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
 const ImageStore = require('../utils/image-store');
-const cloudinary = require('cloudinary');
+const cloudinary = require('cloudinary').v2;
 
 
 const Admin = {
@@ -20,9 +20,28 @@ const Admin = {
 
         let total_users = members.length;
 
-        // query up to cloud for image data
+        const assets = await cloudinary.api.resources( function(error, result) {console.log(result, error); });
 
-        return h.view('admin', { title: 'Administrator Home', user: user, members: members, total_users: total_users });
+        console.log("The resources are: ", assets);
+
+        let total_resources = assets.resources.length;
+
+        let total_images = 0;
+
+        const rates = [assets.rate_limit_allowed, assets.rate_limit_remaining, assets.rate_limit_reset_at ];
+        console.log("RATES ARE : ", rates);
+
+        for (let i=0; i < assets.resources.length; i++)
+        {
+          if ( assets.resources[i].resource_type === 'image')
+          {
+            total_images++;
+          }
+        }
+
+
+        return h.view('admin', { title: 'Administrator Home', user: user, members: members, total_users: total_users,
+        total_resources: total_resources, total_images: total_images, rates: rates });
       }
       catch (err) {
         return h.view('login', { errors: [{ message: err.message }] });
