@@ -6,7 +6,10 @@
       "lastName": "Simpson",
       "email": "homer@simpson.com",
       "password": "secretP@ssw0rd",
-      "type": "user"
+      "type": "user",
+      "trailTypes": {
+        "one": "Loop"
+      }
     },
     "marge": {
       "firstName": "Marge",
@@ -20,7 +23,11 @@
       "lastName": "O'Neachtain",
       "email": "killianoneachtain@hotmail.com",
       "password": "secretP@ssw0rd",
-      "type": "user"
+      "type": "user",
+      "trailTypes": {
+        "one": "Loop",
+        "two": "Out and Back"
+      }
     }
   },
   "categories":

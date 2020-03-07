@@ -19,20 +19,7 @@ const Walkways = {
       const walkways = await Trail.find ( { creator: id } ).populate('walkways').lean();
       console.log("walkways are : ", walkways);
 
-      //const memberArray = await Category.findByMemberID(id).lean();
-      //console.log(memberArray);
-
-      const categories = await Category.aggregate( [ { $unwind : "$members"}/*, { $match : { members  } }*/ ] , function(err) {
-        if (err) { console.log(err); } } );
-      console.log("Categories are:", categories);
-
-      let list = categories.find(id);
-      console.log("LIST IS :", list);
-
-
-
-
-
+     
 
       return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user });
     }

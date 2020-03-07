@@ -3,18 +3,11 @@
 const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
 
-
-
 const CategorySchema = new Schema({
   title: {
     type: String,
     trim: true,
     required: true
-  },
-  members: {
-    type: Array,
-    ref: 'User',
-    createIndexes: true
   }
 });
 
