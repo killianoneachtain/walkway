@@ -23,6 +23,30 @@
       "type": "user"
     }
   },
+  "categories":
+  {
+    "_model": "Category",
+    "Loop": {
+      "title": "Loop",
+      "members": {
+        "one": "->users.killian",
+        "two": "->users.homer"
+      }
+    },
+    "Linear": {
+      "title": "Linear",
+      "members": {
+        "one": "->users.killian",
+        "two": "->users.homer"
+      }
+    },
+    "Out and Back": {
+      "title": "Out and Back",
+      "members":  {
+        "one": "->users.killian"
+      }
+    }
+  },
   "trails": {
     "_model": "Trail",
     "one":    {
@@ -32,7 +56,7 @@
           ],
           "county": "Waterford",
           "trailname": "Back Strand Walk",
-          "trailtype": "Loop",
+          "trailtype": "->categories.Out and Back",
           "traillength": 1.5,
           "time": "01:05",
           "nearesttown": "Tramore",
@@ -48,8 +72,8 @@
             "Strenuous"
           ],
           "county": "Waterford",
-          "trailname": "Metal Man Loop",
-          "trailtype": "Loop",
+          "trailname": "Metal Man",
+          "trailtype": "->categories.Linear",
           "traillength": 2.5,
           "time": "01:15",
           "nearesttown": "Tramore",
@@ -67,7 +91,7 @@
         "creator": "->users.killian",
         "county": "Waterford",
         "trailname": "Doneraile Walk",
-        "trailtype": "Out and Back",
+        "trailtype": "->categories.Out and Back",
         "traillength": 3.5,
         "time": "01:05",
         "nearesttown": "Tramore",
@@ -85,7 +109,7 @@
         ],
         "county": "Waterford",
         "trailname": "Back Strand",
-        "trailtype": "Loop",
+        "trailtype": "->categories.Loop",
         "traillength": 6.3,
         "time": "02:45",
         "nearesttown": "Tramore",
@@ -103,7 +127,7 @@
         ],
         "county": "Waterford",
         "trailname": "Metal Man Loop",
-        "trailtype": "Loop",
+        "trailtype": "->categories.Loop",
         "traillength": 4.5,
         "time": "01:35",
         "nearesttown": "Tramore",

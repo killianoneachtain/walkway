@@ -2,18 +2,19 @@
 
 const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
-const Trail = require('./trail');
+
 
 
 const CategorySchema = new Schema({
-  title: String,
-  creator: {
-    type: Schema.Types.ObjectId,
-    ref: 'User'
+  title: {
+    type: String,
+    trim: true,
+    required: true
   },
-  pois: {
+  members: {
     type: Array,
-    ref: Trail
+    ref: 'User',
+    createIndexes: true
   }
 });
 
@@ -21,15 +22,13 @@ CategorySchema.statics.findByID = function(id) {
   return this.findOne({ _id : id});
 };
 
-CategorySchema.statics.findByCreator = function(id) {
-  return this.find({ creator : id});
+CategorySchema.statics.findByTitle = function(title) {
+  return this.find({ title : title});
 };
 
-CategorySchema.statics.findByName = function(name) {
-  return this.find({ trailTypename : name });
-}
-
-
-
+CategorySchema.statics.findByMemberID = function(id)
+{
+  return this.find( { members: { $elemMatch: id } } );
+};
 
 module.exports = Mongoose.model('Category', CategorySchema);
