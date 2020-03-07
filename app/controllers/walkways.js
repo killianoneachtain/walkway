@@ -18,11 +18,6 @@ const Walkways = {
       const walkways = await Trail.find ( { creator: id } ).populate('walkways').lean();
       console.log("walkways are : ", walkways);
 
-<<<<<<< HEAD
-     
-
-=======
->>>>>>> develop
       return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user });
     }
   },

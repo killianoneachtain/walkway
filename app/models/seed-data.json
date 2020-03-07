@@ -7,13 +7,7 @@
       "email": "homer@simpson.com",
       "password": "secretP@ssw0rd",
       "type": "user",
-<<<<<<< HEAD
-      "trailTypes": {
-        "one": "Loop"
-      }
-=======
       "trailtypes": [ "Loop" ]
->>>>>>> develop
     },
     "marge": {
       "firstName": "Marge",
@@ -28,38 +22,7 @@
       "email": "killianoneachtain@hotmail.com",
       "password": "secretP@ssw0rd",
       "type": "user",
-<<<<<<< HEAD
-      "trailTypes": {
-        "one": "Loop",
-        "two": "Out and Back"
-      }
-    }
-  },
-  "categories":
-  {
-    "_model": "Category",
-    "Loop": {
-      "title": "Loop",
-      "members": {
-        "one": "->users.killian",
-        "two": "->users.homer"
-      }
-    },
-    "Linear": {
-      "title": "Linear",
-      "members": {
-        "one": "->users.killian",
-        "two": "->users.homer"
-      }
-    },
-    "Out and Back": {
-      "title": "Out and Back",
-      "members":  {
-        "one": "->users.killian"
-      }
-=======
       "trailtypes": [ "Loop", "Linear" ]
->>>>>>> develop
     }
   },
   "trails": {
