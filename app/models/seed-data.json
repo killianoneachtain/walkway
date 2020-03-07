@@ -23,13 +23,9 @@
       "type": "user"
     }
   },
-  "categories": {
-    "_model": "Category",
-    "Loop": {
-      "title": "Loop",
-      "creator": "->users.killian",
-      "pois": [
-        {
+  "trails": {
+    "_model": "Trail",
+    "one":    {
           "creator": "->users.killian",
           "grade": [
             "Strenuous"
@@ -46,7 +42,7 @@
             "longitude": -7.137537
           }
         },
-        {
+    "two":   {
           "creator": "->users.killian",
           "grade": [
             "Strenuous"
@@ -62,13 +58,8 @@
             "latitude": 52.159796,
             "longitude": -7.137537
           }
-        }
-      ]
-    },
-  "Out and Back": {
-    "title": "Out and Back",
-    "creator": "->users.killian",
-    "pois": [
+        },
+    "three":
       {
         "grade": [
           "Strenuous"
@@ -85,13 +76,8 @@
           "latitude": 52.159796,
           "longitude": -7.137537
         }
-      }
-    ]
-  },
-  "three": {
-    "title": "Loop",
-    "creator": "->users.homer",
-    "pois": [
+      },
+    "four":
       {
         "creator": "->users.homer",
         "grade": [
@@ -109,6 +95,7 @@
           "longitude": -7.137537
         }
       },
+    "five":
       {
         "creator": "->users.homer",
         "grade": [
@@ -126,8 +113,7 @@
           "longitude": -7.137537
         }
       }
-    ]
   }
 }
-}
+
 
