@@ -15,9 +15,9 @@ const Walkways = {
       const user = await User.findById(id).lean();
 
       const types = await Trail.distinct( "trailtype" ).populate('type').lean();
+      console.log("TYPES ARE:", types);
 
       const walkways = await Trail.find( { creator: id }).populate('trail').lean();
-
 
       return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user, types: types });
     }
