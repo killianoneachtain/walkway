@@ -20,19 +20,3 @@
         {{/each}}
     </div>
 </section>
-
-{{#each categories}}
-    <div>
-        <h1>The Catgories are: {{title}}</h1> <h2>with Trails : </h2>
-        <h3>{{#with (lookup ../walkways [title])~}}
-            {{this}}
-        {{/with}}</h3>
-
-
-    </div>
-    <div>
-    </div>
-{{/each}}
-{{#each walkways}}
-    {{trailname}}
-{{/each}}

@@ -6,6 +6,7 @@ const Category = require('../models/category');
 const Boom = require('@hapi/boom');
 const ImageStore = require('../utils/image-store');
 const cloudinary = require('cloudinary').v2;
+const Mongoose = require('mongoose');
 
 const Joi = require('@hapi/joi');
 
@@ -15,28 +16,25 @@ const Walkways = {
       const id = request.auth.credentials.id;
       const user = await User.findById(id).lean();
 
-      const categories = await Category.find( { creator : id }, { title: true, _id: false } ).populate('category').lean();
-      //console.log("The categories are : ",categories);
+      const walkways = await Trail.find ( { creator: id } ).populate('walkways').lean();
+      console.log("walkways are : ", walkways);
 
-      const trails = await Category.find( { creator : id } ).populate('category').lean();
+      //const memberArray = await Category.findByMemberID(id).lean();
+      //console.log(memberArray);
 
-      let walkways = [];
-      for (let i = 0 ; i < trails.length; i++)
-      {
-        for (let j=0; j < trails[i].pois.length; j++) {
-          let tr = trails[i].pois[j];
-          walkways.push(tr);
-        }
-      }
-      //console.log("Walkways are:", walkways);
+      const categories = await Category.aggregate( [ { $unwind : "$members"}/*, { $match : { members  } }*/ ] , function(err) {
+        if (err) { console.log(err); } } );
+      console.log("Categories are:", categories);
 
-      const load = [];
-      load.push(categories);
-      load.push(walkways);
+      let list = categories.find(id);
+      console.log("LIST IS :", list);
 
-      console.log("LOAD IS :",load);
 
-      return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user, categories: categories });
+
+
+
+
+      return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user });
     }
   },
   trailform: {

@@ -8,6 +8,7 @@ const cloudinary = require('cloudinary').v2;
 
 
 
+
 const Accounts = {
   index: {
     auth: false,
