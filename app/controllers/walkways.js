@@ -2,7 +2,6 @@
 
 const User = require('../models/user');
 const Trail = require('../models/trail');
-const Category = require('../models/category');
 const Boom = require('@hapi/boom');
 const ImageStore = require('../utils/image-store');
 const cloudinary = require('cloudinary').v2;
@@ -19,15 +18,20 @@ const Walkways = {
       const walkways = await Trail.find ( { creator: id } ).populate('walkways').lean();
       console.log("walkways are : ", walkways);
 
+<<<<<<< HEAD
      
 
+=======
+>>>>>>> develop
       return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user });
     }
   },
   trailform: {
     handler: async function(request, h) {
       const id = request.auth.credentials.id;
-      const categories = await Category.find({ creator: id }).lean();
+      const user = await User.findById(id).lean();
+      let categories = user.trailtypes;
+
       console.log("Categories are : ", categories);
 
       return h.view('addPOI', { title: 'Add Trail to your Walkways', categories: categories });
@@ -78,7 +82,15 @@ const Walkways = {
           }
 
           let type = payload.trailtype;
-          const check_type = await Category.find({ title: type, creator: id });
+          const checkType = await User.find( { trailtypes :  type  });
+          console.log(checkType);
+
+          if (checkType.length === 0)
+          {
+            await User.update({_id: id}, { $push: { trailtypes: type } });
+
+          }
+          /*const check_type = await Category.find({ title: type, creator: id });
           if (check_type.length === 0)
           {
             try {
@@ -91,13 +103,13 @@ const Walkways = {
             {
               console.log(err);
             }
-          }
+          } */
 
           const newTrail = new Trail({
             creator: user._id,
             county: payload.county,
             trailname: payload.trailname,
-            trailtype: payload.trailtype,
+            trailtype: type,
             traillength: payload.traillength,
             grade: payload.grade,
             time: payload.time,
@@ -126,7 +138,7 @@ const Walkways = {
         const id = request.auth.credentials.id;
         const user = await User.findById(id);
         const trail = await Trail.findById(trailID);
-        console.log("The trail is :", trail);
+
 
         if (trail.images.length > 0) {
           for (let i = 0; i < trail.images.length; i++) {
@@ -137,18 +149,14 @@ const Walkways = {
             }
           }
           let folderToDelete = user._id + '/' + trail.trailname;
-          console.log("Folder name:", folderToDelete);
 
           try {
-            await cloudinary.api.delete_folder(folderToDelete, function(error, result) {
-              console.log(result);
-            });
+            await cloudinary.api.delete_folder(folderToDelete);
           } catch (error)
           {
             console.log(error);
           }
         }
-
         await Trail.findOneAndDelete( { _id : trailID });
 
         return h.redirect('/home');

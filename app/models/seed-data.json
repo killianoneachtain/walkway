@@ -7,9 +7,13 @@
       "email": "homer@simpson.com",
       "password": "secretP@ssw0rd",
       "type": "user",
+<<<<<<< HEAD
       "trailTypes": {
         "one": "Loop"
       }
+=======
+      "trailtypes": [ "Loop" ]
+>>>>>>> develop
     },
     "marge": {
       "firstName": "Marge",
@@ -24,6 +28,7 @@
       "email": "killianoneachtain@hotmail.com",
       "password": "secretP@ssw0rd",
       "type": "user",
+<<<<<<< HEAD
       "trailTypes": {
         "one": "Loop",
         "two": "Out and Back"
@@ -52,6 +57,9 @@
       "members":  {
         "one": "->users.killian"
       }
+=======
+      "trailtypes": [ "Loop", "Linear" ]
+>>>>>>> develop
     }
   },
   "trails": {
@@ -63,7 +71,7 @@
           ],
           "county": "Waterford",
           "trailname": "Back Strand Walk",
-          "trailtype": "->categories.Out and Back",
+          "trailtype": "Loop",
           "traillength": 1.5,
           "time": "01:05",
           "nearesttown": "Tramore",
@@ -80,7 +88,7 @@
           ],
           "county": "Waterford",
           "trailname": "Metal Man",
-          "trailtype": "->categories.Linear",
+          "trailtype": "Linear",
           "traillength": 2.5,
           "time": "01:15",
           "nearesttown": "Tramore",
@@ -98,7 +106,7 @@
         "creator": "->users.killian",
         "county": "Waterford",
         "trailname": "Doneraile Walk",
-        "trailtype": "->categories.Out and Back",
+        "trailtype": "Linear",
         "traillength": 3.5,
         "time": "01:05",
         "nearesttown": "Tramore",
@@ -116,7 +124,7 @@
         ],
         "county": "Waterford",
         "trailname": "Back Strand",
-        "trailtype": "->categories.Loop",
+        "trailtype": "Loop",
         "traillength": 6.3,
         "time": "02:45",
         "nearesttown": "Tramore",
@@ -134,7 +142,7 @@
         ],
         "county": "Waterford",
         "trailname": "Metal Man Loop",
-        "trailtype": "->categories.Loop",
+        "trailtype": "Loop",
         "traillength": 4.5,
         "time": "01:35",
         "nearesttown": "Tramore",

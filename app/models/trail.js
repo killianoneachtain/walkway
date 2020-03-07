@@ -11,10 +11,7 @@ const trailSchema = new Schema({
         },
         county: String,
         trailname: String,
-        trailtype: {
-          type: Schema.Types.ObjectId,
-          ref: 'Category'
-        },
+        trailtype: String,
         traillength: Number,
         grade: Array,
         time: String,
