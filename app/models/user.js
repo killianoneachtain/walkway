@@ -30,9 +30,9 @@ const userSchema = new Schema({
     trim: true,
     required: true
   },
-  trailtypes: {
-    type: Array
-  },
+  trailtypes:[ {
+    type: String
+  }],
 });
 
 userSchema.statics.findByEmail = function(email) {
@@ -46,6 +46,7 @@ userSchema.statics.findByID = function(id) {
 userSchema.statics.findByType = function(type) {
   return this.findOne({ type : type});
 };
+
 
 userSchema.methods.comparePassword = function(candidatePassword) {
   const isMatch = this.password === candidatePassword;
