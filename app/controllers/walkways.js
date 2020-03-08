@@ -2,9 +2,13 @@
 
 const User = require('../models/user');
 const Trail = require('../models/trail');
-const Boom = require('@hapi/boom');
 const ImageStore = require('../utils/image-store');
 const cloudinary = require('cloudinary').v2;
+
+const googleMapsClient = require('@google/maps').createClient({
+  key: process.env.google_maps_API
+});
+
 //const Mongoose = require('mongoose');
 
 const Joi = require('@hapi/joi');
@@ -14,7 +18,6 @@ const Walkways = {
     handler: async function(request, h) {
       const id = request.auth.credentials.id;
       const user = await User.findById(id).lean();
-
 
       const walkways = await Trail.find ( { creator: id } ).populate('walkways').lean();
       console.log("walkways are : ", walkways);
@@ -49,7 +52,7 @@ const Walkways = {
         startlong: Joi.number().precision(6).negative().required(),
         endlat: Joi.number().precision(6) ,
         endlong: Joi.number().precision(6).negative()
-        },
+      },
       options: {
         abortEarly: false,
       },
@@ -78,7 +81,7 @@ const Walkways = {
 
         if (checkName.trailname === name) {
           errorz['trailname'] = 'Please choose a different Trail name. "' + name + '" is already in use.';
-                  }
+        }
         console.log(" THE ERRORZ ARE : ", errorz);
         return h
           .view('addPOI', {
@@ -92,56 +95,56 @@ const Walkways = {
           .code(400);
       }
     },
-      handler: async function(request, h) {
+    handler: async function(request, h) {
 
-        const id = request.auth.credentials.id;
-        try {
-          const user = await User.findById(id);
-          const payload = request.payload;
+      const id = request.auth.credentials.id;
+      try {
+        const user = await User.findById(id);
+        const payload = request.payload;
 
-          let type = payload.trailtype;
-          const checkType = await User.find( { trailtypes :  type  });
-          console.log(checkType);
+        let type = payload.trailtype;
+        const checkType = await User.find( { trailtypes :  type  });
+        console.log(checkType);
 
-          if (checkType.length === 0)
-          {
-            await User.update({_id: id}, { $push: { trailtypes: type } });
-          }
-
-          let name = request.payload.trailname;
-          console.log("NAME IS: ", name);
-          const checkName = await Trail.find({ trailname: name, creator: id });
-          console.log("CheckName is : ", checkName);
-
-          if (checkName.trailname === name) {
-
-          }
-
-          const newTrail = new Trail({
-            creator: user._id,
-            county: payload.county,
-            trailname: payload.trailname,
-            trailtype: type,
-            traillength: payload.traillength,
-            grade: payload.grade,
-            time: payload.time,
-            nearesttown: payload.nearesttown,
-            description: payload.description,
-            startcoordinates: {
-              latitude: payload.startlat,
-              longitude: payload.startlong,
-            },
-            endcoordinates: {
-              latitude: payload.endlat,
-              longitude: payload.endlong
-            }
-          });
-          await newTrail.save();
-          return h.redirect('home');
-        } catch (err) {
-          return h.view('addPOI', { errors: [{ message: err.message }] });
+        if (checkType.length === 0)
+        {
+          await User.update({_id: id}, { $push: { trailtypes: type } });
         }
+
+        let name = request.payload.trailname;
+        console.log("NAME IS: ", name);
+        const checkName = await Trail.find({ trailname: name, creator: id });
+        console.log("CheckName is : ", checkName);
+
+        if (checkName.trailname === name) {
+
+        }
+
+        const newTrail = new Trail({
+          creator: user._id,
+          county: payload.county,
+          trailname: payload.trailname,
+          trailtype: type,
+          traillength: payload.traillength,
+          grade: payload.grade,
+          time: payload.time,
+          nearesttown: payload.nearesttown,
+          description: payload.description,
+          startcoordinates: {
+            latitude: payload.startlat,
+            longitude: payload.startlong,
+          },
+          endcoordinates: {
+            latitude: payload.endlat,
+            longitude: payload.endlong
+          }
+        });
+        await newTrail.save();
+        return h.redirect('home');
+      } catch (err) {
+        return h.view('addPOI', { errors: [{ message: err.message }] });
       }
+    }
   },
   deleteTrail: {
     handler: async function(request, h) {
@@ -173,7 +176,7 @@ const Walkways = {
 
         return h.redirect('/home');
       } catch (err) {
-      return h.view('home', { errors: [{ message: err.message }] });
+        return h.view('home', { errors: [{ message: err.message }] });
       }
     }
   },
@@ -259,24 +262,22 @@ const Walkways = {
 
         const trailEdit = request.payload;
 
-        trail.county = trailEdit.county;
-        trail.trailname = trailEdit.trailname;
-        trail.trailtype = trailEdit.trailtype;
-        trail.traillength = trailEdit.traillength;
-        trail.grade = trailEdit.grade;
-        trail.time = trailEdit.time;
-        trail.nearesttown = trailEdit.nearesttown;
-        trail.description = trailEdit.description;
-        trail.startlat = trailEdit.startlat;
-        trail.startlong = trailEdit.startlong;
-        trail.endlat = trailEdit.endlat;
-        trail.endlong = trailEdit.endlong;
+        trails[0].county = trailEdit.county;
+        trails[0].trailname = trailEdit.trailname;
+        trails[0].trailtype = trailEdit.trailtype;
+        trails[0].traillength = trailEdit.traillength;
+        trails[0].grade = trailEdit.grade;
+        trails[0].time = trailEdit.time;
+        trails[0].nearesttown = trailEdit.nearesttown;
+        trails[0].description = trailEdit.description;
+        trails[0].startcoordinates = { latitude: trailEdit.startlat, longitude: trailEdit.startlong};
+        trails[0].endcoordinates = { latitude: trailEdit.endlat, longitude: trailEdit.endlong};
 
         await trail.save();
         return h.redirect('/home');
 
       } catch (err) {
-          return h.view('editPOI', { errors: [{ message: err.message }] });
+        return h.view('editPOI', { errors: [{ message: err.message }] });
       }
     }
   }
