@@ -22,6 +22,7 @@
     "cloudinary": "^1.19.0",
     "diff": "^4.0.2",
     "dotenv": "^8.2.0",
+    "fomantic-ui": "^2.8.4",
     "handlebars": "^4.7.3",
     "lodash": "^4.17.15",
     "mais-mongoose-seeder": "^1.0.7",
