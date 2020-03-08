@@ -6,19 +6,3 @@
     {{> traillist}}
 </section>
 
-<section class="ui raised segment">
-    <h1>POI Categories</h1>
-    <div class="ui styled fluid accordion">
-        {{#each categories}}
-        <div class="title">
-            <i class="dropdown icon"></i>
-            {{title}}
-        </div>
-        <div class="content">
-            {{#each walkways}}
-                {{this.trailname}}
-            {{/each}}
-        </div>
-        {{/each}}
-    </div>
-</section>
