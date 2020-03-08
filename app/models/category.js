@@ -8,7 +8,14 @@ const CategorySchema = new Schema({
     type: String,
     trim: true,
     required: true
-  }
+  },
+  category: [ String ],
+  trails: [
+    {
+      type: Array,
+      ref: 'Trail'
+    }
+  ]
 });
 
 CategorySchema.statics.findByID = function(id) {
@@ -19,9 +26,5 @@ CategorySchema.statics.findByTitle = function(title) {
   return this.find({ title : title});
 };
 
-CategorySchema.statics.findByMemberID = function(id)
-{
-  return this.find( { members: { $elemMatch: id } } );
-};
 
 module.exports = Mongoose.model('Category', CategorySchema);

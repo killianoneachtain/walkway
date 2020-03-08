@@ -4,5 +4,15 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="@types/joi" level="application" />
+    <orderEntry type="library" name="@types/mongodb" level="application" />
+    <orderEntry type="library" name="@types/mongoose" level="application" />
+    <orderEntry type="library" name="@types/handlebars-helpers" level="application" />
+    <orderEntry type="library" name="@types/hapi" level="application" />
+    <orderEntry type="library" name="@types/cookie" level="application" />
+    <orderEntry type="library" name="@types/boom" level="application" />
+    <orderEntry type="library" name="@types/inert" level="application" />
+    <orderEntry type="library" name="@types/vision" level="application" />
+    <orderEntry type="library" name="@types/hapi__joi" level="application" />
   </component>
 </module>

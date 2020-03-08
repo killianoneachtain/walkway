@@ -47,7 +47,6 @@ userSchema.statics.findByType = function(type) {
   return this.findOne({ type : type});
 };
 
-
 userSchema.methods.comparePassword = function(candidatePassword) {
   const isMatch = this.password === candidatePassword;
   if (!isMatch) {
@@ -55,5 +54,6 @@ userSchema.methods.comparePassword = function(candidatePassword) {
   }
   return this;
 };
+
 
 module.exports = Mongoose.model('User', userSchema);
