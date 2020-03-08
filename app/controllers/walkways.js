@@ -262,18 +262,16 @@ const Walkways = {
 
         const trailEdit = request.payload;
 
-        trail.county = trailEdit.county;
-        trail.trailname = trailEdit.trailname;
-        trail.trailtype = trailEdit.trailtype;
-        trail.traillength = trailEdit.traillength;
-        trail.grade = trailEdit.grade;
-        trail.time = trailEdit.time;
-        trail.nearesttown = trailEdit.nearesttown;
-        trail.description = trailEdit.description;
-        trail.startcoordinates.startlat = trailEdit.startcoordinates.startlat;
-        trail.startcoordinates.startlong = trailEdit.startcoordinates.startlong;
-        trail.endcoordinates.endlat = trailEdit.endcoordinates.endlat;
-        trail.endcoordinates.endlong = trailEdit.endcoordinates.endlong;
+        trails[0].county = trailEdit.county;
+        trails[0].trailname = trailEdit.trailname;
+        trails[0].trailtype = trailEdit.trailtype;
+        trails[0].traillength = trailEdit.traillength;
+        trails[0].grade = trailEdit.grade;
+        trails[0].time = trailEdit.time;
+        trails[0].nearesttown = trailEdit.nearesttown;
+        trails[0].description = trailEdit.description;
+        trails[0].startcoordinates = { latitude: trailEdit.startlat, longitude: trailEdit.startlong};
+        trails[0].endcoordinates = { latitude: trailEdit.endlat, longitude: trailEdit.endlong};
 
         await trail.save();
         return h.redirect('/home');
