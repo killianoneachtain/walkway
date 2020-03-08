@@ -1,11 +1,16 @@
 <h1>Gallery for {{trail.trailname}}</h1>
 <br>
-<div class="ui stackable four column grid">
-    <div class="ui cards">
+    <div class="ui three stackable cards">
         {{#each images}}
             {{> card}}
         {{/each}}
          <br>
     </div>
-</div>
 
+
+
+<script>
+    $('.ui.modal')
+            .modal('show')
+    ;
+</script>

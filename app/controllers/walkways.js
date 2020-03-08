@@ -5,6 +5,7 @@ const Trail = require('../models/trail');
 const Boom = require('@hapi/boom');
 const ImageStore = require('../utils/image-store');
 const cloudinary = require('cloudinary').v2;
+//const Mongoose = require('mongoose');
 
 const Joi = require('@hapi/joi');
 
@@ -14,44 +15,78 @@ const Walkways = {
       const id = request.auth.credentials.id;
       const user = await User.findById(id).lean();
 
-      const types = await Trail.distinct( "trailtype" ).populate('type').lean();
-      console.log("TYPES ARE:", types);
 
-      const walkways = await Trail.find( { creator: id }).populate('trail').lean();
+      const walkways = await Trail.find ( { creator: id } ).populate('walkways').lean();
+      console.log("walkways are : ", walkways);
 
-      return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user, types: types });
+      return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user });
+
     }
   },
   trailform: {
     handler: async function(request, h) {
       const id = request.auth.credentials.id;
-      return h.view('addPOI', { title: 'Add Trail to your Walkways' });
+      const user = await User.findById(id).lean();
+      let categories = user.trailtypes;
+
+      console.log("Categories are : ", categories);
+
+      return h.view('addPOI', { title: 'Add Trail to your Walkways', categories: categories });
     }
   },
   addtrail: {
     validate: {
       payload: {
-        county: Joi.string().required(),
-        trailname: Joi.string().required(),
-        trailtype: Joi.string().required(),
-        traillength: Joi.number().required(),
+        county: Joi.string().trim().regex(/^[a-zA-Z -.,]{3,40}$/).required(),
+        trailname: Joi.string().trim().regex(/^[a-zA-Z0-9 -,.]{3,40}$/).min(6).max(30).required(),
+        trailtype: Joi.string().trim().regex(/^[a-zA-Z ]{3,40}$/).min(2).max(30).required(),
+        traillength: Joi.number().min(0.5).max(600).required(),
         grade: Joi.array().items(Joi.string()).single().required(),
-        time: Joi.string().required(),
-        nearesttown: Joi.string(),
-        description: Joi.string(),
-        startlat: Joi.number().precision(6).required() ,
+        time: Joi.string().trim().required(),
+        nearesttown: Joi.string().trim().regex(/^[a-zA-Z -.,]{3,40}$/).max(30),
+        description: Joi.string().trim().min(6).max(500).required(),
+        startlat: Joi.number().precision(6).required(),
         startlong: Joi.number().precision(6).negative().required(),
         endlat: Joi.number().precision(6) ,
         endlong: Joi.number().precision(6).negative()
         },
       options: {
-        abortEarly: false
+        abortEarly: false,
       },
       failAction: async function(request, h, error) {
+        const id = request.auth.credentials.id;
+        const user = await User.findById(id).lean();
+        let categories = user.trailtypes;
+
+        // Returning of field values and field error code from :
+        // https://livebook.manning.com/book/hapi-js-in-action/chapter-6/215
+
+        const errorz = {};
+        const details = error.details;
+
+        for (let i=0; i < details.length; ++i){
+          if (!errorz.hasOwnProperty(details[i].path)) {
+            errorz[details[i].path] = details[i].message;
+          }
+        }
+        console.log("THE DETAILS ARE : ",details);
+
+        let name = request.payload.trailname;
+        console.log("NAME IS: ", name);
+        const checkName = await Trail.find({ trailname: name, creator: id });
+        console.log("CheckName is : ", checkName);
+
+        if (checkName.trailname === name) {
+          errorz['trailname'] = 'Please choose a different Trail name. "' + name + '" is already in use.';
+                  }
+        console.log(" THE ERRORZ ARE : ", errorz);
         return h
           .view('addPOI', {
             title: 'Add POI Error',
             errors: error.details,
+            categories: categories,
+            values: request.payload,
+            errorz: errorz
           })
           .takeover()
           .code(400);
@@ -64,19 +99,29 @@ const Walkways = {
           const user = await User.findById(id);
           const payload = request.payload;
 
-          let name = payload.trailname;
-          const checkName = await Trail.find({ trailname: name, creator: id });
+          let type = payload.trailtype;
+          const checkType = await User.find( { trailtypes :  type  });
+          console.log(checkType);
 
-          if (checkName.length >= 1) {
-            const message = 'Please choose a different Trail Name. "' + name + '" is already in use.';
-            throw Boom.notAcceptable(message);
+          if (checkType.length === 0)
+          {
+            await User.update({_id: id}, { $push: { trailtypes: type } });
+          }
+
+          let name = request.payload.trailname;
+          console.log("NAME IS: ", name);
+          const checkName = await Trail.find({ trailname: name, creator: id });
+          console.log("CheckName is : ", checkName);
+
+          if (checkName.trailname === name) {
+
           }
 
           const newTrail = new Trail({
             creator: user._id,
             county: payload.county,
             trailname: payload.trailname,
-            trailtype: payload.trailtype,
+            trailtype: type,
             traillength: payload.traillength,
             grade: payload.grade,
             time: payload.time,
@@ -105,7 +150,7 @@ const Walkways = {
         const id = request.auth.credentials.id;
         const user = await User.findById(id);
         const trail = await Trail.findById(trailID);
-        console.log("The trail is :", trail);
+
 
         if (trail.images.length > 0) {
           for (let i = 0; i < trail.images.length; i++) {
@@ -116,18 +161,14 @@ const Walkways = {
             }
           }
           let folderToDelete = user._id + '/' + trail.trailname;
-          console.log("Folder name:", folderToDelete);
 
           try {
-            await cloudinary.api.delete_folder(folderToDelete, function(error, result) {
-              console.log(result);
-            });
+            await cloudinary.api.delete_folder(folderToDelete);
           } catch (error)
           {
             console.log(error);
           }
         }
-
         await Trail.findOneAndDelete( { _id : trailID });
 
         return h.redirect('/home');
@@ -178,15 +219,15 @@ const Walkways = {
   updateTrail: {
     validate: {
       payload: {
-        county: Joi.string().required(),
-        trailname: Joi.string().required(),
-        trailtype: Joi.string().required(),
-        traillength: Joi.number().required(),
+        county: Joi.string().regex(/^[a-zA-Z -.,]{3,40}$/).required(),
+        trailname: Joi.string().regex(/^[a-zA-Z0-9 -,.]{3,40}$/).min(6).max(30).required(),
+        trailtype: Joi.string().regex(/^[a-zA-Z ]{3,40}$/).min(2).max(30).required(),
+        traillength: Joi.number().min(0.5).max(600).required(),
         grade: Joi.array().items(Joi.string()).single().required(),
         time: Joi.string().required(),
-        nearesttown: Joi.string(),
-        description: Joi.string(),
-        startlat: Joi.number().precision(6).required() ,
+        nearesttown: Joi.string().regex(/^[a-zA-Z -.,]{3,40}$/).min(3).max(30),
+        description: Joi.string().min(30).max(500).required(),
+        startlat: Joi.number().precision(6).required(),
         startlong: Joi.number().precision(6).negative().required(),
         endlat: Joi.number().precision(6) ,
         endlong: Joi.number().precision(6).negative()

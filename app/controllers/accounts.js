@@ -8,6 +8,7 @@ const cloudinary = require('cloudinary').v2;
 
 
 
+
 const Accounts = {
   index: {
     auth: false,
@@ -25,7 +26,8 @@ const Accounts = {
     auth: false,
     validate: {
       payload: {
-        firstName: Joi.string().required(),
+        firstName: Joi.string().$.alphanum().min(3).max(30)
+          .rule({ message: 'First Name must be between 3 and 30 characters' }).required(),
         lastName: Joi.string().required(),
         email: Joi.string()
           .email()
@@ -33,19 +35,38 @@ const Accounts = {
         new_password: Joi.string()
           .min(8)
           .max(15)
-          .regex(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/)
-          //.error((errors) => ('"Password" requires at least ONE special character.'))
-          .required().required(),
+          .regex(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,15}$/)
+          .messages({
+            'string.pattern.base': '8 - 15 character PASSWORD must contain numbers, upper, lower and special characters.  '
+          })
+          .required(),
         confirm_password: Joi.ref('new_password')
       },
       options: {
         abortEarly: false
       },
       failAction: function(request, h, error) {
+
+        // Returning of field values and field error code from :
+        // https://livebook.manning.com/book/hapi-js-in-action/chapter-6/215
+
+        const errorz = {};
+        const details = error.details;
+
+        for (let i=0; i < details.length; ++i){
+          if (!errorz.hasOwnProperty(details[i].path)) {
+            errorz[details[i].path] = details[i].message;
+          }
+        }
+
+        console.log("THE DETAILS ARE : ",details);
+        console.log(" THE ERRORZ ARE : ", errorz);
         return h
           .view('signup', {
             title: 'Sign up error',
-            errors: error.details
+            errors: error.details,
+            values: request.payload,
+            errorz: errorz
           })
           .takeover()
           .code(400);

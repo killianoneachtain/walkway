@@ -5,11 +5,34 @@ const Schema = Mongoose.Schema;
 const Boom = require('@hapi/boom');
 
 const userSchema = new Schema({
-  firstName: String,
-  lastName: String,
-  email: String,
-  password: String,
-  type: String
+  firstName: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  lastName: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  email: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  password: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  type: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  trailtypes:[ {
+    type: String
+  }],
 });
 
 userSchema.statics.findByEmail = function(email) {
@@ -31,5 +54,6 @@ userSchema.methods.comparePassword = function(candidatePassword) {
   }
   return this;
 };
+
 
 module.exports = Mongoose.model('User', userSchema);
