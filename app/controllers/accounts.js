@@ -4,10 +4,6 @@ const User = require('../models/user');
 const Admin = require('../models/admin');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
-const cloudinary = require('cloudinary').v2;
-
-
-
 
 const Accounts = {
   index: {
@@ -26,9 +22,18 @@ const Accounts = {
     auth: false,
     validate: {
       payload: {
-        firstName: Joi.string().$.alphanum().min(3).max(30)
-          .rule({ message: 'First Name must be between 3 and 30 characters' }).required(),
-        lastName: Joi.string().required(),
+        firstName: Joi.string()
+          .alphanum()
+          .min(2)
+          .max(30)
+          .trim()
+          .messages({ 'string.pattern.base': 'First Name must be between 3 and 30 characters' })
+          .required(),
+        lastName: Joi.string()
+          .min(2)
+          .max(30)
+          .trim()
+          .required(),
         email: Joi.string()
           .email()
           .required(),
@@ -208,21 +213,51 @@ const Accounts = {
   updateSettings: {
     validate: {
       payload: {
-        firstName: Joi.string().required(),
-        lastName: Joi.string().required(),
+        firstName: Joi.string()
+          .alphanum()
+          .min(2)
+          .max(30)
+          .trim()
+          .messages({ 'string.pattern.base': 'First Name must be between 3 and 30 characters' })
+          .required(),
+        lastName: Joi.string()
+          .min(2)
+          .max(30)
+          .trim()
+          .required(),
         email: Joi.string()
           .email()
           .required(),
-        password: Joi.string().required()
+        new_password: Joi.string()
+          .min(8)
+          .max(15)
+          .regex(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,15}$/)
+          .messages({
+            'string.pattern.base': '8 - 15 character PASSWORD must contain numbers, upper, lower and special characters.  '
+          })
+          .required(),
+        confirm_password: Joi.ref('new_password')
       },
       options: {
         abortEarly: false
       },
       failAction: function(request, h, error) {
+        const errorz = {};
+        const details = error.details;
+
+        for (let i=0; i < details.length; ++i){
+          if (!errorz.hasOwnProperty(details[i].path)) {
+            errorz[details[i].path] = details[i].message;
+          }
+        }
+
+
         return h
           .view('settings', {
             title: 'Update error',
-            errors: error.details
+            errors: error.details,
+            values: request.payload,
+            errorz: errorz
           })
           .takeover()
           .code(400);
@@ -241,7 +276,7 @@ const Accounts = {
         user.firstName = userEdit.firstName;
         user.lastName = userEdit.lastName;
         user.email = userEdit.email;
-        user.password = userEdit.password;
+        user.password = userEdit.new_password;
         await user.save();
         return h.redirect('/settings');
       } catch (err) {

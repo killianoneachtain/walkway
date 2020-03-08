@@ -52,7 +52,7 @@ const Walkways = {
         startlong: Joi.number().precision(6).negative().required(),
         endlat: Joi.number().precision(6) ,
         endlong: Joi.number().precision(6).negative()
-        },
+      },
       options: {
         abortEarly: false,
       },
@@ -81,7 +81,7 @@ const Walkways = {
 
         if (checkName.trailname === name) {
           errorz['trailname'] = 'Please choose a different Trail name. "' + name + '" is already in use.';
-                  }
+        }
         console.log(" THE ERRORZ ARE : ", errorz);
         return h
           .view('addPOI', {
@@ -95,56 +95,56 @@ const Walkways = {
           .code(400);
       }
     },
-      handler: async function(request, h) {
+    handler: async function(request, h) {
 
-        const id = request.auth.credentials.id;
-        try {
-          const user = await User.findById(id);
-          const payload = request.payload;
+      const id = request.auth.credentials.id;
+      try {
+        const user = await User.findById(id);
+        const payload = request.payload;
 
-          let type = payload.trailtype;
-          const checkType = await User.find( { trailtypes :  type  });
-          console.log(checkType);
+        let type = payload.trailtype;
+        const checkType = await User.find( { trailtypes :  type  });
+        console.log(checkType);
 
-          if (checkType.length === 0)
-          {
-            await User.update({_id: id}, { $push: { trailtypes: type } });
-          }
-
-          let name = request.payload.trailname;
-          console.log("NAME IS: ", name);
-          const checkName = await Trail.find({ trailname: name, creator: id });
-          console.log("CheckName is : ", checkName);
-
-          if (checkName.trailname === name) {
-
-          }
-
-          const newTrail = new Trail({
-            creator: user._id,
-            county: payload.county,
-            trailname: payload.trailname,
-            trailtype: type,
-            traillength: payload.traillength,
-            grade: payload.grade,
-            time: payload.time,
-            nearesttown: payload.nearesttown,
-            description: payload.description,
-            startcoordinates: {
-              latitude: payload.startlat,
-              longitude: payload.startlong,
-            },
-            endcoordinates: {
-              latitude: payload.endlat,
-              longitude: payload.endlong
-            }
-          });
-          await newTrail.save();
-          return h.redirect('home');
-        } catch (err) {
-          return h.view('addPOI', { errors: [{ message: err.message }] });
+        if (checkType.length === 0)
+        {
+          await User.update({_id: id}, { $push: { trailtypes: type } });
         }
+
+        let name = request.payload.trailname;
+        console.log("NAME IS: ", name);
+        const checkName = await Trail.find({ trailname: name, creator: id });
+        console.log("CheckName is : ", checkName);
+
+        if (checkName.trailname === name) {
+
+        }
+
+        const newTrail = new Trail({
+          creator: user._id,
+          county: payload.county,
+          trailname: payload.trailname,
+          trailtype: type,
+          traillength: payload.traillength,
+          grade: payload.grade,
+          time: payload.time,
+          nearesttown: payload.nearesttown,
+          description: payload.description,
+          startcoordinates: {
+            latitude: payload.startlat,
+            longitude: payload.startlong,
+          },
+          endcoordinates: {
+            latitude: payload.endlat,
+            longitude: payload.endlong
+          }
+        });
+        await newTrail.save();
+        return h.redirect('home');
+      } catch (err) {
+        return h.view('addPOI', { errors: [{ message: err.message }] });
       }
+    }
   },
   deleteTrail: {
     handler: async function(request, h) {
@@ -176,7 +176,7 @@ const Walkways = {
 
         return h.redirect('/home');
       } catch (err) {
-      return h.view('home', { errors: [{ message: err.message }] });
+        return h.view('home', { errors: [{ message: err.message }] });
       }
     }
   },
@@ -270,16 +270,16 @@ const Walkways = {
         trail.time = trailEdit.time;
         trail.nearesttown = trailEdit.nearesttown;
         trail.description = trailEdit.description;
-        trail.startlat = trailEdit.startlat;
-        trail.startlong = trailEdit.startlong;
-        trail.endlat = trailEdit.endlat;
-        trail.endlong = trailEdit.endlong;
+        trail.startcoordinates.startlat = trailEdit.startcoordinates.startlat;
+        trail.startcoordinates.startlong = trailEdit.startcoordinates.startlong;
+        trail.endcoordinates.endlat = trailEdit.endcoordinates.endlat;
+        trail.endcoordinates.endlong = trailEdit.endcoordinates.endlong;
 
         await trail.save();
         return h.redirect('/home');
 
       } catch (err) {
-          return h.view('editPOI', { errors: [{ message: err.message }] });
+        return h.view('editPOI', { errors: [{ message: err.message }] });
       }
     }
   }
