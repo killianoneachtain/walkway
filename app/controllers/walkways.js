@@ -2,9 +2,13 @@
 
 const User = require('../models/user');
 const Trail = require('../models/trail');
-const Boom = require('@hapi/boom');
 const ImageStore = require('../utils/image-store');
 const cloudinary = require('cloudinary').v2;
+
+const googleMapsClient = require('@google/maps').createClient({
+  key: process.env.google_maps_API
+});
+
 //const Mongoose = require('mongoose');
 
 const Joi = require('@hapi/joi');
@@ -14,7 +18,6 @@ const Walkways = {
     handler: async function(request, h) {
       const id = request.auth.credentials.id;
       const user = await User.findById(id).lean();
-
 
       const walkways = await Trail.find ( { creator: id } ).populate('walkways').lean();
       console.log("walkways are : ", walkways);

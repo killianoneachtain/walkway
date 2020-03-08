@@ -13,6 +13,8 @@
   "author": "Killian O'Neachtain",
   "license": "ISC",
   "dependencies": {
+    "@google/maps": "^1.1.0",
+    "@googlemaps/google-maps-services-js": "^2.1.2",
     "@hapi/boom": "^9.0.0",
     "@hapi/cookie": "^11.0.0",
     "@hapi/hapi": "^19.1.1",
