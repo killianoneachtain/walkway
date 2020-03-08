@@ -23,6 +23,7 @@ db.once('open', function() {
   //seed()
 });
 
+// Removal of seed function as app is live on Heroku and Glitch
 /*
 async function seed() {
   let seeder = require('mais-mongoose-seeder')(Mongoose);
