@@ -20,8 +20,10 @@
     "@hapi/joi": "^17.1.0",
     "@hapi/vision": "^6.0.0",
     "cloudinary": "^1.19.0",
+    "diff": "^4.0.2",
     "dotenv": "^8.2.0",
     "handlebars": "^4.7.3",
+    "lodash": "^4.17.15",
     "mais-mongoose-seeder": "^1.0.7",
     "mongoose": "^5.8.11"
   },
