@@ -1,0 +1,82 @@
+{
+  "walkwayService": "http://localhost:3000",
+  "users":[ {
+    "_model": "User",
+    "homer": {
+      "firstName": "Homer",
+      "lastName": "Simpson",
+      "email": "homer@simpson.com",
+      "password": "secretP@ssw0rd",
+      "type": "user",
+      "trailtypes": [ "Loop" ]
+    },
+    "killian": {
+      "firstName": "Killian",
+      "lastName": "O'Neachtain",
+      "email": "killianoneachtain@hotmail.com",
+      "password": "secretP@ssw0rd",
+      "type": "user",
+      "trailtypes": [ "Loop", "Linear" ]
+    }
+  } ],
+  "trails": [
+    {
+      "grade": [
+        "Easy"
+      ],
+      "creator": "->users.killian",
+      "county": "Waterford",
+      "trailname": "Doneraile Walk",
+      "trailtype": "Linear",
+      "traillength": 3.5,
+      "time": "01:05",
+      "nearesttown": "Tramore",
+      "description": "Best walk in Tramore",
+      "startcoordinates": {
+        "latitude": 52.159796,
+        "longitude": -7.137537
+      }
+    },
+    {
+      "creator": "->users.homer",
+      "grade": [
+        "Easy", "Moderate"
+      ],
+      "county": "Waterford",
+      "trailname": "Back Strand",
+      "trailtype": "Loop",
+      "traillength": 6.3,
+      "time": "02:45",
+      "nearesttown": "Tramore",
+      "description": "Best walk in Tramore",
+      "startcoordinates": {
+        "latitude": 52.159751,
+        "longitude": -7.147682
+      }
+    }
+  ],
+  "newTrail": {
+    "creator": "->users.killian",
+    "grade": [
+      "Easy", "Strenuous"
+    ],
+    "county": "Waterford",
+    "trailname": "Testing Loop",
+    "trailtype": "Loop",
+    "traillength": 14.5,
+    "time": "08:35",
+    "nearesttown": "Annestown",
+    "description": "Anne Valley Walk",
+    "startcoordinates": {
+      "latitude": 51.284596,
+      "longitude": -7.521123
+    }
+  },
+  "newUser": {
+    "firstName": "Maggie",
+    "lastName": "Simpson",
+    "email": "maggie@simpson.com",
+    "password": "secretP@ssw0rd",
+    "type": "admin"
+  }
+}
