@@ -7,8 +7,7 @@ const Users = {
   find: {
     auth: false,
     handler: async function(request, h) {
-      const users = await User.find();
-      return users;
+      return await User.find();
     }
   },
   findOne: {

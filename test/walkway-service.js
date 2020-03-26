@@ -53,7 +53,6 @@ class DonationService {
 
   async createUser(newUser) {
     const response = await axios.post(this.baseUrl + '/api/users', newUser);
-    console.log("The createUser Response is :", response);
     return response.data;
   }
 

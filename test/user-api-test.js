@@ -54,7 +54,6 @@ suite('User API tests', function () {
     for (let c of users) {
       await walkwayService.createUser(c);
     }
-
     const allUsers = await walkwayService.getUsers();
     assert.equal(allUsers.length, users.length);
   });
