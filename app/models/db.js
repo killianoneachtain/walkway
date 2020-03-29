@@ -24,7 +24,7 @@ db.once('open', function() {
 });
 
 // Removal of seed function as app is live on Heroku and Glitch
-/*
+
 async function seed() {
   let seeder = require('mais-mongoose-seeder')(Mongoose);
   const data = require('./seed-data.json');
@@ -33,4 +33,4 @@ async function seed() {
   const Category = require('./category');
   const dbData = await seeder.seed(data, { dropDatabase: false, dropCollections: true });
   //console.log(dbData);
-} */
+}
