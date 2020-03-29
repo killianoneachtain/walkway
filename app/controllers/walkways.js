@@ -20,7 +20,7 @@ const Walkways = {
       const user = await User.findById(id).lean();
 
       const walkways = await Trail.find ( { creator: id } ).populate('walkways').lean();
-      console.log("walkways are : ", walkways);
+      //console.log("walkways are : ", walkways);
 
       return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user });
 
