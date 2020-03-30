@@ -4,6 +4,8 @@ const User = require('../models/user');
 const Admin = require('../models/admin');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
+const bCrypt = require('bcrypt');           // ADDED week9
+const saltRounds = 10;                      // ADDED week9
 
 const Accounts = {
   index: {
@@ -64,8 +66,8 @@ const Accounts = {
           }
         }
 
-        console.log("THE DETAILS ARE : ",details);
-        console.log(" THE ERRORZ ARE : ", errorz);
+        //console.log("THE DETAILS ARE : ",details);
+        //console.log(" THE ERRORZ ARE : ", errorz);
         return h
           .view('signup', {
             title: 'Sign up error',
@@ -88,6 +90,8 @@ const Accounts = {
           throw Boom.badData(message);
         }
 
+        const hash = await bCrypt.hash(payload.new_password, saltRounds);    // ADDED
+
         if ((payload.new_password !== payload.confirm_password))
         {
           const message = 'Passwords do NOT match!';
@@ -98,7 +102,7 @@ const Accounts = {
           firstName: payload.firstName,
           lastName: payload.lastName,
           email: payload.email,
-          password: payload.confirm_password,
+          password: hash,
           type: "user"
         });
         user = await newUser.save();
@@ -144,25 +148,29 @@ const Accounts = {
 
         if ((user) && (user.type === "admin"))
         {
-          user.comparePassword(password);
+          await user.comparePassword(password);
           request.cookieAuth.set({ id: user.id });
           return h.redirect('/admin');
         } else if (user) {
-          user.comparePassword(password);
-          request.cookieAuth.set({ id: user.id });
-          return h.redirect('/home');
+          if (!await user.comparePassword(password)) {         // EDITED (next few lines)
+            const message = 'Password does not match our records.';
+            throw Boom.unauthorized(message);
+          } else {
+            request.cookieAuth.set({ id: user.id });
+            return h.redirect('/home');
+          }                                                    // END
         }
 
         else if (!user)
         {
           try {
-            console.log(email);
+            //console.log(email);
             let admin = await Admin.findByEmail(email);
-            console.log("Here in Admin : ", Admin.findByEmail(email));
+            //console.log("Here in Admin : ", Admin.findByEmail(email));
 
             if (admin)
             {
-              user.comparePassword(password);
+              await user.comparePassword(password);
               request.cookieAuth.set({ id: admin.id });
               return h.redirect('/admin');
             }
@@ -195,12 +203,12 @@ const Accounts = {
           throw Boom.unauthorized();
         }
 
-        if (user.type == "user")
+        if (user.type === "user")
         {
           return h.view('settings', { title: 'Walkway Settings', user: user });
         }
 
-        if (user.type == "admin")
+        if (user.type === "admin")
         {
           return h.view('adminsettings', { title: 'Walkway Adminstrator Settings', user: user });
         }
@@ -251,7 +259,6 @@ const Accounts = {
           }
         }
 
-
         return h
           .view('settings', {
             title: 'Update error',
@@ -266,17 +273,19 @@ const Accounts = {
     handler: async function(request, h) {
       try {
         const userEdit = request.payload;
-        console.log("Request. auth is : ", request.auth);
+        //console.log("Request. auth is : ", request.auth);
         const id = request.auth.credentials.id;
         const user = await User.findById(id);
         if (!user) {
           throw Boom.unauthorized();
         }
 
+        const hash = await bCrypt.hash(userEdit.new_password, saltRounds);    // ADDED
+
         user.firstName = userEdit.firstName;
         user.lastName = userEdit.lastName;
         user.email = userEdit.email;
-        user.password = userEdit.new_password;
+        user.password = hash;
         await user.save();
         return h.redirect('/settings');
       } catch (err) {
