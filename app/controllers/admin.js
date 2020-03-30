@@ -6,6 +6,8 @@ const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
 const ImageStore = require('../utils/image-store');
 const cloudinary = require('cloudinary').v2;
+const bCrypt = require('bcrypt');
+const saltRounds = 10;
 
 
 const Admin = {
@@ -182,9 +184,7 @@ const Admin = {
           throw Boom.unauthorized();
         }
 
-        const passwordEdit = request.payload.new_password;
-
-        user.password = passwordEdit;
+        user.password = await bCrypt.hash(request.payload.new_password, saltRounds);    // ADDED
         await user.save();
 
         return h.redirect('/viewUser/' + user._id, {user: user });
