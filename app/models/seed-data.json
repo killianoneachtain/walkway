@@ -5,7 +5,7 @@
       "firstName": "Homer",
       "lastName": "Simpson",
       "email": "homer@simpson.com",
-      "password": "secretP@ssw0rd",
+      "password": "$2a$10$JywZTCuCquuwOwoUeR2Zeey1MC5vOGOkN3ruDuT14fSsI6ZdQ/hJe",
       "type": "user",
       "trailtypes": [ "Loop" ]
     },
@@ -13,14 +13,14 @@
       "firstName": "Marge",
       "lastName": "Simpson",
       "email": "marge@simpson.com",
-      "password": "secretP@ssw0rd",
+      "password": "$2a$07$ii7IbLHiEB0kUGyJmYJ/6.L5al.PLWBDeyPGxX55DBaX9iIqTlWNq",
       "type": "admin"
     },
     "killian": {
       "firstName": "Killian",
       "lastName": "O'Neachtain",
       "email": "killianoneachtain@hotmail.com",
-      "password": "secretP@ssw0rd",
+      "password": "$2a$05$.cwDLHBgysqwrS6poRmawuFC5tv7ubZsjjDQDki.dx55oWPJbfoEq",
       "type": "user",
       "trailtypes": [ "Loop", "Linear" ]
     }

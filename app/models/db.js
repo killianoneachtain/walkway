@@ -20,7 +20,7 @@ db.on('disconnected', function() {
 
 db.once('open', function() {
   console.log(`database connected to ${this.name} on ${this.host}`);
-  //seed()
+  seed()
 });
 
 // Removal of seed function as app is live on Heroku and Glitch
