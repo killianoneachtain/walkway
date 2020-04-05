@@ -54,7 +54,7 @@
 <section class="ui raised segment">
     <div class="ui grid">
         <article class="sixteen wide column">
-            <table class="ui sortable celled striped table">
+            <table class="ui olive sortable celled striped table">
                 <thead>
                 <tr>
                     <th class="sorted ascending">Trail Name</th>
@@ -71,14 +71,36 @@
                         <td>{{ images.length }}</td>
                         <td class="center aligned"><a href="/deleteTrail/{{_id}}">
                             <i class="red trash alternate icon"></i></a></td>
-
+                    </tr>
                 {{/each}}
-                </tr>
                 </tbody>
             </table>
 
         </article>
     </div>
+</section>
+
+<section class="ui raised segment">
+    <tr>
+        <td>
+            <h1>{{user.firstName}} {{user.lastName}}'s Gallery</h1>
+            <div class="ui three stackable cards">
+                {{#each images}}
+                    <div class="card">
+                        <div class="image">
+                            <img class="ui medium bordered fluid image" src="{{url}}">
+                        </div>
+                        <div class="content">
+                            <a href="/deleteimage/{{public_id}}"><i class="large red trash alternate outline icon"></i></a>
+                        </div>
+                        <div style="padding-left: 16px"><h4>Public ID: </h4>{{public_id}}</div>
+                        <br>
+                    </div>
+                {{/each}}
+                <br>
+            </div>
+        </td>
+    </tr>
 </section>
 
 <script>
