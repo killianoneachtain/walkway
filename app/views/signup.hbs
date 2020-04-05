@@ -25,20 +25,21 @@
                             <label>Confirm Password</label>
                             <input type="password" name="confirm_password" id="confirm" required>
                         </div>
-
+                        <div class="ui small checkbox">
+                            <input type="checkbox" name="showpassowrds" onclick="togglePassword()">
+                            <label>Show Passwords</label>
+                        </div>
                         <div>
-                            <button class="ui green submit button"> Submit</button>
+                            <br><button class="ui green submit button"> Submit</button>
                         </div>
                     </form>
                     {{> error}}
                 </div>
-                <div class="ui small checkbox">
-                <input type="checkbox" name="showpassowrds" onclick="togglePassword()">
-                <label>Show Passwords</label>
-            </div><br><br>
+                {{>oauth-signups}}
             </div>
             <aside class="ui six wide column"><img src="images/family.png" class="ui image"/></aside>
         </div>
+
 
     </section>
 

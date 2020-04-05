@@ -2,6 +2,8 @@
 
 const ImageStore = require('./app/utils/image-store');
 const Hapi = require('@hapi/hapi');
+const Bell = require('@hapi/bell');
+const AuthCookie = require('@hapi/cookie');
 
 require('./app/models/db');
 
@@ -28,6 +30,7 @@ async function init() {
   await server.register(require('@hapi/inert'));
   await server.register(require('@hapi/vision'));
   await server.register(require('@hapi/cookie'));
+  await server.register([Bell]);
 
   server.validator(require('@hapi/joi'));
 
@@ -53,6 +56,17 @@ async function init() {
     },
     redirectTo: '/',
   });
+
+  const bellAuthOptions = {
+    provider: 'github',
+    password: 'github-encryption-password-secure', // String used to encrypt cookie
+    // used during authorisation steps only
+    clientId: 'b419b8fa1b99920f7133',          // *** Replace with your app Client Id ****
+    clientSecret: 'b0274b18f8324d168eb76c5ba4bff9eaba39da59',  // *** Replace with your app Client Secret ***
+    isSecure: false        // Should be 'true' in production software (requires HTTPS)
+  };
+
+  server.auth.strategy('github-oauth', 'bell', bellAuthOptions);
 
   server.auth.default('session');
 
