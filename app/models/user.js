@@ -3,13 +3,38 @@
 const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
 const Boom = require('@hapi/boom');
+const bCrypt = require('bcrypt');          // ADDED
+
 
 const userSchema = new Schema({
-  firstName: String,
-  lastName: String,
-  email: String,
-  password: String,
-  type: String
+  firstName: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  lastName: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  email: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  password: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  type: {
+    type: String,
+    trim: true,
+    required: true
+  },
+  trailtypes:[ {
+    type: String
+  }],
 });
 
 userSchema.statics.findByEmail = function(email) {
@@ -24,12 +49,13 @@ userSchema.statics.findByType = function(type) {
   return this.findOne({ type : type});
 };
 
-userSchema.methods.comparePassword = function(candidatePassword) {
-  const isMatch = this.password === candidatePassword;
+userSchema.methods.comparePassword = async function(candidatePassword) {
+  const isMatch = await bCrypt.compare(candidatePassword, this.password);
   if (!isMatch) {
-    throw Boom.unauthorized('Password mismatch');
+    throw Boom.unauthorized('Password does not match our records.');
   }
-  return this;
+  return isMatch;
 };
+
 
 module.exports = Mongoose.model('User', userSchema);

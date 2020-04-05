@@ -14,7 +14,6 @@ const Admin = {
       try {
         const id = request.auth.credentials.id;
         const user = await User.findById(id).lean();
-
         let type = "user";
         const members = await User.find({ type: type }).lean();
 
@@ -22,14 +21,11 @@ const Admin = {
 
         const assets = await cloudinary.api.resources( function(error, result) {console.log(result, error); });
 
-        console.log("The resources are: ", assets);
-
         let total_resources = assets.resources.length;
 
         let total_images = 0;
 
         const rates = [assets.rate_limit_allowed, assets.rate_limit_remaining, assets.rate_limit_reset_at ];
-        console.log("RATES ARE : ", rates);
 
         for (let i=0; i < assets.resources.length; i++)
         {
@@ -54,8 +50,8 @@ const Admin = {
         const id = request.params.id;
         const user = await User.findById(id).lean();
         const trails = await Trail.findByCreator(id).lean();
-        let user_images=[];
 
+        let user_images=[];
         if (user_images.length > 0)
         {
 

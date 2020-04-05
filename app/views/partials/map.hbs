@@ -13,15 +13,15 @@
 <script>
     // Initialize and add the map
     function initMap() {
-        // The location of Uluru
-        var trail_start = {lat: {{trail.startcoordinates.latitude}}, lng: {{trail.startcoordinates.longitude}} };
-        //var trail_end = {lat: {{trail.endcoordinates.latitude}}, lng: {{end.startcoordinates.longitude}} };
-        // The map, centered at Uluru
-        var map = new google.maps.Map(
+        // The location
+        let trail_start = {lat: {{trail.startcoordinates.latitude}}, lng: {{trail.startcoordinates.longitude}}, title: 'Start' };
+        //let trail_end = {lat: {{trail.endcoordinates.latitude}}, lng: {{end.startcoordinates.longitude}}, title: 'End' };
+        // The map, centered
+        let map = new google.maps.Map(
                 document.getElementById('map'), {zoom: 17, center: trail_start, mapTypeId: 'hybrid'});
-        // The marker, positioned at Uluru
-        var marker = new google.maps.Marker({position: trail_start, map: map, title: "Start {{trail.trailname}}"});
-        //var end_marker = new google.maps.Marker({position: trail_end, map: map, title: "End {{trail.trailname}}"});
+        // The marker, positioned
+        let marker = new google.maps.Marker({position: trail_start, map: map, title: "Start {{trail.trailname}}"});
+        //let end_marker = new google.maps.Marker({position: trail_end, map: map, title: "End {{trail.trailname}}"});
 
         marker.setMap(map);
     }
