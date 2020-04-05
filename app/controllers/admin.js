@@ -126,8 +126,10 @@ const Admin = {
           total_images = total_images + imageNumber;
         }
 
+        let userImages = await ImageStore.getUserImages(id);
+
         return h.view('viewUser', { title: username + ' Details', walkways: walkways,
-          user: user, POI_total: POI_total, total_images: total_images});
+          user: user, POI_total: POI_total, total_images: total_images, images: userImages});
       }
       catch (err) {
         return h.view('admin', { errors: [{ message: err.message }] });
