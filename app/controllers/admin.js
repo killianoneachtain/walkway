@@ -136,6 +136,32 @@ const Admin = {
       }
     }
   },
+  deleteUserImage: {
+    handler: async function(request, h) {
+      try {
+        const publicID = request.params.id + '/' + request.params.foldername + '/' + request.params.imagename;
+        console.log("PublicID to delete image from is", publicID);
+        await ImageStore.deleteImage(publicID);
+
+        let trails= await Trail.findByName(request.params.foldername);
+        let trail = trails[0];
+        let user = trail.creator;
+        //console.log("TRail to delete image from is", trail);
+
+
+
+        let this_trail = await Trail.updateOne( { _id: trail._id }, { $pull: { images: { $in: [ publicID ] } } } );
+        //console.log("Delete image from Gallery is ", update_Trail);
+        //await Trail.save();
+
+
+
+        return h.redirect('/viewUser/' + user );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  },
   resetPassword: {
     validate: {
       payload: {

@@ -43,7 +43,7 @@ module.exports = [
 
   { method: 'GET', path: '/viewUser/{id}', config: Admin.viewUser },
   { method: 'POST', path: '/viewUser/{id}', config: Admin.resetPassword },
-
+  { method: 'GET', path: '/deleteUserImage/{id}/{foldername}/{imagename}', config: Admin.deleteUserImage },
 
   {
     method: 'GET',
