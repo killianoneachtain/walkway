@@ -44,21 +44,19 @@ const Gallery = {
       parse: true
     }
   },
-
   deleteImage: {
     handler: async function(request, h) {
 
       try {
-        console.log("Request PARAMS are are: ", (request.params));
         let publicID = request.params.id + '/' + request.params.foldername + '/' + request.params.imagename;
         await ImageStore.deleteImage(publicID);
 
         let trails= await Trail.findByName(request.params.foldername);
         let trail = trails[0];
-        console.log("TRail to delete image from is", trail);
+        //console.log("TRail to delete image from is", trail);
 
-        let update_Trail = await Trail.updateOne( { _id: trail._id }, { $pull: { images: { $in: [ publicID ] } } } );
-        console.log("Delete image from Gallery is ", update_Trail);
+        await Trail.updateOne( { _id: trail._id }, { $pull: { images: { $in: [ publicID ] } } } );
+        //console.log("Delete image from Gallery is ", update_Trail);
 
         return h.redirect('/viewPOI/' + trail._id);
       } catch (err) {

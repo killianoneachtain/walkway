@@ -58,7 +58,7 @@
                 <thead>
                 <tr>
                     <th class="sorted ascending">Trail Name</th>
-                    <th>Type</th>
+                    <th>Trail Type</th>
                     <th>Number of Images</th>
                     <th></th>
                 </tr>
@@ -66,9 +66,9 @@
                 <tbody>
                 {{#each walkways}}
                     <tr>
-                        <td>{{trailname}}</td>
-                        <td> {{trailtype}} </td>
-                        <td>{{ images.length }}</td>
+                        <td><h2 style="color: olive">{{trailname}}</h2></td>
+                        <td><h4>{{trailtype}}</h4></td>
+                        <td><h4>{{images.length }}</h4></td>
                         <td class="center aligned"><a href="/deleteTrail/{{_id}}">
                             <i class="red trash alternate icon"></i></a></td>
                     </tr>
@@ -88,10 +88,10 @@
                 {{#each images}}
                     <div class="card">
                         <div class="image">
-                            <img class="ui medium bordered fluid image" src="{{url}}">
+                            <img class="ui medium bordered fluid image" src=" {{secure_url}} ">
                         </div>
                         <div class="content">
-                            <a href="/deleteimage/{{public_id}}"><i class="large red trash alternate outline icon"></i></a>
+                            <a href="/deleteUserImage/{{public_id}}"><i class="large red trash alternate outline icon"></i></a>
                         </div>
                         <div style="padding-left: 16px"><h4>Public ID: </h4>{{public_id}}</div>
                         <br>
@@ -111,8 +111,8 @@
     $('table').tablesort();
 
     function togglePassword() {
-        var x = document.getElementById("new");
-        var y = document.getElementById("confirm");
+        let x = document.getElementById("new");
+        let y = document.getElementById("confirm");
         if (x.type === "password") {
             x.type = "text";
         } else {
@@ -126,3 +126,23 @@
     };
 
 </script>
+
+<!-- <tr><td colspan="4">
+        <div class="ui three stackable cards">
+            {{#each images}}
+                <div class="card">
+                    <div class="image">
+                        <img class="ui medium bordered fluid image" src="{{secure_url}}">
+                    </div>
+                    <div class="content">
+                        <a href=/deleteUserImage/{{public_id}}"><i class="large red trash alternate outline icon"></i></a>
+                    </div>
+                    <div style="padding-left: 16px"><h4>Public ID: </h4>{{public_id}}</div>
+                    <br>
+                </div>
+            {{/each}}
+
+            <br>
+        </div></td>
+
+    </tr> -->
