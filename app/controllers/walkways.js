@@ -76,6 +76,7 @@ const Walkways = {
 
         let name = request.payload.trailname;
         console.log("NAME IS: ", name);
+        name = name.replace(/ /g, '-');
         const checkName = await Trail.find({ trailname: name, creator: id });
         console.log("CheckName is : ", checkName);
 
@@ -112,8 +113,10 @@ const Walkways = {
         }
 
         let name = request.payload.trailname;
+        name = name.replace(/ /g, '-');
         console.log("NAME IS: ", name);
         const checkName = await Trail.find({ trailname: name, creator: id });
+
         console.log("CheckName is : ", checkName);
 
         if (checkName.trailname === name) {
@@ -123,7 +126,7 @@ const Walkways = {
         const newTrail = new Trail({
           creator: user._id,
           county: payload.county,
-          trailname: payload.trailname,
+          trailname: name,
           trailtype: type,
           traillength: payload.traillength,
           grade: payload.grade,
@@ -262,8 +265,11 @@ const Walkways = {
 
         const trailEdit = request.payload;
 
+        let name = await trailEdit.trailname;
+        name = name.replace(/ /g, '-');
+
         trails[0].county = trailEdit.county;
-        trails[0].trailname = trailEdit.trailname;
+        trails[0].trailname = name;
         trails[0].trailtype = trailEdit.trailtype;
         trails[0].traillength = trailEdit.traillength;
         trails[0].grade = trailEdit.grade;

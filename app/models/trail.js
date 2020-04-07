@@ -57,7 +57,7 @@ trailSchema.statics.findByName = function(name) {
   return this.find({ trailname : name });
 }
 
-trailSchema.statics.findByTypr = function(type) {
+trailSchema.statics.findByType = function(type) {
   return this.find({ trailtype : type });
 }
 
