@@ -6,8 +6,7 @@ const Hapi = require('@hapi/hapi');
 require('./app/models/db');
 
 const server = Hapi.server({
-  port: 3000,
-  host: 'localhost'
+  port: 3000
 });
 
 const dotenv = require('dotenv');
