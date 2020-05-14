@@ -28,13 +28,16 @@ const Accounts = {
           .alphanum()
           .min(2)
           .max(30)
+          .regex(/^[A-Za-z-']{1,30}$/)
           .trim()
-          .messages({ 'string.pattern.base': 'First Name must be between 3 and 30 characters' })
+          .messages({ 'string.pattern.base': 'First Name must be between 2 and 30 characters' })
           .required(),
         lastName: Joi.string()
           .min(2)
           .max(30)
+          .regex(/^[A-Za-z'-]{1,30}$/)
           .trim()
+          .messages({ 'string.pattern.base': 'Last Name must be between 2 and 30 characters' })
           .required(),
         email: Joi.string()
           .email()
@@ -99,8 +102,8 @@ const Accounts = {
         }
 
         const newUser = new User({
-          firstName: payload.firstName,
-          lastName: payload.lastName,
+          firstName: payload.firstName.replace(/^./, payload.firstName[0].toUpperCase()),
+          lastName: payload.lastName.replace(/^./, payload.lastName[0].toUpperCase()),
           email: payload.email,
           password: hash,
           type: "user"
@@ -225,13 +228,16 @@ const Accounts = {
           .alphanum()
           .min(2)
           .max(30)
+          .regex(/^[A-Za-z-']{1,30}$/)
           .trim()
-          .messages({ 'string.pattern.base': 'First Name must be between 3 and 30 characters' })
+          .messages({ 'string.pattern.base': 'First Name must be between 2 and 30 characters' })
           .required(),
         lastName: Joi.string()
           .min(2)
           .max(30)
+          .regex(/^[A-Za-z'-]{1,30}$/)
           .trim()
+          .messages({ 'string.pattern.base': 'Last Name must be between 2 and 30 characters' })
           .required(),
         email: Joi.string()
           .email()
@@ -282,8 +288,8 @@ const Accounts = {
 
         const hash = await bCrypt.hash(userEdit.new_password, saltRounds);    // ADDED
 
-        user.firstName = userEdit.firstName;
-        user.lastName = userEdit.lastName;
+        user.firstName = userEdit.firstName.replace(/^./, userEdit.firstName[0].toUpperCase()),
+        user.lastName = userEdit.lastName.replace(/^./, userEdit.lastName[0].toUpperCase()),
         user.email = userEdit.email;
         user.password = hash;
         await user.save();
