@@ -6,6 +6,8 @@ const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
 const bCrypt = require('bcrypt');           // ADDED week9
 const saltRounds = 10;                      // ADDED week9
+const Bell = require('@hapi/bell');
+const AuthCookie = require('@hapi/cookie');
 
 const Accounts = {
   index: {
@@ -187,6 +189,16 @@ const Accounts = {
       } catch (err) {
         return h.view('login', { errors: [{ message: err.message }] });
       }
+    }
+  },
+  github_login: {
+    auth: 'github-oauth',
+    handler: function (request, h) {
+      if (request.auth.isAuthenticated) {
+        request.cookieAuth.set(request.auth.credentials);
+        return ('Hello ' + request.auth.credentials.profile.displayName);
+      }
+      return('Not logged in...');
     }
   },
   logout: {

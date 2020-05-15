@@ -15,6 +15,7 @@ module.exports = [
   { method: 'POST', path: '/signup', config: Accounts.signup },
 
   { method: 'POST', path: '/login', config: Accounts.login },
+  //{ method: 'POST', path: '/github_login', config: Accounts.github_login },
 
   { method: 'GET', path: '/home', config: Walkways.home },
   { method: 'GET', path: '/admin', config: Admin.admin },

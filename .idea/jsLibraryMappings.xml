@@ -3,5 +3,6 @@
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$/app/controllers/walkways.js" libraries="{HTTP Response Handler}" />
     <file url="PROJECT" libraries="{@types/hapi, @types/hapi-server-session, @types/hapi__hapi, @types/hapi__joi, @types/hapi__vision}" />
+    <includedPredefinedLibrary name="Node.js Core" />
   </component>
 </project>

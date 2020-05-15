@@ -2,12 +2,12 @@
 
 const ImageStore = require('./app/utils/image-store');
 const Hapi = require('@hapi/hapi');
-<<<<<<< HEAD
 const Bell = require('@hapi/bell');
 const AuthCookie = require('@hapi/cookie');
-=======
 const fs = require('fs');
->>>>>>> Security-features
+const os = require('os');
+os.tmpDir = os.tmpdir;
+
 
 require('./app/models/db');
 
@@ -44,20 +44,16 @@ if (result.error) {
 async function init() {
   await server.register(require('@hapi/inert'));
   await server.register(require('@hapi/vision'));
-  await server.register(require('@hapi/cookie'));
-<<<<<<< HEAD
-  await server.register([Bell]);
-=======
-  await server.register(require('@hapi/bell'));
->>>>>>> Security-features
+  await server.register([Bell, AuthCookie]);
 
-  server.validator(require('@hapi/joi'));
+  await server.validator(require('@hapi/joi'));
 
   await secure_server.register(require('@hapi/inert'));
   await secure_server.register(require('@hapi/vision'));
   await secure_server.register(require('@hapi/cookie'));
+  await secure_server.register(require('@hapi/bell'));
 
-  secure_server.validator(require('@hapi/joi'));
+  await secure_server.validator(require('@hapi/joi'));
 
   ImageStore.configure(credentials);
 
@@ -94,9 +90,7 @@ async function init() {
     redirectTo: '/',
   });
 
-<<<<<<< HEAD
-=======
-  secure_server.auth.strategy('session', 'cookie', {
+  secure_server.auth.strategy('cookie-auth', 'cookie', {
     cookie: {
       name: process.env.cookie_name,
       password: process.env.cookie_password,
@@ -105,30 +99,21 @@ async function init() {
     redirectTo: '/',
   });
 
->>>>>>> Security-features
   const bellAuthOptions = {
     provider: 'github',
     password: 'github-encryption-password-secure', // String used to encrypt cookie
-    // used during authorisation steps only
-<<<<<<< HEAD
-    clientId: 'b419b8fa1b99920f7133',          // *** Replace with your app Client Id ****
-    clientSecret: 'b0274b18f8324d168eb76c5ba4bff9eaba39da59',  // *** Replace with your app Client Secret ***
-=======
+                                                  // used during authorisation steps only
     clientId: process.env.git_id,          // *** Replace with your app Client Id ****
-    clientSecret: process.env.git_client_secret,  // *** Replace with your app Client Secret ***
->>>>>>> Security-features
+    clientSecret: process.env.git_client_secret, // *** Replace with your app Client Secret ***
     isSecure: false        // Should be 'true' in production software (requires HTTPS)
   };
 
   server.auth.strategy('github-oauth', 'bell', bellAuthOptions);
 
-<<<<<<< HEAD
-  server.auth.default('session');
-=======
+
   server.auth.default('cookie-auth');
   //server.auth.default('session');
-  secure_server.auth.default('session');
->>>>>>> Security-features
+  secure_server.auth.default('cookie-auth');
 
   server.route(require('./routes'));
   server.route(require('./routes-api'));
