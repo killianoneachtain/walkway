@@ -47,7 +47,7 @@ const Accounts = {
         new_password: Joi.string()
           .min(8)
           .max(15)
-          .regex(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,15}$/)
+          .regex(/^(?=.*[0-9])(?=.*[!@#$^&*])[a-zA-Z0-9!@#$^&*]{8,15}$/)
           .messages({
             'string.pattern.base': '8 - 15 character PASSWORD must contain numbers, upper, lower and special characters.  '
           })
@@ -95,13 +95,14 @@ const Accounts = {
           throw Boom.badData(message);
         }
 
-        const hash = await bCrypt.hash(payload.new_password, saltRounds);    // ADDED
-
         if ((payload.new_password !== payload.confirm_password))
         {
           const message = 'Passwords do NOT match!';
           throw Boom.badData(message);
         }
+
+        const hash = await bCrypt.hash(payload.new_password, saltRounds);    // ADDED
+        //const email_hash = await bCrypt.hash(payload.email, saltRounds);    // ADDED
 
         const newUser = new User({
           firstName: payload.firstName.replace(/^./, payload.firstName[0].toUpperCase()),
@@ -149,7 +150,10 @@ const Accounts = {
     handler: async function(request, h) {
       const { email, password } = request.payload;
       try {
+
         let user = await User.findByEmail(email);
+
+        let user_email=user.email;
 
         if ((user) && (user.type === "admin"))
         {
@@ -299,6 +303,7 @@ const Accounts = {
         }
 
         const hash = await bCrypt.hash(userEdit.new_password, saltRounds);    // ADDED
+        //const emailHash = await bCrypt.hash(userEdit.email, saltRounds);    // ADDED
 
         user.firstName = userEdit.firstName.replace(/^./, userEdit.firstName[0].toUpperCase()),
         user.lastName = userEdit.lastName.replace(/^./, userEdit.lastName[0].toUpperCase()),

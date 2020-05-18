@@ -16,6 +16,10 @@ const Admin = {
       try {
         const id = request.auth.credentials.id;
         const user = await User.findById(id).lean();
+        if (user.type == 'user')
+        {
+          return h.redirect('/');
+        }
         let type = "user";
         const members = await User.find({ type: type }).lean();
 

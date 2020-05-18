@@ -16,6 +16,13 @@ const server = Hapi.server({
   host: 'localhost'
 });
 
+server.log(['test', 'error'], 'Test event');
+
+server.events.on('response', function (request) {
+  server.log(request.info.remoteAddress + ': ' + request.method.toUpperCase() + ' ' + request.path + ' --> ' + request.response.statusCode
+    + ' ' + request.response);
+});
+
 const secure_server= Hapi.server(
   {
     port: 3443,
@@ -55,6 +62,18 @@ async function init() {
 
   await secure_server.validator(require('@hapi/joi'));
 
+  server.events.on('log', (event, tags) => {
+    if (tags.error) {
+      console.log(`Server error: ${event.error ? event.error.message : 'unknown'}`);
+    }
+  });
+
+  secure_server.events.on('log', (event, tags) => {
+    if (tags.error) {
+      console.log(`Server error: ${event.error ? event.error.message : 'unknown'}`);
+    }
+  });
+
   ImageStore.configure(credentials);
 
   server.views({
@@ -85,7 +104,8 @@ async function init() {
     cookie: {
       name: process.env.cookie_name,
       password: process.env.cookie_password,
-      isSecure: false
+      isSecure: false,
+      ttl: 1000 * 60 * 60
     },
     redirectTo: '/',
   });
@@ -94,7 +114,8 @@ async function init() {
     cookie: {
       name: process.env.cookie_name,
       password: process.env.cookie_password,
-      isSecure: false
+      isSecure: true,
+      ttl: 1000 * 60 * 60
     },
     redirectTo: '/',
   });
@@ -110,7 +131,6 @@ async function init() {
 
   server.auth.strategy('github-oauth', 'bell', bellAuthOptions);
 
-
   server.auth.default('cookie-auth');
   //server.auth.default('session');
   secure_server.auth.default('cookie-auth');
@@ -124,7 +144,8 @@ async function init() {
   await server.start();
   await secure_server.start();
   console.log(`Server running at: ${server.info.uri}`);
-  console.log(`Server running at: ${secure_server.info.uri}`);
+  console.log(`Secure Server running at: ${secure_server.info.uri}`);
+
 
 }
 
