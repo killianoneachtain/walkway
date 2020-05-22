@@ -8,6 +8,8 @@ const Gallery = require('./app/controllers/gallery');
 module.exports = [
   { method: 'GET', path: '/', config: Accounts.index },
 
+  { method: 'GET', path: '/guest_view', config: Accounts.guest },
+
   { method: 'GET', path: '/login', config: Accounts.showLogin },
   { method: 'GET', path: '/logout', config: Accounts.logout },
 

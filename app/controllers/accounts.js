@@ -16,6 +16,12 @@ const Accounts = {
       return h.view('main', { title: 'Welcome to Walkways' });
     }
   },
+  guest: {
+    auth: false,
+    handler: function(request, h) {
+      return h.view('guest_view', { title: 'Guest at Walkways' });
+    }
+  },
   showSignup: {
     auth: false,
     handler: function(request, h) {
