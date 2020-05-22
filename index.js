@@ -16,12 +16,10 @@ const server = Hapi.server({
   host: 'localhost'
 });
 
-server.log(['test', 'error'], 'Test event');
-
-server.events.on('response', function (request) {
-  server.log(request.info.remoteAddress + ': ' + request.method.toUpperCase() + ' ' + request.path + ' --> ' + request.response.statusCode
-    + ' ' + request.response);
-});
+//server.events.on('response', function (request) {
+//  console.log(request.info.remoteAddress + ': ' + request.method.toUpperCase() + ' ' + request.path + ' --> ' + request.response.statusCode
+//    + ' ' + request.response);
+//});
 
 const secure_server= Hapi.server(
   {
@@ -48,10 +46,35 @@ if (result.error) {
   process.exit(1);
 }
 
+
+// Logging tutorial https://akhromieiev.com/tutorials/using-good-plugin-to-log-in-hapi/
+const options = {
+  ops: {
+    interval: 1000
+  },
+  reporters: {
+    file: [{
+      module: 'good-squeeze',
+      name: 'Squeeze',
+      args: [{
+        log: '*',
+        response: '*'
+      }]
+    }, {
+      module: 'good-squeeze',
+      name: 'SafeJson'
+    }, {
+      module: 'good-file',
+      args: ['./logs/server_log']
+    }]
+  }
+};
+
 async function init() {
   await server.register(require('@hapi/inert'));
   await server.register(require('@hapi/vision'));
   await server.register([Bell, AuthCookie]);
+  await server.register({ plugin: require('good'), options });
 
   await server.validator(require('@hapi/joi'));
 
@@ -59,6 +82,7 @@ async function init() {
   await secure_server.register(require('@hapi/vision'));
   await secure_server.register(require('@hapi/cookie'));
   await secure_server.register(require('@hapi/bell'));
+  await secure_server.register({ plugin: require('good'), options });
 
   await secure_server.validator(require('@hapi/joi'));
 
@@ -145,8 +169,6 @@ async function init() {
   await secure_server.start();
   console.log(`Server running at: ${server.info.uri}`);
   console.log(`Secure Server running at: ${secure_server.info.uri}`);
-
-
 }
 
 process.on('unhandledRejection', err => {
