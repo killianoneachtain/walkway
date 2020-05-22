@@ -49,6 +49,7 @@ userSchema.statics.findByType = function(type) {
   return this.findOne({ type : type});
 };
 
+// noinspection JSValidateTypes
 userSchema.methods.comparePassword = async function(candidatePassword) {
   const isMatch = await bCrypt.compare(candidatePassword, this.password);
   if (!isMatch) {

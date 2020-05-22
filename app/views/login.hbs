@@ -9,10 +9,13 @@
                         <h3 class="ui header">Log-in</h3>
                         <div class="field"><label>Email</label> <input placeholder="Email" type="text" name="email" /></div>
                         <div class="field"><label>Password</label> <input type="password" name="password" /></div>
-                        <button class="ui green submit button">Login</button>
+                        <button class="ui large green submit button">Login</button>
                     </form>
+                    <br>
+
                     {{> error }}
                 </div>
+                {{>oauth-logins}}
             </div>
         </div>
     </section>
