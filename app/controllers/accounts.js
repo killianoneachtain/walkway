@@ -6,6 +6,8 @@ const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
 const bCrypt = require('bcrypt');           // ADDED week9
 const saltRounds = 10;                      // ADDED week9
+const Bell = require('@hapi/bell');
+const AuthCookie = require('@hapi/cookie');
 
 const Accounts = {
   index: {
@@ -28,13 +30,16 @@ const Accounts = {
           .alphanum()
           .min(2)
           .max(30)
+          .regex(/^[A-Za-z-']{1,30}$/)
           .trim()
-          .messages({ 'string.pattern.base': 'First Name must be between 3 and 30 characters' })
+          .messages({ 'string.pattern.base': 'First Name must be between 2 and 30 characters' })
           .required(),
         lastName: Joi.string()
           .min(2)
           .max(30)
+          .regex(/^[A-Za-z'-]{1,30}$/)
           .trim()
+          .messages({ 'string.pattern.base': 'Last Name must be between 2 and 30 characters' })
           .required(),
         email: Joi.string()
           .email()
@@ -42,7 +47,7 @@ const Accounts = {
         new_password: Joi.string()
           .min(8)
           .max(15)
-          .regex(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,15}$/)
+          .regex(/^(?=.*[0-9])(?=.*[!@#$^&*])[a-zA-Z0-9!@#$^&*]{8,15}$/)
           .messages({
             'string.pattern.base': '8 - 15 character PASSWORD must contain numbers, upper, lower and special characters.  '
           })
@@ -90,17 +95,18 @@ const Accounts = {
           throw Boom.badData(message);
         }
 
-        const hash = await bCrypt.hash(payload.new_password, saltRounds);    // ADDED
-
         if ((payload.new_password !== payload.confirm_password))
         {
           const message = 'Passwords do NOT match!';
           throw Boom.badData(message);
         }
 
+        const hash = await bCrypt.hash(payload.new_password, saltRounds);    // ADDED
+        //const email_hash = await bCrypt.hash(payload.email, saltRounds);    // ADDED
+
         const newUser = new User({
-          firstName: payload.firstName,
-          lastName: payload.lastName,
+          firstName: payload.firstName.replace(/^./, payload.firstName[0].toUpperCase()),
+          lastName: payload.lastName.replace(/^./, payload.lastName[0].toUpperCase()),
           email: payload.email,
           password: hash,
           type: "user"
@@ -144,7 +150,10 @@ const Accounts = {
     handler: async function(request, h) {
       const { email, password } = request.payload;
       try {
+
         let user = await User.findByEmail(email);
+
+        let user_email=user.email;
 
         if ((user) && (user.type === "admin"))
         {
@@ -186,6 +195,16 @@ const Accounts = {
       }
     }
   },
+  github_login: {
+    auth: 'github-oauth',
+    handler: function (request, h) {
+      if (request.auth.isAuthenticated) {
+        request.cookieAuth.set(request.auth.credentials);
+        return ('Hello ' + request.auth.credentials.profile.displayName);
+      }
+      return('Not logged in...');
+    }
+  },
   logout: {
     auth: false,
     handler: function(request, h) {
@@ -225,13 +244,16 @@ const Accounts = {
           .alphanum()
           .min(2)
           .max(30)
+          .regex(/^[A-Za-z-']{1,30}$/)
           .trim()
-          .messages({ 'string.pattern.base': 'First Name must be between 3 and 30 characters' })
+          .messages({ 'string.pattern.base': 'First Name must be between 2 and 30 characters' })
           .required(),
         lastName: Joi.string()
           .min(2)
           .max(30)
+          .regex(/^[A-Za-z'-]{1,30}$/)
           .trim()
+          .messages({ 'string.pattern.base': 'Last Name must be between 2 and 30 characters' })
           .required(),
         email: Joi.string()
           .email()
@@ -281,9 +303,10 @@ const Accounts = {
         }
 
         const hash = await bCrypt.hash(userEdit.new_password, saltRounds);    // ADDED
+        //const emailHash = await bCrypt.hash(userEdit.email, saltRounds);    // ADDED
 
-        user.firstName = userEdit.firstName;
-        user.lastName = userEdit.lastName;
+        user.firstName = userEdit.firstName.replace(/^./, userEdit.firstName[0].toUpperCase()),
+        user.lastName = userEdit.lastName.replace(/^./, userEdit.lastName[0].toUpperCase()),
         user.email = userEdit.email;
         user.password = hash;
         await user.save();
