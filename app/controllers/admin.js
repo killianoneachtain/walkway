@@ -6,6 +6,8 @@ const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
 const ImageStore = require('../utils/image-store');
 const cloudinary = require('cloudinary').v2;
+const bCrypt = require('bcrypt');
+const saltRounds = 10;
 
 
 const Admin = {
@@ -14,6 +16,10 @@ const Admin = {
       try {
         const id = request.auth.credentials.id;
         const user = await User.findById(id).lean();
+        if (user.type == 'user')
+        {
+          return h.redirect('/');
+        }
         let type = "user";
         const members = await User.find({ type: type }).lean();
 
@@ -126,11 +132,39 @@ const Admin = {
           total_images = total_images + imageNumber;
         }
 
+        let userImages = await ImageStore.getUserImages(id);
+
         return h.view('viewUser', { title: username + ' Details', walkways: walkways,
-          user: user, POI_total: POI_total, total_images: total_images});
+          user: user, POI_total: POI_total, total_images: total_images, images: userImages});
       }
       catch (err) {
         return h.view('admin', { errors: [{ message: err.message }] });
+      }
+    }
+  },
+  deleteUserImage: {
+    handler: async function(request, h) {
+      try {
+        const publicID = request.params.id + '/' + request.params.foldername + '/' + request.params.imagename;
+        console.log("PublicID to delete image from is", publicID);
+        await ImageStore.deleteImage(publicID);
+
+        let trails= await Trail.findByName(request.params.foldername);
+        let trail = trails[0];
+        let user = trail.creator;
+        //console.log("TRail to delete image from is", trail);
+
+
+
+        let this_trail = await Trail.updateOne( { _id: trail._id }, { $pull: { images: { $in: [ publicID ] } } } );
+        //console.log("Delete image from Gallery is ", update_Trail);
+        //await Trail.save();
+
+
+
+        return h.redirect('/viewUser/' + user );
+      } catch (err) {
+        console.log(err);
       }
     }
   },
@@ -182,9 +216,7 @@ const Admin = {
           throw Boom.unauthorized();
         }
 
-        const passwordEdit = request.payload.new_password;
-
-        user.password = passwordEdit;
+        user.password = await bCrypt.hash(request.payload.new_password, saltRounds);    // ADDED
         await user.save();
 
         return h.redirect('/viewUser/' + user._id, {user: user });

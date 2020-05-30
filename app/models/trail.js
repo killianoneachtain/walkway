@@ -9,6 +9,7 @@ const trailSchema = new Schema({
           type: Schema.Types.ObjectId,
           ref: 'User'
         },
+        creatorName: String,
         county: String,
         trailname: String,
         trailtype: String,
@@ -42,7 +43,8 @@ const trailSchema = new Schema({
               maximum: -5.000000
         }
       },
-      images: Array
+      images: Array,
+      profileImage: String
   });
 
 trailSchema.statics.findByID = function(id) {
@@ -57,8 +59,17 @@ trailSchema.statics.findByName = function(name) {
   return this.find({ trailname : name });
 }
 
-trailSchema.statics.findByTypr = function(type) {
+trailSchema.statics.findByType = function(type) {
   return this.find({ trailtype : type });
+}
+
+trailSchema.statics.returnTrailTypes = function()
+{
+
+  let trails = this.find( { trailtype: { $ne : 'abc' } } );
+  let trailTypers = [];
+
+  return trails;
 }
 
 module.exports = Mongoose.model('Trail', trailSchema);

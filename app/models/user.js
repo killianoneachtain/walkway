@@ -3,6 +3,8 @@
 const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
 const Boom = require('@hapi/boom');
+const bCrypt = require('bcrypt');          // ADDED
+
 
 const userSchema = new Schema({
   firstName: {
@@ -47,12 +49,13 @@ userSchema.statics.findByType = function(type) {
   return this.findOne({ type : type});
 };
 
-userSchema.methods.comparePassword = function(candidatePassword) {
-  const isMatch = this.password === candidatePassword;
+// noinspection JSValidateTypes
+userSchema.methods.comparePassword = async function(candidatePassword) {
+  const isMatch = await bCrypt.compare(candidatePassword, this.password);
   if (!isMatch) {
-    throw Boom.unauthorized('Password mismatch');
+    throw Boom.unauthorized('Password does not match our records.');
   }
-  return this;
+  return isMatch;
 };
 
 

@@ -5,8 +5,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="@types/joi" level="application" />
-    <orderEntry type="library" name="@types/mongodb" level="application" />
-    <orderEntry type="library" name="@types/mongoose" level="application" />
     <orderEntry type="library" name="@types/handlebars-helpers" level="application" />
     <orderEntry type="library" name="@types/hapi" level="application" />
     <orderEntry type="library" name="@types/cookie" level="application" />
@@ -14,5 +12,20 @@
     <orderEntry type="library" name="@types/inert" level="application" />
     <orderEntry type="library" name="@types/vision" level="application" />
     <orderEntry type="library" name="@types/hapi__joi" level="application" />
+    <orderEntry type="library" name="@types/hapi" level="application" />
+    <orderEntry type="library" name="@types/hapi__vision" level="application" />
+    <orderEntry type="library" name="@types/hapi__hapi" level="application" />
+    <orderEntry type="library" name="@types/hapi-server-session" level="application" />
+    <orderEntry type="library" name="@types/hapi__joi" level="application" />
+    <orderEntry type="library" name="@types/mocha" level="application" />
+    <orderEntry type="library" name="@types/chai" level="application" />
+    <orderEntry type="library" name="@types/jsonwebtoken" level="application" />
+    <orderEntry type="library" name="@types/inert" level="application" />
+    <orderEntry type="library" name="@types/vision" level="application" />
+    <orderEntry type="library" name="@types/bell" level="application" />
+    <orderEntry type="library" name="@types/cookie" level="application" />
+    <orderEntry type="library" name="@types/amap-js-api" level="application" />
+    <orderEntry type="library" name="@types/lodash" level="application" />
+    <orderEntry type="library" name="@types/hapi-decorators" level="application" />
   </component>
 </module>
