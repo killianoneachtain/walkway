@@ -9,7 +9,6 @@ const cloudinary = require('cloudinary').v2;
 const bCrypt = require('bcrypt');
 const saltRounds = 10;
 
-
 const Admin = {
   admin: {
     handler: async function(request, h) {
@@ -55,10 +54,30 @@ const Admin = {
       try {
         const id = request.params.id;
         const user = await User.findById(id).lean();
+        console.log("USER is ", user);
         const trails = await Trail.findByCreator(id).lean();
 
         let user_images=[];
-        if (user_images.length > 0)
+        let profile_public_id= user.profilePID;
+        let profile_folder = user._id + '/Profile_Picture';
+
+        try {
+          if (user.profilePicture !== "") {
+
+            await ImageStore.deleteProfilePicture(profile_public_id);
+            try {
+                  await cloudinary.api.delete_folder(profile_folder, function(error, result) {
+                  //console.log(result);
+                    });
+                  } catch (err) {
+                  console.log(err)
+                  }
+              }
+            } catch(err) {
+              console.log(err);
+            }
+
+        if (user_images.length >= 0)
         {
 
           for (let index = 0; index < trails.length; index++) {
@@ -83,7 +102,7 @@ const Admin = {
 
           try {
             await cloudinary.api.delete_folder(user._id, function(error, result) {
-              console.log(result);
+              //console.log(result);
             });
           } catch (err) {
             console.log(err);

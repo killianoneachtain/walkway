@@ -2,6 +2,12 @@
 
 <section class="ui raised segment">
     <div class="ui grid">
+        <aside class="ui four wide column">
+            {{#unless user.profilePicture}}<i class="bordered massive olive user plus icon"></i>
+            {{/unless}}
+            <img class="ui image" src="{{user.profilePicture}}">
+            <h2>{{> profile_picture_modal}}</h2>
+        </aside>
         <div class="ui twelve wide column">
             <div class="ui stacked fluid form segment">
                 <form action="/settings" method="POST">
@@ -33,8 +39,6 @@
                     <div class="required field {{#if errorz.new_password}}error{{/if}}">
                         <label>Password</label>
                         <input type="password"
-                               {{#unless errorz.new_password}}value="{{user.password}}"{{/unless}}
-                            {{#if errorz.new_password}}value="{{values.new_password}}"{{/if}}
                                name="new_password" id="new"required>
                     </div>
                     <div class="required field {{#if errorz.confirm_password}}error{{/if}}">
@@ -52,9 +56,6 @@
                 <label>Show Passwords</label>
             </div><br><br>
         </div>
-        <aside class="ui four wide column">
-            <i class="bordered massive olive cogs icon"></i>
-        </aside>
     </div>
 </section>
 

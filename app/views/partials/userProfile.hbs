@@ -1,13 +1,19 @@
 <section class="ui raised segment">
-<table class="ui basic table">
+<table class="ui stackable basic table">
     <thead>
     <tr style="font-style: italic; background-color: lightgray">
-        <th><h2>Name</h2></th>
         <th></th>
+        <th><h2>Name</h2></th>
     </tr>
     </thead>
     <tbody>
     <tr>
+        <td>
+            {{#unless user.profilePicture}}
+                <i class="bordered massive olive user plus icon"></i>
+            {{/unless}}
+            <img class="ui bordered circular small image" src="{{user.profilePicture}}">
+        </td>
         <td><h1>{{user.firstName}} {{user.lastName}}</h1></td>
     </tr>
     </tbody>
@@ -24,10 +30,10 @@
 <section class="ui raised segment">
     <div class="ui grid">
         <article class="sixteen wide column">
-            <table class="ui olive sortable celled striped table">
+            <table class="ui olive celled striped table">
                 <thead>
                 <tr>
-                    <th class="sorted ascending">Trail Name</th>
+                    <th class="sorted ascending"><h2>{{user.firstName}}'s Trails</h2></th>
                    <!-- <th>Trail Type</th>
                     <th>Number of Images</th> -->
                 </tr>

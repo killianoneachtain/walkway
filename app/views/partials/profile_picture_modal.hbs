@@ -1,0 +1,116 @@
+<!-- Modal code has been taken from https://www.w3schools.com/howto/howto_css_modals.asp
+                                       https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
+
+     Original code from website above, and adapted by Killian O'Neachtain, 20023634   -->
+
+<style>
+
+    body {font-family: Arial, Helvetica, sans-serif;}
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 5px solid #888;
+        width: 80%;
+    }
+
+    /* The Close Button */
+    .close {
+        color: #A4D929;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+<body>
+
+<!-- Trigger/Open The Modal -->
+
+<div><i id="myBtn" class="big icons" data-tooltip="Add Profile Picture"><i class="big olive image outline icon"></i><i class="red small bottom right corner add icon"></i></i></div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content" style="text-transform: none">
+        <span class="close">&times;</span>
+        <div class="ui fluid horizontal card">
+            <div class="content">
+            <div class="header"><h1>Profile Picture Upload</h1>
+                    <form class="ui fluid equal width big form" action="/uploadProfilePicture/{{user._id}}" method="POST" enctype="multipart/form-data">
+                        <div class="field">
+                            <span class="field" style="margin-bottom: 3px;padding-bottom: 3px; width: border-box">
+                                <input type="file" class="uk-input" name="imagefile" accept="image/jpg, image/png, image/jpeg">
+                            </span>
+                        </div>
+                            <div class="field">
+                                <div class="ui right floated olive button" style="position: relative">
+                                    <input type="submit" value="Upload for {{user.firstName}} {{user.lastName}}" class="ui olive button">
+                                </div>
+                            </div>
+                    </form>
+        </div>
+        </div>
+    </div>
+
+</div>
+</div>
+</body>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById('myModal');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+
+</script>
+
+
+<!-- Modal code has been taken from https://www.w3schools.com/howto/howto_css_modals.asp
+                                    https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
+                                    -->
