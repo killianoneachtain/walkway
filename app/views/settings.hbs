@@ -39,8 +39,6 @@
                     <div class="required field {{#if errorz.new_password}}error{{/if}}">
                         <label>Password</label>
                         <input type="password"
-                               {{#unless errorz.new_password}}value="{{user.password}}"{{/unless}}
-                            {{#if errorz.new_password}}value="{{values.new_password}}"{{/if}}
                                name="new_password" id="new"required>
                     </div>
                     <div class="required field {{#if errorz.confirm_password}}error{{/if}}">
