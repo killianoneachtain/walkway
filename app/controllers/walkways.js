@@ -146,12 +146,15 @@ const Walkways = {
 
         if (checkType.length === 0)
         {
-          await User.update({_id: id}, { $push: { trailtypes: type } });
+          await User.updateOne({_id: id}, { $push: { trailtypes: type } });
         }
 
         let name = request.payload.trailname;
         name = name.replace(/ /g, '-');
         console.log("NAME IS: ", name);
+
+        let creatorName = user.firstName + ' ' + user.lastName;
+
         const checkName = await Trail.find({ trailname: name, creator: id });
 
         console.log("CheckName is : ", checkName);
@@ -159,9 +162,9 @@ const Walkways = {
         if (checkName.trailname === name) {
 
         }
-
         const newTrail = new Trail({
           creator: user._id,
+          creatorName: creatorName,
           county: payload.county,
           trailname: name,
           trailtype: type,
@@ -177,7 +180,8 @@ const Walkways = {
           endcoordinates: {
             latitude: payload.endlat,
             longitude: payload.endlong
-          }
+          },
+          profileImage: 'https://res.cloudinary.com/walkways/image/upload/v1590860161/walkways-poi_qhkm66.png'
         });
         await newTrail.save();
         return h.redirect('home');
