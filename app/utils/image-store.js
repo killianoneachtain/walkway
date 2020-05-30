@@ -41,7 +41,8 @@ const ImageStore = {
       function(error,result) {console.log("Error is :", error)} );
 
     let this_trail = trail[0];
-    this_trail.images.push(uploaded_image.public_id);
+    this_trail.images.push(uploaded_image.secure_url);
+    this_trail.profileImage = uploaded_image.secure_url;
     await this_trail.save();
 
     console.log("Uploaded image is : ", uploaded_image);

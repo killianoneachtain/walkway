@@ -7,13 +7,16 @@ const AuthCookie = require('@hapi/cookie');
 const fs = require('fs');
 const os = require('os');
 os.tmpDir = os.tmpdir;
+const utils = require('./app/api/utils.js');
+
 
 
 require('./app/models/db');
 
 const server = Hapi.server({
-  port: 3000,
-  host: 'localhost'
+  port: process.env.PORT || 3000,
+  host: 'localhost',
+  routes: { cors: true }
 });
 
 //server.events.on('response', function (request) {
@@ -85,6 +88,14 @@ async function init() {
   await secure_server.register({ plugin: require('good'), options });
 
   await secure_server.validator(require('@hapi/joi'));
+
+  await server.register(require('hapi-auth-jwt2'));
+
+  server.auth.strategy('jwt', 'jwt', {
+    key: 'secretpasswordnotrevealedtoanyone',
+    validate: utils.validate,
+    verifyOptions: { algorithms: ['HS256'] },
+  });
 
   server.events.on('log', (event, tags) => {
     if (tags.error) {

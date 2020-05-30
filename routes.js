@@ -4,9 +4,12 @@ const Accounts = require('./app/controllers/accounts');
 const Walkways = require('./app/controllers/walkways');
 const Admin = require('./app/controllers/admin');
 const Gallery = require('./app/controllers/gallery');
+const Guest = require('./app/controllers/guest');
 
 module.exports = [
   { method: 'GET', path: '/', config: Accounts.index },
+
+  { method: 'GET', path: '/guest_view', config: Guest.guest },
 
   { method: 'GET', path: '/login', config: Accounts.showLogin },
   { method: 'GET', path: '/logout', config: Accounts.logout },
@@ -45,6 +48,8 @@ module.exports = [
   { method: 'GET', path: '/viewUser/{id}', config: Admin.viewUser },
   { method: 'POST', path: '/viewUser/{id}', config: Admin.resetPassword },
   { method: 'GET', path: '/deleteUserImage/{id}/{foldername}/{imagename}', config: Admin.deleteUserImage },
+
+  { method: 'GET', path: '/viewProfile/{id}', config: Guest.viewProfile },
 
   {
     method: 'GET',

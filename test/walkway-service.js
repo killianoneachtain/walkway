@@ -65,6 +65,15 @@ class DonationService {
     const response = await axios.delete(this.baseUrl + '/api/users/' + id);
     return response.data;
   }
+
+  async authenticate(user) {
+    try {
+      const response = await axios.post('/api/users/authenticate', user);
+      return response.data;
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
 module.exports = DonationService;

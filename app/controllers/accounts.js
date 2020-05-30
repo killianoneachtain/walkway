@@ -2,6 +2,7 @@
 
 const User = require('../models/user');
 const Admin = require('../models/admin');
+const Trail = require('../models/trail');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
 const bCrypt = require('bcrypt');           // ADDED week9
@@ -16,6 +17,26 @@ const Accounts = {
       return h.view('main', { title: 'Welcome to Walkways' });
     }
   },
+ /* guest: {
+    auth: false,
+    handler: async function(request, h) {
+      const walkways = await Trail.find().populate('walkways').lean();
+      console.log(walkways);
+
+      const users = await User.find( { type: { $ne: 'admin' } }).populate('users').lean();
+      console.log("USERS for GUEST are: ",users);
+
+      // https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates
+      /*let trailTypes=[];
+      console.log("Trailtypes are : ", trailTypes);
+      trailTypes = Trail.returnTrailTypes();
+      console.log("Trailtypes are : ", trailTypes);
+      let unique = [...new Set(trailTypes)];
+      console.log("Trailtypes are : ", unique);
+
+      return h.view('guest_view', { title: 'Guest at Walkways', walkways: walkways, users: users });
+    }
+  },*/
   showSignup: {
     auth: false,
     handler: function(request, h) {
