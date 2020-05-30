@@ -2,6 +2,12 @@
 
 <section class="ui raised segment">
     <div class="ui grid">
+        <aside class="ui four wide column">
+            {{#unless user.profilePicture}}<i class="bordered massive olive user plus icon"></i>
+            {{/unless}}
+            <img class="ui image" src="{{user.profilePicture}}">
+            <h2>{{> profile_picture_modal}}</h2>
+        </aside>
         <div class="ui twelve wide column">
             <div class="ui stacked fluid form segment">
                 <form action="/settings" method="POST">
@@ -52,9 +58,6 @@
                 <label>Show Passwords</label>
             </div><br><br>
         </div>
-        <aside class="ui four wide column">
-            <i class="bordered massive olive cogs icon"></i>
-        </aside>
     </div>
 </section>
 

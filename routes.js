@@ -51,6 +51,9 @@ module.exports = [
 
   { method: 'GET', path: '/viewProfile/{id}', config: Guest.viewProfile },
 
+
+{ method: 'POST', path: '/uploadProfilePicture/{id}', config: Gallery.uploadProfilePicture },
+
   {
     method: 'GET',
     path: '/{param*}',

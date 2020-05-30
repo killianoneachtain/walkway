@@ -47,6 +47,23 @@ const ImageStore = {
 
     console.log("Uploaded image is : ", uploaded_image);
   },
+  uploadProfilePicture: async function(imageFile, user_id) {
+    let user = await User.find ( { _id: user_id });
+
+    let folder = user_id + '/Profile_Picture';
+
+    await writeFile('./public/temp.img', imageFile);
+    const uploaded_image = await cloudinary.uploader.upload('./public/temp.img', { folder: folder,
+        tags: [user_id, 'Profile Picture'], width: 600, height: 600, gravity: "east", crop: 'pad',
+        fetch_format: "auto", type: 'authenticated', quality_analysis: true, format: 'jpg' },
+      function(error,result) {console.log("Error is :", error)} );
+
+    let this_user = user[0];
+    this_user.profilePicture = uploaded_image.secure_url;
+    await this_user.save();
+
+    console.log("Uploaded image is : ", uploaded_image);
+  },
 
   deleteImage: async function(id) {
     try {

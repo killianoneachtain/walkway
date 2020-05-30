@@ -35,6 +35,10 @@ const userSchema = new Schema({
   trailtypes:[ {
     type: String
   }],
+  profilePicture: {
+    type: String,
+    trim: true
+  }
 });
 
 userSchema.statics.findByEmail = function(email) {
