@@ -20,14 +20,17 @@ db.on('disconnected', function() {
 
 db.once('open', function() {
   console.log(`database connected to ${this.name} on ${this.host}`);
-  seed()
+  //seed()
 });
 
+// Removal of seed function as app is live on Heroku and Glitch
+
 async function seed() {
-  var seeder = require('mais-mongoose-seeder')(Mongoose);
+  let seeder = require('mais-mongoose-seeder')(Mongoose);
   const data = require('./seed-data.json');
   const Trail = require('./trail');
   const User = require('./user');
+  const Category = require('./category');
   const dbData = await seeder.seed(data, { dropDatabase: false, dropCollections: true });
-  console.log(dbData);
+  //console.log(dbData);
 }

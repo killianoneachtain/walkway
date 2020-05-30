@@ -45,13 +45,11 @@
         cursor: pointer;
     }
 </style>
-</head>
 <body>
-
 
 <!-- Trigger/Open The Modal -->
 
-<div><i id="myBtn" class="huge icons"><i class="big red photo video icon link"></i><i class="olive bottom right corner add icon"></i></i></div>
+<div><i id="myBtn" class="big icons"><i class="big olive images icon link"></i><i class="green small bottom right corner add icon"></i></i></div>
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
@@ -59,23 +57,21 @@
     <!-- Modal content -->
     <div class="modal-content" style="text-transform: none">
         <span class="close">&times;</span>
-        <br>
-        <br>
-                <div class="uk-card uk-card-primary uk-card-body">
-                    <h3 class="uk-card-title">Image Upload</h3>
-                    <form class="uk-form-horizontal" action="/uploadfile/{{trail._id}}" method="POST" enctype="multipart/form-data">
-                        <div class="uk-margin">
-                            <label class="uk-form-label" for="form-horizontal-text">Select Image</label>
-                            <div class="uk-form-controls">
-                                <input type="file" class="uk-input" name="imagefile" accept="image/png, image/jpeg">
-                            </div>
+            <div class="ui horizontal card">
+                <div class="header">Image Upload</div>
+                <form class="ui form" action="/uploadfile/{{trail._id}}" method="POST" enctype="multipart/form-data">
+                    <div class="uk-margin">
+                        <label class="header">Select Image</label>
+                        <div class="uk-form-controls">
+                            <input type="file" class="uk-input" name="imagefile" accept="image/jpg, image/png, image/jpeg">
                         </div>
-                        <p uk-margin>
-                            <input type="submit" value="Upload for {{trail.trailname}}" class="uk-button uk-button-default">
-                        </p>
-                    </form>
-                </div>
-    </div>
+                    </div>
+                    <div class="ui right floated green button">
+                        <input type="submit" value="Upload for {{trail.trailname}}" class="ui green button">
+                    </div>
+                </form>
+            </div>
+</div>
 
 </div>
 

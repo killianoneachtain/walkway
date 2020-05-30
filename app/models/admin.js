@@ -3,6 +3,7 @@
 const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
 const Boom = require('@hapi/boom');
+const bCrypt = require('bcrypt');
 
 const adminSchema = new Schema({
   firstName: String,
@@ -15,12 +16,12 @@ adminSchema.statics.findByEmail = function(email) {
   return this.findOne({ email : email});
 };
 
-adminSchema.methods.comparePassword = function(candidatePassword) {
-  const isMatch = this.password === candidatePassword;
+adminSchema.methods.comparePassword = async function(candidatePassword) {
+  const isMatch = await bCrypt.compare(candidatePassword, this.password);
   if (!isMatch) {
-    throw Boom.unauthorized('Password mismatch');
+    throw Boom.unauthorized('Password does not match our records.');
   }
-  return this;
+  return isMatch;
 };
 
 module.exports = Mongoose.model('Admin', adminSchema);

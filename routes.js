@@ -4,15 +4,21 @@ const Accounts = require('./app/controllers/accounts');
 const Walkways = require('./app/controllers/walkways');
 const Admin = require('./app/controllers/admin');
 const Gallery = require('./app/controllers/gallery');
+const Guest = require('./app/controllers/guest');
 
 module.exports = [
   { method: 'GET', path: '/', config: Accounts.index },
-  { method: 'GET', path: '/signup', config: Accounts.showSignup },
+
+  { method: 'GET', path: '/guest_view', config: Guest.guest },
+
   { method: 'GET', path: '/login', config: Accounts.showLogin },
   { method: 'GET', path: '/logout', config: Accounts.logout },
 
+  { method: 'GET', path: '/signup', config: Accounts.showSignup },
   { method: 'POST', path: '/signup', config: Accounts.signup },
+
   { method: 'POST', path: '/login', config: Accounts.login },
+  //{ method: 'POST', path: '/github_login', config: Accounts.github_login },
 
   { method: 'GET', path: '/home', config: Walkways.home },
   { method: 'GET', path: '/admin', config: Admin.admin },
@@ -36,8 +42,14 @@ module.exports = [
 
   { method: 'GET', path: '/gallery', config: Gallery.index },
   { method: 'POST', path: '/uploadfile/{id}', config: Gallery.uploadFile },
-  { method: 'GET', path: '/deleteimage/{id}', config: Gallery.deleteImage },
+  { method: 'GET', path: '/deleteimage/{id}/{foldername}/{imagename}', config: Gallery.deleteImage },
 
+
+  { method: 'GET', path: '/viewUser/{id}', config: Admin.viewUser },
+  { method: 'POST', path: '/viewUser/{id}', config: Admin.resetPassword },
+  { method: 'GET', path: '/deleteUserImage/{id}/{foldername}/{imagename}', config: Admin.deleteUserImage },
+
+  { method: 'GET', path: '/viewProfile/{id}', config: Guest.viewProfile },
 
   {
     method: 'GET',

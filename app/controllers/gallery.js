@@ -1,6 +1,7 @@
 'use strict';
 
 const ImageStore = require('../utils/image-store');
+const Trail = require('../models/trail');
 
 const Gallery = {
   index: {
@@ -43,12 +44,21 @@ const Gallery = {
       parse: true
     }
   },
-
   deleteImage: {
     handler: async function(request, h) {
+
       try {
-        await ImageStore.deleteImage(request.params.id);
-        return h.redirect('/gallery');
+        let publicID = request.params.id + '/' + request.params.foldername + '/' + request.params.imagename;
+        await ImageStore.deleteImage(publicID);
+
+        let trails= await Trail.findByName(request.params.foldername);
+        let trail = trails[0];
+        //console.log("TRail to delete image from is", trail);
+
+        await Trail.updateOne( { _id: trail._id }, { $pull: { images: { $in: [ publicID ] } } } );
+        //console.log("Delete image from Gallery is ", update_Trail);
+
+        return h.redirect('/viewPOI/' + trail._id);
       } catch (err) {
         console.log(err);
       }
