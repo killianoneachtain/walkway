@@ -364,6 +364,25 @@ const Walkways = {
         return h.view('editPOI', { errors: [{ message: err.message }] });
       }
     }
+  },
+  viewAll: {
+    handler: async function(request, h) {
+      try {
+        const walkways = await Trail.find().populate('walkways').lean();
+        const users = await User.find( { type: { $ne: 'admin' } }).populate('users').lean();
+
+        const id = request.auth.credentials.id;
+
+        const user = await User.findById(id).lean();
+
+        const trailID = request.params.id;
+        const trail = await Trail.find( { _id : trailID }).lean();
+
+        return h.view('allTrails', { title: "All Trails on Walkways ", users: users, walkways: walkways } );
+      } catch (err) {
+        return h.view('home', { errors: [{ message: err.message }] });
+      }
+    }
   }
 };
 

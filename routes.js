@@ -50,6 +50,7 @@ module.exports = [
   { method: 'GET', path: '/deleteUserImage/{id}/{foldername}/{imagename}', config: Admin.deleteUserImage },
 
   { method: 'GET', path: '/viewProfile/{id}', config: Guest.viewProfile },
+  {method: 'GET', path: '/allTrails', config: Walkways.viewAll },
 
 
 { method: 'POST', path: '/uploadProfilePicture/{id}', config: Gallery.uploadProfilePicture },

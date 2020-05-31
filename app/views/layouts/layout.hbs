@@ -26,6 +26,15 @@
     });
 
     $('table').tablesort()
+
+    $('.ui.accordion')
+            .accordion({ exclusive: false })
+    ;
+
+    Handlebars.registerHelper('get', function(obj, prop) {
+        return obj[prop];
+    });
+
 </script>
 </body>
 </html>
