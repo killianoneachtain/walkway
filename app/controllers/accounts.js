@@ -2,6 +2,7 @@
 
 const User = require('../models/user');
 const Admin = require('../models/admin');
+const Trail = require('../models/trail');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
 const bCrypt = require('bcrypt');           // ADDED week9
@@ -14,12 +15,6 @@ const Accounts = {
     auth: false,
     handler: function(request, h) {
       return h.view('main', { title: 'Welcome to Walkways' });
-    }
-  },
-  guest: {
-    auth: false,
-    handler: function(request, h) {
-      return h.view('guest_view', { title: 'Guest at Walkways' });
     }
   },
   showSignup: {
@@ -115,7 +110,9 @@ const Accounts = {
           lastName: payload.lastName.replace(/^./, payload.lastName[0].toUpperCase()),
           email: payload.email,
           password: hash,
-          type: "user"
+          type: "user",
+          profilePicture: "",
+          profilePID: ""
         });
         user = await newUser.save();
         request.cookieAuth.set({ id: user.id });

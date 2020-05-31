@@ -6,22 +6,6 @@
     </div>
 </section>
 
-
-<div id="mapid" style="height: 300px">
-<script>
-    let myMap = L.map('mapid').setView([51.505, -0.09], 13);
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 18,
-        id: 'mapbox/streets-v11',
-        tileSize: 512,
-        zoomOffset: -1,
-        accessToken: 'pk.eyJ1Ijoia29uc291bCIsImEiOiJjazhxZWszbjAwMmhtM21wbmx0Zmp2cmEwIn0.NDRbBBymqk5UPFTgMngyOA'
-    }).addTo(mymap);
-</script>
-</div>
-
-
 <section class="ui raised segment">
     <div class="eleven wide column">
     <div class="ui grid">

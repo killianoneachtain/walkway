@@ -63,7 +63,32 @@ const Gallery = {
         console.log(err);
       }
     }
-  }
+  },
+  uploadProfilePicture: {
+    handler: async function(request, h) {
+      try {
+        const user_id = request.auth.credentials.id;
+
+        const file = request.payload.imagefile;
+        if (Object.keys(file).length > 0) {
+          await ImageStore.uploadProfilePicture(request.payload.imagefile, user_id);
+          return h.redirect('/settings');
+        }
+        return h.redirect('/settings', {
+          title: 'UPLOAD ERROR!',
+          error: 'No file selected'
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    payload: {
+      multipart: true,
+      output: 'data',
+      maxBytes: 209715200,
+      parse: true
+    }
+  },
 };
 
 module.exports = Gallery;
