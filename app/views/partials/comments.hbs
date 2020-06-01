@@ -1,0 +1,43 @@
+<div class="ui comments">
+{{#each comments as | comments |}}
+    <div class="comment">
+        <a class="avatar">
+            <img src="{{comments.postedBy.profilePicture}}">
+        </a>
+        <div class="content">
+            <a class="author" href="/viewProfile/{{comments.postedBy.userId}}">{{comments.postedBy.userName}}</a>
+            <div class="metadata">
+                <span class="date">Posted at : {{comments.time}}</span>
+            </div>
+            <div class="text">
+                {{comments.content}}
+            </div>
+            <!-- <div class="actions">
+                <a class="like">Like</a>
+            </div> -->
+        </div>
+    </div>{{/each}}
+
+{{#if @root.user._id}}
+    <form class="ui form" action="/allTrails/{{_id}}/{{@root.user._id}}" method="POST" id="addComment">
+        <div class="field">
+            <div class="ui input focus">
+                <textarea rows="4" type="text" placeholder="Please Rate the Walk and Add comment..." maxlength="700" name="comment"></textarea>
+            </div>
+        </div>
+        <div class="ui right floated red olive rating" data-rating="1"
+                   data-tooltip="Please Rate the Walk" data-max-rating="5" id="rating">
+        </div>
+        <button class="ui large blue labeled submit icon button" style="background: #cb3232;color: whitesmoke">
+            <i class="comment alternate icon"></i> Add Comment
+        </button>
+    </form>
+{{/if}}
+
+</div>
+
+<script>
+    $('.ui.rating')
+            .rating('get rating')
+    ;
+</script>
