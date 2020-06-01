@@ -1,86 +1,43 @@
-// each comment from the {each comments} body of comments {/each}
-// see https://stackoverflow.com/questions/15464042/looping-through-a-multidimensional-array-in-handlebars-js/15464067
-// also see https://github.com/handlebars-lang/handlebars.js/issues/129
 <div class="ui comments">
-    <h3 class="ui dividing header">Comments</h3>
+{{#each comments as | comments |}}
     <div class="comment">
         <a class="avatar">
-            <img src="/images/avatar/small/matt.jpg">
+            <img src="{{comments.postedBy.profilePicture}}">
         </a>
         <div class="content">
-            <a class="author">Matt</a>
+            <a class="author" href="/viewProfile/{{comments.postedBy.userId}}">{{comments.postedBy.userName}}</a>
             <div class="metadata">
-                <span class="date">Today at 5:42PM</span>
+                <span class="date">Posted at : {{comments.time}}</span>
             </div>
             <div class="text">
-                How artistic!
+                {{comments.content}}
             </div>
-            <div class="actions">
-                <a class="reply">Reply</a>
-            </div>
+            <!-- <div class="actions">
+                <a class="like">Like</a>
+            </div> -->
         </div>
-    </div>
-    <div class="comment">
-        <a class="avatar">
-            <img src="/images/avatar/small/elliot.jpg">
-        </a>
-        <div class="content">
-            <a class="author">Elliot Fu</a>
-            <div class="metadata">
-                <span class="date">Yesterday at 12:30AM</span>
-            </div>
-            <div class="text">
-                <p>This has been very useful for my research. Thanks as well!</p>
-            </div>
-            <div class="actions">
-                <a class="reply">Reply</a>
-            </div>
-        </div>
-        <div class="comments">
-            <div class="comment">
-                <a class="avatar">
-                    <img src="/images/avatar/small/jenny.jpg">
-                </a>
-                <div class="content">
-                    <a class="author">Jenny Hess</a>
-                    <div class="metadata">
-                        <span class="date">Just now</span>
-                    </div>
-                    <div class="text">
-                        Elliot you are always so right :)
-                    </div>
-                    <div class="actions">
-                        <a class="reply">Reply</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="comment">
-        <a class="avatar">
-            <img src="/images/avatar/small/joe.jpg">
-        </a>
-        <div class="content">
-            <a class="author">Joe Henderson</a>
-            <div class="metadata">
-                <span class="date">5 days ago</span>
-            </div>
-            <div class="text">
-                Dude, this is awesome. Thanks so much
-            </div>
-            <div class="actions">
-                <a class="reply">Reply</a>
-            </div>
-        </div>
-    </div>
-    {{#if user.type}}
-    <form class="ui reply form">
+    </div>{{/each}}
+
+{{#if @root.user._id}}
+    <form class="ui form" action="/allTrails/{{_id}}/{{@root.user._id}}" method="POST" id="addComment">
         <div class="field">
-            <textarea></textarea>
+            <div class="ui input focus">
+                <textarea rows="4" type="text" placeholder="Please Rate the Walk and Add comment..." maxlength="700" name="comment"></textarea>
+            </div>
         </div>
-        <div class="ui blue labeled submit icon button">
-            <i class="icon edit"></i> Add Reply
+        <div class="ui right floated red olive rating" data-rating="1"
+                   data-tooltip="Please Rate the Walk" data-max-rating="5" id="rating">
         </div>
+        <button class="ui large blue labeled submit icon button" style="background: #cb3232;color: whitesmoke">
+            <i class="comment alternate icon"></i> Add Comment
+        </button>
     </form>
-    {{/if}}
+{{/if}}
+
 </div>
+
+<script>
+    $('.ui.rating')
+            .rating('get rating')
+    ;
+</script>

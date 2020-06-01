@@ -10,9 +10,10 @@
     <script src="https://semantic-ui.com/javascript/library/tablesort.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.css">
     <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js"></script>
+
 </head>
 <body>
-<section class="ui container">
+<section class="ui container" style="height: auto">
     {{{content}}}
 </section>
 <script>
@@ -25,16 +26,18 @@
         $(this).closest('.message').transition('fade');
     });
 
-    $('table').tablesort()
+    $('table').tablesort();
 
     $('.ui.accordion')
             .accordion({ exclusive: false })
     ;
 
-    Handlebars.registerHelper('get', function(obj, prop) {
-        return obj[prop];
+    Handlebars.registerHelper('ifCond', function(v1, v2, options) {
+        if(v1 === v2) {
+            return options.fn(this);
+        }
+        return options.inverse(this);
     });
-
 </script>
 </body>
 </html>

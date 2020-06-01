@@ -30,21 +30,35 @@ const trailSchema = new Schema({
               minimum: -10.00000,
               maximum: -5.00000
           }
-      },
+        },
         endcoordinates: {
           latitude:{
             type: Number,
               minimum: 51.000000,
               maximum: 56.000000
-        },
+          },
           longitude: {
             type: Number,
               minimum: -10.000000,
               maximum: -5.000000
-        }
-      },
-      images: Array,
-      profileImage: String
+          }
+        },
+        images: Array,
+        profileImage: String,
+        comments: Array
+        /*{ The structure of the commenting system.
+            comment: {
+              content: String,
+              postedBy: {
+                userId: String,
+                userName: String,
+                profilePicture: String,
+              },
+              time: Date,
+              likes: Number
+              }
+            },
+        }*/
   });
 
 trailSchema.statics.findByID = function(id) {
