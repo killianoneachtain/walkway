@@ -11,7 +11,6 @@
     </div>
 </div>
 
-
 {{#each walkways as | walkway | }}
 
 <div class="ui fluid horizontal olive card" style="margin-left: -5px">
@@ -21,8 +20,18 @@
     <div class="content">
             <div class="header"><h1 id="{{_id}}">{{ trailname }}</h1></div>
             <div class="meta">
-                <h2 style="color: olive">Trail Type : {{trailtype}}</h2>
-                <h2 style="color: #cb3232"><a href="/viewProfile/{{creator}}">{{creatorName}}</a></h2>
+                <h2 style="color: olive">
+                    Trail Type : {{trailtype}}
+                </h2>
+                {{#if @root.user._id}}
+                    <h2 style="color: #cb3232">
+                        <a href="/viewProfile/{{@root.user._id}}/{{creator}}">{{creatorName}}</a>
+                    </h2>
+                {{else}}
+                    <h2 style="color: #cb3232">
+                        <a href="/viewProfile/{{creator}}">{{creatorName}}</a>
+                    </h2>
+                {{/if}}
             </div>
             <div class="extra">
                 Current Rating:

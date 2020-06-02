@@ -319,6 +319,36 @@ const Accounts = {
       }
     }
   },
+  friends: {
+    handler:  async function(request, h) {
+      try {
+        const id = request.auth.credentials.id;
+        console.log("User ID IS :", id);
+        const user = await User.findById(id).lean();
+
+        console.log("HERE IS FRIENDS");
+        let friends = user.friends;
+        console.log("Friends are : ", friends);
+
+        let friendsList=[];
+        let i=0;
+        for (i=0;i < friends.length;i++)
+        {
+          friendsList.push(await User.findById(friends[i]).lean());
+        }
+
+
+        console.log("Friends are : ", friendsList);
+
+        return h.view('friends', {friends: friendsList, user: user});
+
+
+      } catch (err)
+          {
+            return h.view('home');
+          }
+      }
+  }
 };
 
 module.exports = Accounts;

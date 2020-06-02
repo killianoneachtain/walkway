@@ -1,4 +1,4 @@
-<section class="ui raised segment">
+<section class="ui raised segment" style="margin-top: 65px">
 <table class="ui stackable basic table">
     <thead>
     <tr style="font-style: italic; background-color: lightgray">
@@ -10,11 +10,19 @@
     <tr>
         <td>
             {{#unless user.profilePicture}}
-                <i class="bordered massive olive user plus icon"></i>
+                <img class="ui circular small image" src="../images/default_user.png">
             {{/unless}}
             <img class="ui bordered circular small image" src="{{user.profilePicture}}">
         </td>
-        <td><h1>{{user.firstName}} {{user.lastName}}</h1></td>
+        <td><h1>{{user.firstName}} {{user.lastName}}</h1>
+        <td>{{#unless guest._id}}
+            <h2>
+                <button class="ui active olive button">
+                    <i class="large user plus icon"></i>
+                    Add Friend
+                </button>
+            </h2>{{/unless}}
+        </td>
     </tr>
     </tbody>
     {{> error}}
@@ -23,6 +31,8 @@
     <tr>
         <td><h3>Total Number of Walkways : {{ POI_total}} </h3></td>
         <td><h3>Total Number of Images: {{total_images}}</h3></td>
+        <td><h3>Friends: {{#unless user.friends.length}}0{{else}}
+            {{user.friends.length}}{{/unless}}</h3></td>
     </tr>
 </table>
 </section>
@@ -43,9 +53,11 @@
                     <tr>
                         <td>
                             <div class="ui styled fluid accordion">
-                                <div class="title">
+                                <div class="title" style="color: olive;font-size: large">
                                     <i class="dropdown icon"></i>
-                                    <h2 style="color: #3232cb ">{{trailname}}</h2>
+                                    {{trailname}}
+                                    {{#unless comments.length}}0{{else}}
+                                        {{comments.length}}{{/unless}} comments
                                 </div>
                                 <div class="content">
                                     <div class="ui grid">
