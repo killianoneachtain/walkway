@@ -428,18 +428,13 @@ const Walkways = {
         const users = await User.find( { type: { $ne: 'admin' } }).populate('users').lean();
         //console.log("users are : ", users);
 
-        let comment = request.payload.comment;
-        console.log("The Comment WAS : ", comment);
+        let body = request.package;
+        console.log("The Body is : ", body);
 
-        let rating = request.payload.rating;
-        console.log("The Rating was : ", rating);
+        //let rating = request.payload.rating;
+        //console.log("The Rating was : ", rating);
 
-        /*
-        let today = new Date();
-        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        let dateTime = date+' '+time;
-        console.log("Date Time is : ", dateTime);*/
+
         let m = new Date();
         let dateString =
           m.getUTCFullYear() + "/" +
@@ -451,7 +446,7 @@ const Walkways = {
         console.log(dateString);
 
         trail.comments.push({
-          content: comment,
+          content: request.payload.comment,
           postedBy: {
             userId: userID,
             userName: user.firstName + ' ' + user.lastName,
