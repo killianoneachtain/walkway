@@ -55,10 +55,31 @@ const Gallery = {
 
         let trails= await Trail.findByName(request.params.foldername);
         let trail = trails[0];
-        //console.log("TRail to delete image from is", trail);
+        console.log("TRail to delete image from is", trail);
 
-        await Trail.updateOne( { _id: trail._id }, { $pull: { images: { $in: [ publicID ] } } } );
+        let trailImages = trail.images;
+        let trailToBeDeleted = '';
+        let i =0;
+
+        for (i=0;i<trailImages.length;i++)
+        {
+          let n = trailImages[i].search(publicID);
+          if (n >= 0){
+            trailToBeDeleted = trailImages[i];
+          }
+        }
+
+        console.log("TRAIL IMAGES ARE : ",trail.images);
+
+        console.log("Trail to be delted is : ", trailToBeDeleted);
+
+
+        let updateImageArray = await Trail.updateOne( { _id: trail._id }, { $pull: { images: trailToBeDeleted } } );
+        console.log("Up Date image ARRAY result is: ",updateImageArray);
+
         //console.log("Delete image from Gallery is ", update_Trail);
+
+        trail.save();
 
         return h.redirect('/viewPOI/' + trail._id);
       } catch (err) {
