@@ -51,6 +51,8 @@ const Gallery = {
         let publicID = request.params.id + '/' + request.params.foldername + '/' + request.params.imagename;
         await ImageStore.deleteImage(publicID);
 
+        //need to delete the index from the trail images array here
+
         let trails= await Trail.findByName(request.params.foldername);
         let trail = trails[0];
         //console.log("TRail to delete image from is", trail);
