@@ -5,6 +5,9 @@ const Trail = require('../models/trail');
 const ImageStore = require('../utils/image-store');
 const cloudinary = require('cloudinary').v2;
 
+
+
+
 const googleMapsClient = require('@google/maps').createClient({
   key: process.env.google_maps_API
 });
@@ -362,6 +365,101 @@ const Walkways = {
 
       } catch (err) {
         return h.view('editPOI', { errors: [{ message: err.message }] });
+      }
+    }
+  },
+  viewAll: {
+    handler: async function(request, h) {
+      try {
+        const userId = request.auth.credentials.id;
+        const user = await User.findById(userId).lean();
+
+        const walkways = await Trail.find().populate('walkways').lean();
+        const users = await User.find( { type: { $ne: 'admin' } }).populate('users').lean();
+
+        const trailID = request.params.id;
+        const trail = await Trail.find( { _id : trailID }).lean();
+
+        return h.view('allTrails', { title: "All Trails on Walkways ", users: users, walkways: walkways,
+          user: user } );
+      } catch (err) {
+        return h.view('home', { errors: [{ message: err.message }] });
+      }
+    }
+  },
+  postComment: {
+    /*addComment(request,response)
+    {
+        logger.info("adding comment");
+        const assessment = assessmentStore.getAssessment(request.params.id);
+        assessment.comment = request.body.comment;
+        const userId = assessment.userId;
+        assessmentStore.saveAssessment();
+
+        response.redirect("/memberAssessments/" + userId);
+    },*/
+
+      validate: {
+        payload: {
+          comment: Joi.string().trim().min(1).max(700).regex(/^[a-zA-Z0-9 ,-.]{1,700}$/)
+            .messages({ 'string.pattern.base': 'Comment must be between alphanumeric or "-,."' })
+        },
+        options: {
+          abortEarly: false
+        },
+        failAction: async function(request, h, error) {
+        }
+        },
+      handler: async function(request,h){
+      try {
+
+        const userID = request.params.userID;
+        console.log("userID is : ", userID);
+        const trailID = request.params.trailID;
+        console.log("trailId is : ", trailID);
+
+
+        const user = await User.findById(userID);
+        console.log("user is :", user);
+        const trail = await Trail.findByID(trailID);
+        console.log("trail is : ", trail);
+        const walkways = await Trail.find().populate('walkways').lean();
+        //console.log("walkways are: ", walkways);
+        const users = await User.find( { type: { $ne: 'admin' } }).populate('users').lean();
+        //console.log("users are : ", users);
+
+        let body = request.package;
+        console.log("The Body is : ", body);
+
+        //let rating = request.payload.rating;
+        //console.log("The Rating was : ", rating);
+
+
+        let m = new Date();
+        let dateString =
+          m.getUTCFullYear() + "/" +
+          ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" +
+          ("0" + m.getUTCDate()).slice(-2) + " " +
+          ("0" + m.getUTCHours()).slice(-2) + ":" +
+          ("0" + m.getUTCMinutes()).slice(-2) + ":" +
+          ("0" + m.getUTCSeconds()).slice(-2);
+        console.log(dateString);
+
+        trail.comments.push({
+          content: request.payload.comment,
+          postedBy: {
+            userId: userID,
+            userName: user.firstName + ' ' + user.lastName,
+            profilePicture: user.profilePicture
+          },
+          time: dateString
+        });
+        await trail.save();
+
+        return h.redirect('/allTrails/' +userID);
+
+      } catch(err) {
+        return h.view('home', { errors: [{ message: err.message }] });
       }
     }
   }

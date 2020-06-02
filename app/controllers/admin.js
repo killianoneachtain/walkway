@@ -142,6 +142,7 @@ const Admin = {
         const walkways = await Trail.find( { creator: id }).populate('trail').lean();
 
         let POI_total = walkways.length;
+        console.log("POI Total is:", POI_total);
 
         let total_images = 0;
 
@@ -152,8 +153,9 @@ const Admin = {
         }
 
         let userImages = await ImageStore.getUserImages(id);
+        total_images = userImages.length;
 
-        return h.view('viewUser', { title: username + ' Details', walkways: walkways,
+        return h.view('adminViewUser', { title: username + ' Details', walkways: walkways,
           user: user, POI_total: POI_total, total_images: total_images, images: userImages});
       }
       catch (err) {
@@ -170,14 +172,34 @@ const Admin = {
 
         let trails= await Trail.findByName(request.params.foldername);
         let trail = trails[0];
+        console.log("THE TRAIL IS : ", trail);
         let user = trail.creator;
         //console.log("TRail to delete image from is", trail);
 
+        let trailImages = trail.images;
+        let trailToBeDeleted = '';
+        let i =0;
+        for (i=0;i<trailImages.length;i++)
+        {
+          let n = trailImages[i].search(publicID);
+          if (n >= 0){
+            trailToBeDeleted = trailImages[i];
+          }
+        }
+
+        console.log("TRAIL IMAGES ARE : ",trail.images);
+
+        console.log("Trail to be deleted is : ", trailToBeDeleted);
 
 
-        let this_trail = await Trail.updateOne( { _id: trail._id }, { $pull: { images: { $in: [ publicID ] } } } );
+        let updateImageArray = await Trail.updateOne( { _id: trail._id }, { $pull: { images: trailToBeDeleted } } );
+        console.log("Up Date image ARRAY result is: ",updateImageArray);
+
         //console.log("Delete image from Gallery is ", update_Trail);
-        //await Trail.save();
+
+        trail.save();
+
+
 
 
 

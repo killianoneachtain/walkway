@@ -37,7 +37,7 @@ const ImageStore = {
 
     await writeFile('./public/temp.img', imageFile);
     const uploaded_image = await cloudinary.uploader.upload('./public/temp.img', { folder: folder,
-        tags: [user_id, trail_id, trailName], width: 600, height: 600, gravity: "east", crop: 'pad',
+        tags: [user_id, trail_id, trailName], width: 600, height: 600, gravity: "center", crop: 'pad',
         fetch_format: "auto", type: 'authenticated', quality_analysis: true, format: 'jpg' },
       function(error,result) {console.log("Error is :", error)} );
 

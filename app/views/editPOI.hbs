@@ -180,7 +180,7 @@
                     </div>
                 </div>
 
-                <button class="ui blue submit button">Save</button>
+                <button class="ui big submit button" style="background: #cb3232;color: whitesmoke">Save</button>
                 <i class="red asterisk icon"></i>Denotes required field
             </form>
             {{/each}}
@@ -197,103 +197,3 @@
             .dropdown()
     ;
 </script>
-
-<!--
-<section>
-<div class="category_div" id="category_div">Province:
-    <select id="source" name="source" onchange="javascript: dynamicdropdown(this.options[this.selectedIndex].value);">
-        <option value="">Select source</option>
-        <option value="munster">MUNSTER</option>
-        <option value="leinster">LEINSTER</option>
-        <option value="connacht">CONNACHT</option>
-        <option value="ulster">ULSTER</option>
-    </select>
-</div>
-<div class="sub_category_div" id="sub_category_div">County:
-    <script type="text/javascript" language="JavaScript">
-        document.write('<select name="status" id="status"><option value="">Select status</option></select>')
-    </script>
-    <noscript>
-        <select id="status" name="status">
-            <option value="open">OPEN</option>
-            <option value="delivered">DELIVERED</option>
-        </select>
-    </noscript>
-</div>
-</section>
-<script language="javascript" type="text/javascript">
-function dynamicdropdown(listindex)
-{
-
-    switch (listindex)
-    {
-        case "munster" :
-            document.getElementById("status").options.length = 0;
-            document.getElementById("status").options[0]=new Option("Select status","");
-            document.getElementById("status").options[1]=new Option("CLARE","clare");
-            document.getElementById("status").options[2]=new Option("CORK","cork");
-            document.getElementById("status").options[3]=new Option("KERRY","kerry");
-            document.getElementById("status").options[4]=new Option("LIMERICK","limerick");
-            document.getElementById("status").options[5]=new Option("TIPPERARY","tipperary");
-            document.getElementById("status").options[6]=new Option("WATERFORD","waterford");
-            break;
-        case "leinster" :
-            document.getElementById("status").options.length = 0;
-            document.getElementById("status").options[0]=new Option("Select status","");
-            document.getElementById("status").options[1]=new Option("CARLOW","carlow");
-            document.getElementById("status").options[2]=new Option("DUBLIN","dublin");
-            document.getElementById("status").options[3]=new Option("KILDARE","kildare");
-            document.getElementById("status").options[4]=new Option("KILKENNY","kilkenny");
-            document.getElementById("status").options[5]=new Option("LAOIS","laois");
-            document.getElementById("status").options[6]=new Option("LONGFORD","longford");
-            document.getElementById("status").options[7]=new Option("LOUTH","louth");
-            document.getElementById("status").options[8]=new Option("MEATH","meath");
-            document.getElementById("status").options[9]=new Option("OFFALY","offaly");
-            document.getElementById("status").options[10]=new Option("WESTMEATH","westmeath");
-            document.getElementById("status").options[11]=new Option("WEXFORD","wexford");
-            document.getElementById("status").options[12]=new Option("WICKLOW","wicklow");
-            break;
-        case "connacht" :
-            document.getElementById("status").options.length = 0;
-            document.getElementById("status").options[0]=new Option("Select status","");
-            document.getElementById("status").options[1]=new Option("GALWAY","galway");
-            document.getElementById("status").options[2]=new Option("LEITRIM","leitrim");
-            document.getElementById("status").options[3]=new Option("MAYO","mayo");
-            document.getElementById("status").options[4]=new Option("ROSCOMMON","roscommon");
-            document.getElementById("status").options[5]=new Option("SLIGO","sligo");
-            break;
-        case "ulster" :
-            document.getElementById("status").options.length = 0;
-            document.getElementById("status").options[0]=new Option("Select status","");
-            document.getElementById("status").options[1]=new Option("ANTRIM","antrim");
-            document.getElementById("status").options[2]=new Option("ARMAGH","armagh");
-            document.getElementById("status").options[3]=new Option("CAVAN","cavan");
-            document.getElementById("status").options[4]=new Option("DERRY","derry");
-            document.getElementById("status").options[5]=new Option("DONEGAL","donegal");
-            document.getElementById("status").options[6]=new Option("DOWN","down");
-            document.getElementById("status").options[7]=new Option("FERMANAGH","fermanagh");
-            document.getElementById("status").options[8]=new Option("MONAGHAN","monaghan");
-            document.getElementById("status").options[9]=new Option("TYRONE","tyrone");
-            break;
-    }
-    return true;
-}
-</script>
-
-<div class="required field">
-                        <label>Province</label>
-                        <div class="ui fluid search selection dropdown" id="category_div">
-                            <input type="hidden" name="province">
-                            <i class="dropdown icon"></i>
-                            <div class="default text">Select Province</div>
-                            <div class="menu">
-                                <div class="item" data-value="mun">Munster</div>
-                                <div class="item" data-value="lei">Leinster</div>
-                                <div class="item" data-value="con">Connacht</div>
-                                <div class="item" data-value="uls">Ulster</div>
-
-                            </div>
-                        </div>
-                        </div>
-
- https://stackoverflow.com/questions/19728666/drop-down-box-dependent-on-the-option-selected-in-another-drop-down-box -->
