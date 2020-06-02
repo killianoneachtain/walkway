@@ -13,7 +13,7 @@
 
 </head>
 <body>
-<section class="ui container" style="height: auto">
+<section class="ui container" style="height: auto; overflow: hidden">
     {{{content}}}
 </section>
 <script>
@@ -32,12 +32,6 @@
             .accordion({ exclusive: false })
     ;
 
-    Handlebars.registerHelper('ifCond', function(v1, v2, options) {
-        if(v1 === v2) {
-            return options.fn(this);
-        }
-        return options.inverse(this);
-    });
 </script>
 </body>
 </html>

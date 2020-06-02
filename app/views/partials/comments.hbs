@@ -2,7 +2,10 @@
 {{#each comments as | comments |}}
     <div class="comment">
         <a class="avatar">
-            <img src="{{comments.postedBy.profilePicture}}">
+             {{#if comments.postedBy.profilePicture}}
+                 <img src="{{comments.postedBy.profilePicture}}">
+             {{else}} <i class=" big user icon"></i>
+             {{/if}}
         </a>
         <div class="content">
             <a class="author" href="/viewProfile/{{comments.postedBy.userId}}">{{comments.postedBy.userName}}</a>
@@ -19,16 +22,18 @@
     </div>{{/each}}
 
 {{#if @root.user._id}}
-    <form class="ui form" action="/allTrails/{{_id}}/{{@root.user._id}}" method="POST" id="addComment">
+    <form class="ui form" action="/allTrails/{{_id}}/{{@root.user._id}}" method="POST" id="addComment{{_id}}">
         <div class="field">
             <div class="ui input focus">
                 <textarea rows="4" type="text" placeholder="Please Rate the Walk and Add comment..." maxlength="700" name="comment"></textarea>
             </div>
         </div>
-        <div class="ui right floated red olive rating" data-rating="1"
-                   data-tooltip="Please Rate the Walk" data-max-rating="5" id="rating">
+        <div class="field" id="my_rating" name="my_rating">
+            <div class="ui right floated red olive rating" data-rating="1"
+                       data-tooltip="Please Rate the Walk" data-max-rating="5" id="my_rating">
+            </div>
         </div>
-        <button class="ui large blue labeled submit icon button" style="background: #cb3232;color: whitesmoke">
+        <button class="ui large blue labeled submit icon button" style="background: #cb3232;color: whitesmoke" onClick="rating()" value="Submit">
             <i class="comment alternate icon"></i> Add Comment
         </button>
     </form>
@@ -38,6 +43,20 @@
 
 <script>
     $('.ui.rating')
-            .rating('get rating')
+            .rating(
+              'setting',
+                   'onRate',
+                    function rating(value){
+                        console.log(value);
+                        //$('#addComment{{_id}}.ui.form')
+                        //.form('set value', 'my_rating', value );
+                        let rating = getElementById("my_rating").value;
+                        let trailRating = {
+                          "rating": rating
+                        }
+                    }
+
+            )
     ;
+
 </script>
