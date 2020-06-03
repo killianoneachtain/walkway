@@ -5,15 +5,10 @@ const Trail = require('../models/trail');
 const ImageStore = require('../utils/image-store');
 const cloudinary = require('cloudinary').v2;
 
-
-
-
 const googleMapsClient = require('@google/maps').createClient({
   key: process.env.google_maps_API
 });
-
 //const Mongoose = require('mongoose');
-
 const Joi = require('@hapi/joi');
 
 const Walkways = {
@@ -36,7 +31,7 @@ const Walkways = {
 
       console.log("Categories are : ", categories);
 
-      return h.view('addPOI', { title: 'Add Trail to your Walkways', categories: categories });
+      return h.view('addPOI', { title: 'Add Trail to your Walkways', categories: categories, user: user });
     }
   },
   addtrail: {
@@ -452,19 +447,29 @@ const Walkways = {
   viewProfile: {
     handler: async function(request, h) {
       try {
-        console.log("HERE IN WALKWAYS VIEWING PROFILE VERSION WITH :", request.params);
-        let currentUser = request.params.id;
+        let currentUserId = request.auth.credentials.id;
 
-        currentUser = await User.findById(currentUser).lean();
-        console.log("user is :", currentUser);
+        let currentUser = await User.findById(currentUserId).lean();
+        //console.log("Current user is :", currentUser);
 
         const profileId = request.params.otherID;
         const profiledUser = await User.findById(profileId).lean();
-        console.log("user is :", profiledUser);
+        //console.log("Profile to see is :", profiledUser);
 
-        let username = currentUser.firstName + ' ' + currentUser.lastName;
+        //Search through currentUser Friends List to see if profiled user
+        // is in their friend list.
 
-        const walkways = await Trail.find( { creator: id }).populate('trail').lean();
+        let areFriends = '';
+        let friends = currentUser.friends;
+        //console.log("Friends are : ", friends);
+
+        areFriends = friends.includes(personToView);
+
+        //console.log("Friends status is :", areFriends);
+
+        let profiledUserName = profiledUser.firstName + ' ' + profiledUser.lastName;
+
+        let walkways = await Trail.find( { creator: profiledUser._id }).populate('trail').lean();
 
         let POI_total = walkways.length;
 
@@ -476,10 +481,8 @@ const Walkways = {
           total_images = total_images + imageNumber;
         }
 
-        //let userImages = await ImageStore.getUserImages(id);
-
-        return h.view('viewProfile', { title: username + ' Details', walkways: walkways,
-          user: user, POI_total: POI_total, total_images: total_images});
+        return h.view('viewProfile', { title: profiledUserName + ' Details', walkways: walkways,
+          user: profiledUser, currentUser: currentUser, areFriends: areFriends, POI_total: POI_total, total_images: total_images});
       }
       catch (err) {
         return h.view('main', { errors: [{ message: err.message }] });

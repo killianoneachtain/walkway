@@ -2,26 +2,36 @@
 <table class="ui stackable basic table">
     <thead>
     <tr style="font-style: italic; background-color: lightgray">
-        <th></th>
-        <th><h2>Name</h2></th>
+        <th style="text-align: Left"><h2>Profile Picture</h2></th>
+        <th colspan="3"><h2>Name</h2></th>
     </tr>
     </thead>
     <tbody>
     <tr>
         <td>
             {{#unless user.profilePicture}}
-                <img class="ui circular small image" src="../images/default_user.png">
+                <img class="ui circular small image" src="/images/default_user.png">
             {{/unless}}
             <img class="ui bordered circular small image" src="{{user.profilePicture}}">
         </td>
         <td><h1>{{user.firstName}} {{user.lastName}}</h1>
         <td>{{#unless guest._id}}
-            <h2>
-                <button class="ui active olive button">
-                    <i class="large user plus icon"></i>
-                    Add Friend
-                </button>
-            </h2>{{/unless}}
+
+                <!-- if statement here to see if already friends -->
+                {{#if areFriends}}
+                    <div class="ui large buttons">
+                        <button class="ui positive button"><i class="check icon"></i>Friends</button>
+                        <div class="or"></div>
+                        <button class="ui negative button"><i class="user minus icon"></i>Unfriend</button>
+                    </div>
+                <!-- else show a friends Button -->
+                {{else}}
+                    <h2><button class="ui active olive button">
+                        <i class="large user plus icon"></i>
+                        Add Friend
+                    </button></h2>
+                {{/if}}
+            {{/unless}}
         </td>
     </tr>
     </tbody>

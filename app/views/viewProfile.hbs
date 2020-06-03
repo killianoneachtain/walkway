@@ -1,11 +1,7 @@
-{{#if @root.guest._id}}
+{{#if @root.guest}}
     {{> guest_menu }}
 {{else}}
-    {{> mainmenu _id="friends"}}
+    {{> mainmenu }}
 {{/if}}
-
-<div class="section" style="margin-top: 65px">
-    The GUEST IS : {{guest.firstName}}
-</div>
 
 {{>userProfile}}

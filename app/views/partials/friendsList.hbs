@@ -1,15 +1,19 @@
 <div class="section">
     <div class="ui link cards">
 {{#each friends }}
-
         <div class="card">
             <div class="image">
-                <a href="/viewProfile/{{_id}}">
-                {{#if profilePicture}}
-                    <img src="{{profilePicture}}">
+                {{#if @root.user}}
+                    <a href="/viewProfile/{{@root.user._id}}/{{_id}}">
                 {{else}}
-                    <img src="../images/default_user.png">
-                {{/if}}</a>
+                    <a href="/viewProfile/{{_id}}">
+                {{/if}}
+
+                {{#if profilePicture}}
+                    <img src="{{profilePicture}}"></a>
+                {{else}}
+                    <img src="../images/default_user.png"></a>
+                {{/if}}
             </div>
             <div class="content">
                 <a class="header">{{firstName}} {{lastName}}</a>

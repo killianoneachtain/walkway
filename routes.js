@@ -30,7 +30,7 @@ module.exports = [
   { method: 'POST', path: '/settings', config: Accounts.updateSettings },
   { method: 'GET', path:'/friends/{id}', config: Accounts.friends},
 
-  { method: 'GET', path: '/addPOI', config: Walkways.trailform },
+  { method: 'GET', path: '/addPOI/{id}', config: Walkways.trailform },
   { method: 'POST', path: '/addPOI', config: Walkways.addtrail },
 
   { method: 'GET', path: '/editTrail/{id}', config: Walkways.showTrail },
@@ -40,7 +40,6 @@ module.exports = [
   { method: 'GET', path: '/viewPOI/{id}', config: Walkways.viewTrail },
 
   { method: 'GET', path:  '/deleteUser/{id}', config: Admin.deleteUser },
-
 
   { method: 'GET', path: '/gallery', config: Gallery.index },
   { method: 'POST', path: '/uploadfile/{id}', config: Gallery.uploadFile },
@@ -52,10 +51,11 @@ module.exports = [
   { method: 'GET', path: '/deleteUserImage/{id}/{foldername}/{imagename}', config: Admin.deleteUserImage },
 
   { method: 'GET', path: '/viewProfile/{id}', config: Guest.viewProfile },
+
   { method: 'GET', path: '/viewProfile/{id}/{otherID}', config: Walkways.viewProfile },
 
-  {method: 'GET', path: '/allTrails/{id}', config: Walkways.viewAll },
-  {method: 'POST', path: '/allTrails/{trailID}/{userID}', config: Walkways.postComment },
+  { method: 'GET', path: '/allTrails/{id}', config: Walkways.viewAll },
+  { method: 'POST', path: '/allTrails/{trailID}/{userID}', config: Walkways.postComment },
 
   { method: 'POST', path: '/uploadProfilePicture/{id}', config: Gallery.uploadProfilePicture },
 
