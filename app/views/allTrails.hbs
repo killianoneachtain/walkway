@@ -1,3 +1,7 @@
-{{>mainmenu}}
+{{>mainmenu _id="all"}}
 
-{{> poi-card}}
+{{>goToTrail}}
+
+{{#each walkways}}
+    {{> poi-card}}
+{{/each}}

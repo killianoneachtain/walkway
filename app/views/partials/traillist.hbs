@@ -14,6 +14,8 @@
                     <th>Length (Km)</th>
                     <th>Time</th>
                     <th>Grade</th>
+                    <th>Comments</th>
+                    <th>Images</th>
                     <th class="center aligned">Delete</th>
                     <th class="center aligned">Edit</th>
                 </tr>
@@ -27,9 +29,11 @@
                         <td> {{traillength}} </td>
                         <td> {{time}} </td>
                         <td> {{grade}} </td>
-                        <td class="center aligned"><a href="/deleteTrail/{{_id}}">
+                        <td>{{comments.length}}</td>
+                        <td>{{images.length}}</td>
+                        <td class="center aligned"><a href="/deleteTrail/{{_id}}" data-tooltip="Delete {{trailname}}">
                             <i class="olive trash alternate icon"></i></a></td>
-                        <td class="center aligned"><a href="/editTrail/{{_id}}">
+                        <td class="center aligned"><a href="/editTrail/{{_id}}" data-tooltip="Edit {{trailname}}">
                             <i class="olive wrench icon"></i></a></td>
 
                 {{/each}}

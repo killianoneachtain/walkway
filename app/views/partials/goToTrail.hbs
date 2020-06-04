@@ -1,0 +1,12 @@
+<div class="ui large search selection dropdown olive button" style="margin-top: 65px">
+    <div class="text">Go To Trail</div>
+    <i class="dropdown icon"></i>
+    <div class="menu">
+        {{#each walkways}}
+            <div class="item">
+                <span class="description">{{county}}</span>
+                <a href="#{{_id}}"> {{trailname}}</a>
+            </div>
+        {{/each}}
+    </div>
+</div>

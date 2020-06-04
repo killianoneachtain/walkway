@@ -1,28 +1,24 @@
-<div class="ui large search selection dropdown olive button" style="margin-top: 65px">
-    <div class="text">Go To Trail</div>
-    <i class="dropdown icon"></i>
-    <div class="menu">
-        {{#each walkways}}
-            <div class="item">
-                <span class="description">{{county}}</span>
-                <a href="#{{_id}}"> {{trailname}}</a>
-            </div>
-        {{/each}}
-    </div>
-</div>
-
-
-{{#each walkways as | walkway | }}
-
-<div class="ui fluid horizontal olive card" style="margin-left: -5px">
-    <div class="image" style="height: 200px; width: 200px">
+<div class="ui fluid horizontal olive card">
+    <div class="image" style="height: 200px; width: 200px;margin-top: 50px">
         <img class="ui centered image" src="{{profileImage}}">
     </div>
     <div class="content">
-            <div class="header"><h1 id="{{_id}}">{{ trailname }}</h1></div>
+            <div class="header">
+                <h1 id="{{_id}}">{{ trailname }}</h1>
+            </div>
             <div class="meta">
-                <h2 style="color: olive">Trail Type : {{trailtype}}</h2>
-                <h2 style="color: #cb3232"><a href="/viewProfile/{{creator}}">{{creatorName}}</a></h2>
+                <h2 style="color: olive">
+                    Trail Type : {{trailtype}}
+                </h2>
+                {{#if @root.user._id}}
+                    <h2 style="color: #cb3232">
+                        <a href="/viewProfile/{{@root.user._id}}/{{creator}}">{{creatorName}}</a>
+                    </h2>
+                {{else}}
+                    <h2 style="color: #cb3232">
+                        <a href="/viewProfile/{{creator}}">{{creatorName}}</a>
+                    </h2>
+                {{/if}}
             </div>
             <div class="extra">
                 Current Rating:
@@ -43,7 +39,7 @@
                     <tbody>
                     <tr>
                         <td class="olive">Grade</td>
-                        <td>{{walkway.grade}}</td>
+                        <td>{{grade}}</td>
                     </tr>
                     <tr>
                         <td class="olive">Trail Type</td>
@@ -80,8 +76,13 @@
         </div>
     </div>
     <div class="extra content">
-        <div class="ui styled fluid accordion">
-            <div class="title" style="color: olive;font-size: large">
+        <!-- change to just accordion if on profile view -->
+        {{#if @root.currentUser}}
+            <div class="accordion">
+        {{else}}
+            <div class="ui styled fluid accordion">
+        {{/if}}
+            <div class="active title" style="color: olive;font-size: large">
                 <i class="dropdown icon"></i>{{comments.length}} comments
             </div>
             <div class="content">
@@ -90,7 +91,7 @@
         </div>
     </div>
 </div>
-{{/each}}
+
 
 <script>
     $('.ui.dropdown')
