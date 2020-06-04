@@ -71,11 +71,9 @@ const Accounts = {
             errorz[details[i].path] = details[i].message;
           }
         }
-
         //console.log("THE DETAILS ARE : ",details);
         //console.log(" THE ERRORZ ARE : ", errorz);
-        return h
-          .view('signup', {
+        return h.view('signup', {
             title: 'Sign up error',
             errors: error.details,
             values: request.payload,
@@ -103,7 +101,15 @@ const Accounts = {
         }
 
         const hash = await bCrypt.hash(payload.new_password, saltRounds);    // ADDED
-        //const email_hash = await bCrypt.hash(payload.email, saltRounds);    // ADDED
+
+
+        let m = new Date();
+        let joinDate =
+          m.getUTCFullYear() + "/" +
+          ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" +
+          ("0" + m.getUTCDate()).slice(-2);
+
+        //console.log(joinDate);
 
         const newUser = new User({
           firstName: payload.firstName.replace(/^./, payload.firstName[0].toUpperCase()),
@@ -112,7 +118,8 @@ const Accounts = {
           password: hash,
           type: "user",
           profilePicture: "",
-          profilePID: ""
+          profilePID: "",
+          dateJoined: joinDate
         });
         user = await newUser.save();
         request.cookieAuth.set({ id: user.id });
@@ -318,36 +325,6 @@ const Accounts = {
         return h.view('settings', { errors: [{ message: err.message }] });
       }
     }
-  },
-  friends: {
-    handler:  async function(request, h) {
-      try {
-        const id = request.auth.credentials.id;
-        console.log("User ID IS :", id);
-        const user = await User.findById(id).lean();
-
-        console.log("HERE IS FRIENDS");
-        let friends = user.friends;
-        console.log("Friends are : ", friends);
-
-        let friendsList=[];
-        let i=0;
-        for (i=0;i < friends.length;i++)
-        {
-          friendsList.push(await User.findById(friends[i]).lean());
-        }
-
-
-        console.log("Friends are : ", friendsList);
-
-        return h.view('friends', {friends: friendsList, user: user});
-
-
-      } catch (err)
-          {
-            return h.view('home');
-          }
-      }
   }
 };
 

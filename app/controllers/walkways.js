@@ -452,20 +452,21 @@ const Walkways = {
         let currentUser = await User.findById(currentUserId).lean();
         //console.log("Current user is :", currentUser);
 
-        const profileId = request.params.otherID;
-        const profiledUser = await User.findById(profileId).lean();
+        const personToView = request.params.otherID;
+        const profiledUser = await User.findById(personToView).lean();
         //console.log("Profile to see is :", profiledUser);
 
         //Search through currentUser Friends List to see if profiled user
         // is in their friend list.
-
-        let areFriends = '';
         let friends = currentUser.friends;
-        //console.log("Friends are : ", friends);
+        console.log("Friends are : ", friends);
+        let areFriends = friends.includes(personToView);
+        console.log("Friends status is :", areFriends);
 
-        areFriends = friends.includes(personToView);
-
-        //console.log("Friends status is :", areFriends);
+        let requestSent = User.findInRequests(currentUserId, personToView);
+        //console.log("REQS are:", reqs);
+        //console.log("persontoView", personToView);
+        //console.log("Request Sent is : ", requestSent);
 
         let profiledUserName = profiledUser.firstName + ' ' + profiledUser.lastName;
 
@@ -482,7 +483,8 @@ const Walkways = {
         }
 
         return h.view('viewProfile', { title: profiledUserName + ' Details', walkways: walkways,
-          user: profiledUser, currentUser: currentUser, areFriends: areFriends, POI_total: POI_total, total_images: total_images});
+          user: profiledUser, currentUser: currentUser, areFriends: areFriends,
+          POI_total: POI_total, total_images: total_images, requestSent: requestSent});
       }
       catch (err) {
         return h.view('main', { errors: [{ message: err.message }] });

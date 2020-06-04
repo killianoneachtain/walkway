@@ -1,63 +1,10 @@
 <div class="section">
+    <h1 style="color: olive">
+        You have {{friends.length}} Friends
+    </h1>
     <div class="ui link cards">
 {{#each friends }}
-        <div class="card">
-            <div class="image">
-                {{#if @root.user}}
-                    <a href="/viewProfile/{{@root.user._id}}/{{_id}}">
-                {{else}}
-                    <a href="/viewProfile/{{_id}}">
-                {{/if}}
-
-                {{#if profilePicture}}
-                    <img src="{{profilePicture}}"></a>
-                {{else}}
-                    <img src="../images/default_user.png"></a>
-                {{/if}}
-            </div>
-            <div class="content">
-                <a class="header">{{firstName}} {{lastName}}</a>
-                <div class="meta">
-                    <span class="date">Joined in 2013</span>
-                </div>
-            </div>
-            <div class="extra content">
-                <a>
-                    <i class="user icon"></i>
-                    {{#if friends.length}}
-                        0
-                    {{else}}
-                        {{friends.length}}{{/if}} Friends
-                </a>
-            </div>
-        </div>
-
+        {{>friend_card}}
 {{/each}}
     </div>
 </div>
-
-
-   <!--
-
-
-                <div class="content">
-                    <div class="header">{firstName}} {lastName}}</div>
-                    <div class="meta">
-                        <a>Friends</a>
-                    </div>
-                    <div class="description">
-                        Email : {email}}
-                    </div>
-                </div>
-                <div class="extra content">
-      <span class="right floated">
-        Joined in 2013
-      </span>
-                    <span>
-        <i class="user icon"></i>
-        {friends.length}} Friends
-      </span>
-                </div>
-            </div>
-        </div>
-{/each}} -->

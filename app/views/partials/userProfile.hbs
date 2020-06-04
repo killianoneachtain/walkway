@@ -1,155 +1,39 @@
-<section class="ui raised segment" style="margin-top: 65px">
-<table class="ui stackable basic table">
-    <thead>
-    <tr style="font-style: italic; background-color: lightgray">
-        <th style="text-align: Left"><h2>Profile Picture</h2></th>
-        <th colspan="3"><h2>Name</h2></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>
-            {{#unless user.profilePicture}}
-                <img class="ui circular small image" src="/images/default_user.png">
-            {{/unless}}
-            <img class="ui bordered circular small image" src="{{user.profilePicture}}">
-        </td>
-        <td><h1>{{user.firstName}} {{user.lastName}}</h1>
-        <td>{{#unless guest._id}}
-
-                <!-- if statement here to see if already friends -->
-                {{#if areFriends}}
-                    <div class="ui large buttons">
-                        <button class="ui positive button"><i class="check icon"></i>Friends</button>
-                        <div class="or"></div>
-                        <button class="ui negative button"><i class="user minus icon"></i>Unfriend</button>
-                    </div>
-                <!-- else show a friends Button -->
-                {{else}}
-                    <h2><button class="ui active olive button">
-                        <i class="large user plus icon"></i>
-                        Add Friend
-                    </button></h2>
-                {{/if}}
-            {{/unless}}
-        </td>
-    </tr>
-    </tbody>
-    {{> error}}
-</table>
-<table class="ui basic table">
-    <tr>
-        <td><h3>Total Number of Walkways : {{ POI_total}} </h3></td>
-        <td><h3>Total Number of Images: {{total_images}}</h3></td>
-        <td><h3>Friends: {{#unless user.friends.length}}0{{else}}
-            {{user.friends.length}}{{/unless}}</h3></td>
-    </tr>
-</table>
+<section class="ui segment" style="margin-top: 65px">
+    {{>profile_id_card}}
 </section>
 
-<section class="ui raised segment">
-    <div class="ui grid">
-        <article class="sixteen wide column">
-            <table class="ui olive celled striped table">
-                <thead>
+<div class="ui grid">
+    <article class="sixteen wide column">
+        <table class="ui inverted olive celled striped table">
+            <thead>
+            <tr>
+                <th class="sorted ascending"><h2>{{user.firstName}}'s Trails</h2></th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each walkways}}
                 <tr>
-                    <th class="sorted ascending"><h2>{{user.firstName}}'s Trails</h2></th>
-                   <!-- <th>Trail Type</th>
-                    <th>Number of Images</th> -->
+                    <td>
+                        <div class="ui styled fluid accordion">
+                            <div class="active title" style="color: olive;font-size: large">
+                                <i class="dropdown icon"></i>
+                                {{trailname}}
+                                {{#unless comments.length}}0{{else}}
+                                    {{comments.length}}{{/unless}} comments
+                            </div>
+                            <div class="content">
+                                <div class="ui grid">
+                                    {{>poi-card}}
+                                </div>
+                            </div>
+                        </div>{{/each}}
+                    </td>
                 </tr>
-                </thead>
-                <tbody>
-                {{#each walkways}}
-                    <tr>
-                        <td>
-                            <div class="ui styled fluid accordion">
-                                <div class="title" style="color: olive;font-size: large">
-                                    <i class="dropdown icon"></i>
-                                    {{trailname}}
-                                    {{#unless comments.length}}0{{else}}
-                                        {{comments.length}}{{/unless}} comments
-                                </div>
-                                <div class="content">
-                                    <div class="ui grid">
-                                        <div class="ui fluid horizontal card">
-                                            <div class="two wide column">
-                                                <div class="image" style="height: 300px; width: 300px;margin-top: 30px;margin-left: 10px">
-                                                    <img class="ui centered image" src="{{profileImage}}">
-                                                </div>
-                                            </div>
-                                            <div class="content">
-                                                <!-- unless here for user views
-                                                <i class="right floated like icon"></i>
-                                                <i class="right floated star icon"></i> -->
-                                                <div class="header"><h1>{{ trailname }}</h1></div>
-                                                <div class="meta">
-                                                    <h2 style="color: olive">{{trailtype}}</h2>
-                                                    <h2 style="color: #cb3232"><a href="/viewProfile/{{creator}}">{{creatorName}}</a></h2>
-                                                </div>
-                                                <div class="extra">
-                                                    Rating:
-                                                    <div class="ui yellow rating" data-rating="3"></div>
-                                                </div>
-                                                <div class="description">
-                                                    <table class="ui large collapsing inverted olive table">
-                                                        <thead>
-                                                        <tr >
-                                                            <th colspan="3">Details</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr>
-                                                            <td class="olive">Grade</td>
-                                                            <td>{{grade}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="olive">Trail Type</td>
-                                                            <td>{{trailtype}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="olive">County</td>
-                                                            <td>{{county}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="olive">Trail Length (Km)</td>
-                                                            <td>{{traillength}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="olive">Walking Time</td>
-                                                            <td>{{time}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="olive">Nearest Town</td>
-                                                            <td>{{nearesttown}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="olive">Start Coordinates (lat, long) : </td>
-                                                            <td>{{startcoordinates.latitude}}, {{startcoordinates.longitude}}</td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <div class="four wide column" style="font-size: 120%">
-                                                        <article>Description of Trail:<br><br>
-                                                            {{description}}</article>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>{{/each}}
-                        </td>
-                <!--
-                        <td><h4>{{trailtype}}</h4></td>
-                        <td><h4>{{images.length }}</h4></td> -->
-                    </tr>
+            </tbody>
+        </table>
+    </article>
+</div>
 
-                </tbody>
-            </table>
-
-        </article>
-    </div>
-</section>
 
 <script>
     $('.ui.accordion')

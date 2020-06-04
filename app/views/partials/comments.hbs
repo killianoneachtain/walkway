@@ -1,7 +1,7 @@
 <div class="ui comments">
 {{#each comments as | comments |}}
     <div class="comment">
-        <a class="avatar">
+        <a class="avatar" style="padding-right: 5px">
              {{#if comments.postedBy.profilePicture}}
                  <img src="{{comments.postedBy.profilePicture}}">
              {{else}} <i class="user icon"></i>

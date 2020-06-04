@@ -5,6 +5,7 @@ const Walkways = require('./app/controllers/walkways');
 const Admin = require('./app/controllers/admin');
 const Gallery = require('./app/controllers/gallery');
 const Guest = require('./app/controllers/guest');
+const Social = require('./app/controllers/social');
 
 module.exports = [
   { method: 'GET', path: '/', config: Accounts.index },
@@ -28,7 +29,7 @@ module.exports = [
 
   { method: 'POST', path: '/adminsettings', config: Accounts.updateSettings },
   { method: 'POST', path: '/settings', config: Accounts.updateSettings },
-  { method: 'GET', path:'/friends/{id}', config: Accounts.friends},
+  { method: 'GET', path:'/friends/{id}', config: Social.friends},
 
   { method: 'GET', path: '/addPOI/{id}', config: Walkways.trailform },
   { method: 'POST', path: '/addPOI', config: Walkways.addtrail },
@@ -58,6 +59,8 @@ module.exports = [
   { method: 'POST', path: '/allTrails/{trailID}/{userID}', config: Walkways.postComment },
 
   { method: 'POST', path: '/uploadProfilePicture/{id}', config: Gallery.uploadProfilePicture },
+
+  { method: 'POST', path: '/addFriend/{id}/{friendID}', config: Social.addFriend},
 
   {
     method: 'GET',
