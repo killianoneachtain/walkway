@@ -1,14 +1,22 @@
 <div class="ui comments">
 {{#each comments as | comments |}}
     <div class="comment">
-        <a class="avatar">
+        <a class="avatar" style="padding-right: 5px">
              {{#if comments.postedBy.profilePicture}}
                  <img src="{{comments.postedBy.profilePicture}}">
-             {{else}} <i class=" big user icon"></i>
+             {{else}} <i class="user icon"></i>
              {{/if}}
         </a>
         <div class="content">
-            <a class="author" href="/viewProfile/{{comments.postedBy.userId}}">{{comments.postedBy.userName}}</a>
+            {{#if @root.user}}
+                    <a class="author" href="/viewProfile/{{@root.user._id}}/{{comments.postedBy.userId}}">
+                            {{comments.postedBy.userName}}
+                    </a>
+            {{else}}
+                    <a class="author" href="/viewProfile/{{comments.postedBy.userId}}">
+                        {{comments.postedBy.userName}}
+                    </a>
+            {{/if}}
             <div class="metadata">
                 <span class="date">Posted at : {{comments.time}}</span>
             </div>

@@ -8,6 +8,8 @@ const bCrypt = require('bcrypt');          // ADDED
 
 const userSchema = new Schema({
   friends: [{ type: Schema.Types.ObjectId, ref: 'User'}],
+  friendRequests : [{ type: Schema.Types.ObjectId, ref: 'User'}],
+  requestsSent : [{ type: Schema.Types.ObjectId, ref: 'User'}],
   firstName: {
     type: String,
     trim: true,
@@ -42,10 +44,11 @@ const userSchema = new Schema({
     trim: true
   },
   profilePID:
-    {
-      type: String,
-      trim: true
-    }
+  {
+    type: String,
+    trim: true
+  },
+  dateJoined: Date
 });
 
 userSchema.statics.findByEmail = function(email) {
@@ -55,6 +58,10 @@ userSchema.statics.findByEmail = function(email) {
 userSchema.statics.findByID = function(id) {
   return this.findOne({ _id : id});
 };
+
+userSchema.statics.findInRequests = function(id, friendID) {
+  return this.find( { $and: [ { _id: id }, { requestsSent: { friendID } } ] } )
+}
 
 userSchema.statics.findByType = function(type) {
   return this.findOne({ type : type});

@@ -1,0 +1,10 @@
+<div class="section">
+    <h1 style="color: olive">
+        You have {{friends.length}} Friends
+    </h1>
+    <div class="ui link cards">
+{{#each friends }}
+        {{>friend_card}}
+{{/each}}
+    </div>
+</div>

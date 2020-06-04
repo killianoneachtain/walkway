@@ -23,6 +23,14 @@
       "password": "$2a$05$.cwDLHBgysqwrS6poRmawuFC5tv7ubZsjjDQDki.dx55oWPJbfoEq",
       "type": "user",
       "trailtypes": [ "Loop", "Linear" ]
+    },
+    "guest": {
+      "firstName": null,
+      "lastName": null,
+      "email": null,
+      "password": null,
+      "type": null,
+      "trailtypes": []
     }
   },
   "trails": {
