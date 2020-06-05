@@ -61,6 +61,7 @@ module.exports = [
   { method: 'POST', path: '/uploadProfilePicture/{id}', config: Gallery.uploadProfilePicture },
 
   { method: 'POST', path: '/addFriend/{id}/{friendID}', config: Social.addFriend},
+  { method: 'POST', path: '/acceptFriend/{id}/{friendID}', config: Social.acceptFriend},
 
   {
     method: 'GET',

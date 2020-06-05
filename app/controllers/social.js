@@ -72,6 +72,102 @@ const Social = {
       }
     }
   },
+  acceptFriend: {
+    handler: async function(request,h) {
+      try {
+        console.log("HERE I AM TRYING TO Accept A FRIEND");
+        const userId = request.auth.credentials.id;
+        let currentUser = await User.findById(userId).lean();
+
+        let friend = await User.findById(request.params.friendID).lean();
+        let friendID = friend._id;
+
+        let areFriends = '';
+        let friends = currentUser.friends;
+        //console.log("Friends are : ", friends);
+        areFriends = friends.includes(friendID);
+        //console.log("Friends status is :", areFriends);
+
+        try {
+          // 1. remove friend id from requestsSent array
+          // 2. move to friend list
+          // 3. remove userId from friendRequests array
+
+          try {
+            //console.log("friendID is :", friendID);
+            //console.log("UserId is : ", userId);
+            let user = await User.find( { _id : userId });
+            //console.log("THE USER IS:", user);
+
+            await User.updateOne({ _id: userId }, { $pull: { friendRequests: friendID } }).lean();
+
+            user = await User.find( { _id : userId });
+            //console.log("THE USER AFTER friendRequests UPDATE IS:", user);
+
+            let currentUser = user[0];
+            await currentUser.save;
+          } catch (err) {
+            console.log(err);
+          }
+
+          try {
+            console.log("friendID is :", friendID);
+            console.log("UserId is : ", userId);
+
+            let user = await User.find( { _id : userId });
+            let Friend = await User.find( { _id : friendID });
+
+            //let addToFriends = User.addToFriends(userId, friendID);
+            await User.updateOne({ _id: userId }, { $push: { friends: friendID } });
+            await User.updateOne({ _id: friendID}, { $push: { friends: userId } } );
+
+            let currentUser = user[0];
+            await currentUser.save;
+            let thisFriend = Friend[0];
+            await thisFriend.save;
+            console.log("Friends Added to both people:", addToFriends);
+          } catch (err)
+          {
+            console.log(err)
+          }
+
+          try {
+
+            await User.updateOne({ _id: friendID }, { $pull: { requestsSent: userId } });
+            let user = await User.find( { _id : friendID });
+            let currentUser = user[0];
+            await currentUser.save;
+          } catch (err) {
+            console.log(err);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+
+
+        let friendsList=[];
+
+        for (let i=0;i < friends.length;i++)
+        {
+          friendsList.push(await User.findById(friends[i]).lean());
+        }
+        //console.log("Friends are : ", friendsList);
+
+        let requests = currentUser.friendRequests;
+        let requestsList=[];
+        for (let i=0;i < requests.length;i++)
+        {
+          requestsList.push(await User.findById(requests[i]).lean());
+        }
+        console.log("Requests are : ", requestsList);
+
+        return h.redirect('friends', {friends: friendsList, user: currentUser, friendRequests: requestsList});
+      }
+      catch (err) {
+        return h.view('main', { errors: [{ message: err.message }] });
+      }
+    }
+  },
   friends: {
     handler:  async function(request, h) {
       try {

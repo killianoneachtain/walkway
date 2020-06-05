@@ -450,11 +450,19 @@ const Walkways = {
         let currentUserId = request.auth.credentials.id;
 
         let currentUser = await User.findById(currentUserId).lean();
-        //console.log("Current user is :", currentUser);
+        console.log("Current user is :", currentUser);
 
         const personToView = request.params.otherID;
         const profiledUser = await User.findById(personToView).lean();
         //console.log("Profile to see is :", profiledUser);
+
+        //If current user is viewing own profile go to home
+        if (currentUserId === personToView)
+        {
+          const walkways = await Trail.find ( { creator: currentUserId } ).populate('walkways').lean();
+          //console.log("walkways are : ", walkways);
+          return h.view('home', { title: 'Welcome to Walkways', user: currentUser, walkways: walkways });
+        }
 
         //Search through currentUser Friends List to see if profiled user
         // is in their friend list.
@@ -463,10 +471,10 @@ const Walkways = {
         let areFriends = friends.includes(personToView);
         console.log("Friends status is :", areFriends);
 
-        let requestSent = User.findInRequests(currentUserId, personToView);
+        let requestSent = await User.findOne( { $and: [ { _id: currentUserId}, { requestsSent: profiledUser._id } ] } );
         //console.log("REQS are:", reqs);
-        //console.log("persontoView", personToView);
-        //console.log("Request Sent is : ", requestSent);
+        console.log("profiledUser is : ", profiledUser);
+        console.log("Request Sent is : ", requestSent);
 
         let profiledUserName = profiledUser.firstName + ' ' + profiledUser.lastName;
 
