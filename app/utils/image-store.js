@@ -60,6 +60,7 @@ const ImageStore = {
       function(error,result) {console.log("Error is :", error)} );
 
     let this_user = user[0];
+    this_user.profileImages.push(uploaded_image.public_id);
     this_user.profilePicture = uploaded_image.secure_url;
     this_user.profilePID = uploaded_image.public_id;
     await this_user.save();

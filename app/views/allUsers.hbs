@@ -1,0 +1,53 @@
+{{>mainmenu _id="search"}}
+
+{{>goToUser}}
+
+{{#each allUsers as | user |}}
+
+    <!-- {>profile_id_card}} -->
+    <table id="{{user._id}}" class="ui stackable olive fixed table">
+        <thead>
+        <tr style="font-style: italic">
+            <th style="text-align: Left"><h2>Profile Picture</h2></th>
+            <th><h2>Name</h2></th>
+            <th><h2>Friends</h2></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                {{#if user.profilePicture}}
+                    <img class="ui bordered circular small image" src="{{user.profilePicture}}">
+                {{else}}
+                    <img class="ui circular small image" src="/images/default_user.png">
+                {{/if}}
+
+            </td>
+            <td><a href="/viewProfile/{{@root.currentUser._id}}/{{user._id}}" style="font-size: 200%; ">{{user.firstName}} {{user.lastName}}</a></h1>
+                        <h2>
+                            <a href="/viewProfile/{{@root.currentUser._id}}/{{user._id}}">
+                                <button class="ui large inverted olive button" style="color: #800643">
+                                    <i class="large user icon"></i>
+                                    View Profile
+                                </button>
+                            </a>
+                        </h2>
+            </td>
+            <td><h3>Friends: {{#unless user.friends.length}}0{{else}}
+                {{user.friends.length}}{{/unless}}</h3></td>
+        </tr>
+        </tbody>
+        {{> error}}
+    </table>
+    {{/each}}
+    <!-- https://stackoverflow.com/questions/23032833/how-to-toggle-content-in-semantic-ui-buttons -->
+    <script>
+        $('.ui.button.toggle').state(
+                {
+                    text: {
+                        active   : 'Friend Request Sent'
+                    }
+                }
+        );
+    </script>
+

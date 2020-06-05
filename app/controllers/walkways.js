@@ -365,18 +365,20 @@ const Walkways = {
   viewAll: {
     handler: async function(request, h) {
       try {
+        console.log("HERE IN VIEW ALL");
         const userId = request.auth.credentials.id;
         const user = await User.findById(userId).lean();
         console.log("The current user is :", user);
 
         const walkways = await Trail.find().populate('walkways').lean();
+        console.log("The Walkways are :",walkways);
         const users = await User.find( { type: { $ne: 'admin' } }).populate('users').lean();
+        console.log("The users are:", users);
 
-        const trailID = request.params.id;
-        const trail = await Trail.find( { _id : trailID }).lean();
+        const allTrails = true;
 
         return h.view('allTrails', { title: "All Trails on Walkways ", users: users, walkways: walkways,
-          user: user } );
+          user: user, currentUser: user, allTrails: allTrails } );
       } catch (err) {
         return h.view('home', { errors: [{ message: err.message }] });
       }
@@ -450,23 +452,32 @@ const Walkways = {
         let currentUserId = request.auth.credentials.id;
 
         let currentUser = await User.findById(currentUserId).lean();
-        //console.log("Current user is :", currentUser);
+        console.log("Current user is :", currentUser);
 
         const personToView = request.params.otherID;
         const profiledUser = await User.findById(personToView).lean();
         //console.log("Profile to see is :", profiledUser);
 
+        //If current user is viewing own profile go to home
+        if (currentUserId === personToView)
+        {
+          const walkways = await Trail.find ( { creator: currentUserId } ).populate('walkways').lean();
+          //console.log("walkways are : ", walkways);
+          return h.view('home', { title: 'Welcome to Walkways', user: currentUser, walkways: walkways });
+        }
+
         //Search through currentUser Friends List to see if profiled user
         // is in their friend list.
-        let friends = currentUser.friends;
-        console.log("Friends are : ", friends);
-        let areFriends = friends.includes(personToView);
+        //let friends = currentUser.friends;
+        //console.log("Friends are : ", friends);
+        //let areFriends = friends.includes(personToView);
+        let areFriends = await User.findOne( { $and: [ { _id: currentUserId}, { friends: profiledUser._id } ] } );
         console.log("Friends status is :", areFriends);
 
-        let requestSent = User.findInRequests(currentUserId, personToView);
+        let requestSent = await User.findOne( { $and: [ { _id: currentUserId}, { requestsSent: profiledUser._id } ] } );
         //console.log("REQS are:", reqs);
-        //console.log("persontoView", personToView);
-        //console.log("Request Sent is : ", requestSent);
+        console.log("profiledUser is : ", profiledUser);
+        console.log("Request Sent is : ", requestSent);
 
         let profiledUserName = profiledUser.firstName + ' ' + profiledUser.lastName;
 

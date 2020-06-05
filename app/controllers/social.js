@@ -72,6 +72,100 @@ const Social = {
       }
     }
   },
+  acceptFriend: {
+    handler: async function(request,h) {
+      try {
+
+        const userId = request.auth.credentials.id;
+        let currentUser = await User.findById(userId).lean();
+
+        let friend = await User.findById(request.params.friendID).lean();
+        let friendID = friend._id;
+
+        let areFriends = '';
+        let friends = currentUser.friends;
+        //console.log("Friends are : ", friends);
+        areFriends = friends.includes(friendID);
+        //console.log("Friends status is :", areFriends);
+
+        try {
+          // 1. remove friend id from requestsSent array
+          // 2. move to friend list
+          // 3. remove userId from friendRequests array
+
+          try {
+            //console.log("friendID is :", friendID);
+            //console.log("UserId is : ", userId);
+            let user = await User.find( { _id : userId });
+            //console.log("THE USER IS:", user);
+
+            await User.updateOne({ _id: userId }, { $pull: { friendRequests: friendID } }).lean();
+
+            user = await User.find( { _id : userId });
+            //console.log("THE USER AFTER friendRequests UPDATE IS:", user);
+
+            let currentUser = user[0];
+            await currentUser.save;
+          } catch (err) {
+            console.log(err);
+          }
+
+          try {
+            console.log("friendID is :", friendID);
+            console.log("UserId is : ", userId);
+
+            let user = await User.find( { _id : userId });
+            let Friend = await User.find( { _id : friendID });
+
+            //let addToFriends = User.addToFriends(userId, friendID);
+            await User.updateOne({ _id: userId }, { $push: { friends: friendID } });
+            await User.updateOne({ _id: friendID}, { $push: { friends: userId } } );
+
+            let currentUser = user[0];
+            await currentUser.save;
+            let thisFriend = Friend[0];
+            await thisFriend.save;
+            //console.log("Friends Added to both people:", addToFriends);
+          } catch (err)
+          {
+            console.log(err)
+          }
+
+          try {
+
+            await User.updateOne({ _id: friendID }, { $pull: { requestsSent: userId } });
+            let user = await User.find( { _id : friendID });
+            let currentUser = user[0];
+            await currentUser.save;
+          } catch (err) {
+            console.log(err);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+
+        //updated friend list
+
+        //console.log("Friends are : ", friendsList);
+
+        currentUser = await User.findById(userId).lean();
+        let requestsList = currentUser.friendRequests; //Updated friendRequests;
+        friends = currentUser.friends;
+        let friendsList=[];
+        for (let i=0;i < friends.length;i++)
+        {
+          friendsList.push(await User.findById(friends[i]).lean());
+        }
+
+        console.log("Requests are : ", requestsList);
+
+        return h.view('friends', {friends: friendsList, user: currentUser, friendRequests: requestsList});
+      }
+      catch (err) {
+        return h.view('main', { errors: [{ message: err.message }] });
+      }
+    }
+  },
   friends: {
     handler:  async function(request, h) {
       try {
@@ -96,11 +190,127 @@ const Social = {
         }
         console.log("Requests are : ", requestsList);
 
-        return h.view('friends', {friends: friendsList, user: user, friendRequests: requestsList});
+        let pending = user.requestsSent;
+        let pendingList=[];
+        for (let i=0;i < pending.length;i++)
+        {
+          pendingList.push(await User.findById(pending[i]).lean());
+        }
+        console.log("Pending are : ", pendingList);
+
+        return h.view('friends', {title: 'My Friends', friends: friendsList, user: user, friendRequests: requestsList,
+        friendsPending: pendingList});
       } catch (err) {
         return h.view('home');
       }
     }
-  }
+  },
+  denyFriend: {
+    handler: async function(request,h) {
+      try {
+        const userId = request.auth.credentials.id;
+        //let currentUser = await User.findById(userId).lean();
+
+        let friend = await User.findById(request.params.friendID).lean();
+        let friendID = friend._id;
+        //console.log("friendID is :", friendID);
+        //console.log("UserId is : ", userId);
+
+        // 1. Remove friendID from pending list
+        // 2. Remove userID from friend requestSent list
+
+        try {
+          try{
+            try {
+                await User.updateOne({ _id: userId }, { $pull: { friendRequests: friendID } }).lean();
+              } catch(err) {
+                console.log(err);
+              }
+
+              let user = await User.find( { _id : userId });
+              //console.log("THE USER AFTER friendRequests UPDATE IS:", user);
+              let currentUser = user[0];
+              await currentUser.save;
+            } catch (err) {
+                console.log(err);
+              }
+
+          try {
+            await User.updateOne({ _id: friendID }, { $pull: { requestsSent: userId } });
+            let user = await User.find( { _id : friendID });
+            let currentUser = user[0];
+            await currentUser.save;
+          } catch (err) {
+              console.log(err);
+            }
+        } catch (err) {
+          console.log(err);
+        }
+
+        //updated friend list
+
+        //console.log("Friends are : ", friendsList);
+
+        let currentUser = await User.findById(userId).lean();
+        let requestsList = currentUser.friendRequests; //Updated friendRequests;
+        let friends = currentUser.friends;
+        let friendsList=[];
+        for (let i=0;i < friends.length;i++)
+        {
+          friendsList.push(await User.findById(friends[i]).lean());
+        }
+
+        console.log("Requests are : ", requestsList);
+
+        return h.view('friends', {friends: friendsList, user: currentUser, friendRequests: requestsList});
+      }
+      catch (err) {
+        return h.view('main', { errors: [{ message: err.message }] });
+      }
+    }
+  },
+  allUsers: {
+    handler:  async function(request, h) {
+      try {
+        const id = request.auth.credentials.id;
+        const user = await User.findById(id).lean();
+
+        const allUsers = await User.find( { $and: [ { type: { $eq: "user" } }, { _id: { $ne: id } } ] } ).lean();
+        console.log("All Users are:", allUsers);
+
+        let friends = user.friends;
+        //console.log("Friends are : ", friends);
+        let friendsList=[];
+        for (let i=0;i < friends.length;i++)
+        {
+          friendsList.push(await User.findById(friends[i]).lean());
+        }
+
+        let requests = user.friendRequests;
+        let requestsList=[];
+        for (let i=0;i < requests.length;i++)
+        {
+          requestsList.push(await User.findById(requests[i]).lean());
+        }
+        console.log("Requests are : ", requestsList);
+
+        let pending = user.requestsSent;
+        let pendingList=[];
+        for (let i=0;i < pending.length;i++)
+        {
+          pendingList.push(await User.findById(pending[i]).lean());
+        }
+        console.log("Pending are : ", pendingList);
+
+        return h.view('allUsers',{title: 'Search for Friends', currentUser: user, user: user,
+          friends: friendsList, friendRequests: requestsList, friendsPending: pendingList,
+          allUsers: allUsers } )
+
+      } catch(err) {
+        console.log(err)
+      }
+      }
+    }
 };
+
 module.exports = Social;

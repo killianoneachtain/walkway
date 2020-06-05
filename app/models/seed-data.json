@@ -7,7 +7,10 @@
       "email": "homer@simpson.com",
       "password": "$2a$10$JywZTCuCquuwOwoUeR2Zeey1MC5vOGOkN3ruDuT14fSsI6ZdQ/hJe",
       "type": "user",
-      "trailtypes": [ "Loop" ]
+      "trailtypes": [ "Loop" ],
+      "friends": [ "->users.killian"],
+      "friendRequests": [],
+      "requestsSent": [ "->users.bart"]
     },
     "marge": {
       "firstName": "Marge",
@@ -22,7 +25,24 @@
       "email": "killianoneachtain@hotmail.com",
       "password": "$2a$05$.cwDLHBgysqwrS6poRmawuFC5tv7ubZsjjDQDki.dx55oWPJbfoEq",
       "type": "user",
-      "trailtypes": [ "Loop", "Linear" ]
+      "trailtypes": [ "Loop", "Linear" ],
+      "friends": [ "->users.homer" ],
+      "friendRequests": [ "->users.bart" ]
+    },
+    "bart": {
+      "firstName":"Bart",
+      "lastName":"Simpson",
+      "email":"bart@simpson.com",
+      "password":"$2b$10$neSjFkFmaGL2Khngumn8y.VaWXSem6XvcQpehZ4KSTARG/o4Ixhxe",
+      "type":"user",
+      "trailtypes":[],
+      "profilePicture":"https://res.cloudinary.com/walkways/image/authenticated/s--Ka98Xt2---/v1591354421/5eda2303a54ec51842c2a3d8/Profile_Picture/temp_jggpyx.jpg",
+      "profilePID":"5eda2303a54ec51842c2a3d8/Profile_Picture/temp_jggpyx",
+      "profileImages":["5eda2303a54ec51842c2a3d8/Profile_Picture/temp_samezp","5eda2303a54ec51842c2a3d8/Profile_Picture/temp_jggpyx"],
+      "dateJoined":"2020-06-04",
+      "friends": [],
+      "friendRequests":[ "->users.homer" ],
+      "requestsSent":[ "->users.killian" ]
     },
     "guest": {
       "firstName": null,

@@ -1,6 +1,7 @@
 'use strict';
 
 const User = require('../models/user');
+const Joi = require('@hapi/joi');
 const Boom = require('@hapi/boom');
 const utils = require('./utils.js');
 
@@ -69,6 +70,20 @@ const Users = {
       }
     }
   }
+  /*findName: {
+    auth: false,
+    handler: async function(request, h) {
+      try {
+        const user = await User.findOne({ firstName: request.params.name });
+        if (!user) {
+          return Boom.notFound('No User with this id');
+        }
+        return user;
+      } catch (err) {
+        return Boom.notFound('No User with this id');
+      }
+    }
+  },*/
 };
 
 module.exports = Users;

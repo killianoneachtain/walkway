@@ -119,10 +119,16 @@ const Accounts = {
           type: "user",
           profilePicture: "",
           profilePID: "",
-          dateJoined: joinDate
+          profileImages: [],
+          friends: [],
+          friendRequests: [],
+          requestsSent: [],
+          dateJoined: joinDate,
+          online: false
         });
         user = await newUser.save();
         request.cookieAuth.set({ id: user.id });
+        await User.updateOne( { _id: user.id }, { "$set": { "online": true } } );
         return h.redirect('/home');
       } catch (err) {
         return h.view('signup', { errors: [{ message: err.message }] });
@@ -169,6 +175,7 @@ const Accounts = {
         {
           await user.comparePassword(password);
           request.cookieAuth.set({ id: user.id });
+          await User.updateOne( { _id: user.id }, { "$set": { "online": true } } );
           return h.redirect('/admin');
         } else if (user) {
           if (!await user.comparePassword(password)) {         // EDITED (next few lines)
@@ -176,6 +183,7 @@ const Accounts = {
             throw Boom.unauthorized(message);
           } else {
             request.cookieAuth.set({ id: user.id });
+            await User.updateOne( { _id: user.id }, { "$set": { "online": true } } );
             return h.redirect('/home');
           }                                                    // END
         }
@@ -216,8 +224,10 @@ const Accounts = {
     }
   },
   logout: {
-    auth: false,
-    handler: function(request, h) {
+    //auth: false,
+    handler: async function(request, h) {
+      let userId = request.auth.credentials.id;
+      await User.updateOne( { _id: userId }, { "$set": { "online": false } } );
       request.cookieAuth.clear();
       return h.redirect('/');
     }
