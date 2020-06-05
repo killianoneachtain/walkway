@@ -83,10 +83,14 @@
                     <div class="ui accordion">
                 {{else}}
                 <!-- if view profile it can drop down as a nested accordion-->
-                    <div class="accordion">
+                    All friend request / accept / deny
                 {{/if}}
         {{else}}
-            <div class="ui styled fluid accordion">
+            {{#if @root.guest}}
+                <div class="ui accordion">
+            {{else}}
+                <div class="ui styled fluid accordion">
+            {{/if}}
         {{/if}}
             <div class="active title" style="color: olive;font-size: large">
                 <i class="dropdown icon"></i>{{comments.length}} comments
