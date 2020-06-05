@@ -57,12 +57,27 @@ const Admin = {
         console.log("USER is ", user);
         const trails = await Trail.findByCreator(id).lean();
 
+        //************* Delete all user comments from trails
+
+
+
+        //************* Delete All User Images and Folders from Cloudinary
+
         let user_images=[];
         let profile_public_id= user.profilePID;
         let profile_folder = user._id + '/Profile_Picture';
 
         try {
           if (user.profilePicture !== "") {
+
+            //Puts all the profile pictures in the user_images, for deletion
+            try {
+              user_images = await user.profileImages;
+              console.log("user_images are: ", user_images);
+            } catch (err)
+            {
+              console.log(err);
+            }
 
             await ImageStore.deleteProfilePicture(profile_public_id);
             try {
@@ -76,10 +91,6 @@ const Admin = {
             } catch(err) {
               console.log(err);
             }
-
-        // *********
-        // NEED TO ADD THE USER.profileImages array to the user_images array
-        // *********
 
         if (user_images.length >= 0)
         {
@@ -115,7 +126,6 @@ const Admin = {
         //delete the user id from all friends arrays;
         // delete the user id from all the friendRequest arrays;
         // delete the user id from all the requestsSent arrays;
-
 
         try {
           await Trail.deleteMany( { creator: user._id } );

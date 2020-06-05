@@ -62,6 +62,9 @@ module.exports = [
 
   { method: 'POST', path: '/addFriend/{id}/{friendID}', config: Social.addFriend},
   { method: 'POST', path: '/acceptFriend/{id}/{friendID}', config: Social.acceptFriend},
+  { method: 'POST', path: '/denyFriend/{id}/{friendID}', config: Social.denyFriend },
+
+  { method: 'GET', path: '/allUsers/{id}', config: Social.allUsers },
 
   {
     method: 'GET',

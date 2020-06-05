@@ -78,7 +78,13 @@
     <div class="extra content">
         <!-- change to just accordion if on profile view -->
         {{#if @root.currentUser}}
-            <div class="accordion">
+                <!-- if allTrails it drops down -->
+                {{#if @root.allTrails}}
+                    <div class="ui accordion">
+                {{else}}
+                <!-- if view profile it can drop down as a nested accordion-->
+                    <div class="accordion">
+                {{/if}}
         {{else}}
             <div class="ui styled fluid accordion">
         {{/if}}
@@ -90,11 +96,11 @@
             </div>
         </div>
     </div>
+    </div>
 </div>
 
 
 <script>
     $('.ui.dropdown')
-            .dropdown()
-    ;
+            .dropdown()  ;
 </script>

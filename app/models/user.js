@@ -7,9 +7,6 @@ const bCrypt = require('bcrypt');          // ADDED
 
 
 const userSchema = new Schema({
-  friends: [{ type: Schema.Types.ObjectId, ref: 'User'}],
-  friendRequests : [{ type: Schema.Types.ObjectId, ref: 'User'}],
-  requestsSent : [{ type: Schema.Types.ObjectId, ref: 'User'}],
   firstName: {
     type: String,
     trim: true,
@@ -49,6 +46,9 @@ const userSchema = new Schema({
     trim: true
   },
   profileImages: Array,
+  friends: [{ type: Schema.Types.ObjectId, ref: 'User'}],
+  friendRequests : [{ type: Schema.Types.ObjectId, ref: 'User'}],
+  requestsSent : [{ type: Schema.Types.ObjectId, ref: 'User'}],
   dateJoined: Date,
   online: Boolean
 });

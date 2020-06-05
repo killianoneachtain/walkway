@@ -11,8 +11,7 @@ const eventSchema = new Schema({
         ref: 'User'
   },
   creatorName: String,
-
-
+  event: String
 });
 
 eventSchema.statics.findById = function(id) {

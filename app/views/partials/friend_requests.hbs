@@ -1,6 +1,11 @@
-<div class="ui raised segment">
-    <h1>You have {{friendRequests.length}} requests</h1>
-</div>
+<h1>You have
+    {{#unless friendRequests.length}}
+        0
+    {{/unless}}
+    {{#if friendRequests.length}}
+    {{friendRequests.length}}
+    {{/if}}
+    requests</h1>
 
 <div class="section">
     <div class="ui fluid link cards">
@@ -27,7 +32,7 @@
                     </div>
                 </div>
             </div>
-        {{/each}}
+        {{/each}}</div>
     </div>
     </div>
 </div>

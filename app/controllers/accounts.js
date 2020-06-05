@@ -128,7 +128,7 @@ const Accounts = {
         });
         user = await newUser.save();
         request.cookieAuth.set({ id: user.id });
-        await User.update( { _id: user.id }, { "$set": { "online": true } } );
+        await User.updateOne( { _id: user.id }, { "$set": { "online": true } } );
         return h.redirect('/home');
       } catch (err) {
         return h.view('signup', { errors: [{ message: err.message }] });
