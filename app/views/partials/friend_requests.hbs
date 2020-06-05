@@ -1,0 +1,38 @@
+<h1>You have
+    {{#unless friendRequests.length}}
+        0
+    {{/unless}}
+    {{#if friendRequests.length}}
+    {{friendRequests.length}}
+    {{/if}}
+    requests</h1>
+
+<div class="section">
+    <div class="ui fluid link cards">
+    {{#each friendRequests}}
+        {{> friend_card}}
+            <div class="extra content">
+                <div class="ui two fluid buttons">
+                    <!-- Add Friend Piece -->
+                    <div class="fluid ui centered button" style="padding: 0px">
+                        <form class="ui fluid form" action="/acceptFriend/{{@root.user._id}}/{{_id}}" method="POST">
+                            <button class="ui large olive button" style="color: #800643">
+                                <i class="check circle icon"></i>
+                                Accept
+                            </button>
+                        </form>
+                    </div>
+                    <div class="fluid ui button" style="padding: 0px;">
+                        <form class="ui fluid form" action="/denyFriend/{{@root.user._id}}/{{_id}}" method="POST">
+                            <button class="ui large red button" style="color: whitesmoke">
+                                <i class="times circle icon"></i>
+                                Decline
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {{/each}}</div>
+    </div>
+    </div>
+</div>

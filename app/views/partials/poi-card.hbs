@@ -1,29 +1,39 @@
-{{#each walkways as | walkway | }}
-
-        <div class="ui fluid horizontal card">
-        <div class="two wide column">
-            <div class="image" style="height: 300px; width: 300px;margin-top: 50px;margin-left: 10px">
-                <img class="ui centered image" src="{{profileImage}}">
+<div class="ui fluid horizontal olive card">
+    <div class="image" style="height: 200px; width: 200px;margin-top: 50px">
+        <img class="ui centered image" src="{{profileImage}}">
+    </div>
+    <div class="content">
+            <div class="header">
+                <h1 id="{{_id}}">{{ trailname }}</h1>
             </div>
-        </div>
-        <div class="content">
-            <!-- unless here for user views
-            <i class="right floated like icon"></i>
-            <i class="right floated star icon"></i> -->
-            <div class="header"><h1>{{ trailname }}</h1></div>
             <div class="meta">
-                <h2 style="color: olive">{{trailtype}}</h2>
-                <h2 style="color: #cb3232"><a href="/viewProfile/{{creator}}">{{creatorName}}</a></h2>
+                <h2 style="color: olive">
+                    Trail Type : {{trailtype}}
+                </h2>
+                {{#if @root.user._id}}
+                    <h2 style="color: #cb3232">
+                        <a href="/viewProfile/{{@root.user._id}}/{{creator}}">{{creatorName}}</a>
+                    </h2>
+                {{else}}
+                    <h2 style="color: #cb3232">
+                        <a href="/viewProfile/{{creator}}">{{creatorName}}</a>
+                    </h2>
+                {{/if}}
             </div>
             <div class="extra">
-                Rating:
-                <div class="ui yellow rating" data-rating="3"></div>
+                Current Rating:
+                <div class="ui red disabled rating" data-rating="3.5" data-max-rating="5"></div>
+                <p></p>
+
             </div>
             <div class="description">
+                <div class="ui grid" style="margin-top: 10px">
+                    <div class="eight wide column">
                 <table class="ui large collapsing inverted olive table">
                     <thead>
                     <tr >
-                        <th colspan="3">Details</th>
+                        <th class="four wide">Details</th>
+                        <th class="twelve wide"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -57,12 +67,40 @@
                     </tr>
                     </tbody>
                 </table>
-                <div class="four wide column" style="font-size: 120%">
-                    <article>Description of Trail:<br><br>
-                        {{description}}</article>
+                    </div>
+                    <div class="eight wide column">
+                        <h1>Description</h1>
+                        <p>{{description}}</p>
+                    </div>
                 </div>
+        </div>
+    </div>
+    <div class="extra content">
+        <!-- change to just accordion if on profile view -->
+        {{#if @root.currentUser}}
+                <!-- if allTrails it drops down -->
+                {{#if @root.allTrails}}
+                    <div class="ui accordion">
+                {{else}}
+                <!-- if view profile it can drop down as a nested accordion-->
+                    <div class="accordion">
+                {{/if}}
+        {{else}}
+            <div class="ui styled fluid accordion">
+        {{/if}}
+            <div class="active title" style="color: olive;font-size: large">
+                <i class="dropdown icon"></i>{{comments.length}} comments
+            </div>
+            <div class="content">
+                {{> comments}}
             </div>
         </div>
     </div>
+    </div>
+</div>
 
-{{/each}}
+
+<script>
+    $('.ui.dropdown')
+            .dropdown()  ;
+</script>

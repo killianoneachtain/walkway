@@ -1,3 +1,7 @@
-{{> guest_menu }}
+{{#if @root.guest}}
+    {{> guest_menu }}
+{{else}}
+    {{> mainmenu }}
+{{/if}}
 
 {{>userProfile}}

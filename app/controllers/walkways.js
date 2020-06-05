@@ -8,9 +8,7 @@ const cloudinary = require('cloudinary').v2;
 const googleMapsClient = require('@google/maps').createClient({
   key: process.env.google_maps_API
 });
-
 //const Mongoose = require('mongoose');
-
 const Joi = require('@hapi/joi');
 
 const Walkways = {
@@ -23,7 +21,6 @@ const Walkways = {
       //console.log("walkways are : ", walkways);
 
       return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user });
-
     }
   },
   trailform: {
@@ -34,7 +31,7 @@ const Walkways = {
 
       console.log("Categories are : ", categories);
 
-      return h.view('addPOI', { title: 'Add Trail to your Walkways', categories: categories });
+      return h.view('addPOI', { title: 'Add Trail to your Walkways', categories: categories, user: user });
     }
   },
   addtrail: {
@@ -364,7 +361,147 @@ const Walkways = {
         return h.view('editPOI', { errors: [{ message: err.message }] });
       }
     }
-  }
+  },
+  viewAll: {
+    handler: async function(request, h) {
+      try {
+        console.log("HERE IN VIEW ALL");
+        const userId = request.auth.credentials.id;
+        const user = await User.findById(userId).lean();
+        console.log("The current user is :", user);
+
+        const walkways = await Trail.find().populate('walkways').lean();
+        console.log("The Walkways are :",walkways);
+        const users = await User.find( { type: { $ne: 'admin' } }).populate('users').lean();
+        console.log("The users are:", users);
+
+        const allTrails = true;
+
+        return h.view('allTrails', { title: "All Trails on Walkways ", users: users, walkways: walkways,
+          user: user, currentUser: user, allTrails: allTrails } );
+      } catch (err) {
+        return h.view('home', { errors: [{ message: err.message }] });
+      }
+    }
+  },
+  postComment: {
+      validate: {
+        payload: {
+          comment: Joi.string().trim().min(1).max(700).regex(/^[a-zA-Z0-9 ,-.]{1,700}$/)
+            .messages({ 'string.pattern.base': 'Comment must be between alphanumeric or "-,."' })
+        },
+        options: {
+          abortEarly: false
+        },
+        failAction: async function(request, h, error) {
+        }
+        },
+      handler: async function(request,h){
+      try {
+
+        const userID = request.params.userID;
+        console.log("userID is : ", userID);
+        const trailID = request.params.trailID;
+        console.log("trailId is : ", trailID);
+
+
+        const user = await User.findById(userID);
+        //console.log("user is :", user);
+        const trail = await Trail.findByID(trailID);
+        //console.log("trail is : ", trail);
+        const walkways = await Trail.find().populate('walkways').lean();
+        //console.log("walkways are: ", walkways);
+        const users = await User.find( { type: { $ne: 'admin' } }).populate('users').lean();
+        //console.log("users are : ", users);
+
+        let body = request.package;
+        //console.log("The Body is : ", body);
+
+
+        let m = new Date();
+        let dateString =
+          m.getUTCFullYear() + "/" +
+          ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" +
+          ("0" + m.getUTCDate()).slice(-2) + " " +
+          ("0" + m.getUTCHours()).slice(-2) + ":" +
+          ("0" + m.getUTCMinutes()).slice(-2) + ":" +
+          ("0" + m.getUTCSeconds()).slice(-2);
+        //console.log(dateString);
+
+        trail.comments.push({
+          content: request.payload.comment,
+          postedBy: {
+            userId: userID,
+            userName: user.firstName + ' ' + user.lastName,
+            profilePicture: user.profilePicture
+          },
+          time: dateString
+        });
+        await trail.save();
+
+        return h.redirect('/allTrails/' +userID);
+
+      } catch(err) {
+        return h.view('home', { errors: [{ message: err.message }] });
+      }
+    }
+  },
+  viewProfile: {
+    handler: async function(request, h) {
+      try {
+        let currentUserId = request.auth.credentials.id;
+
+        let currentUser = await User.findById(currentUserId).lean();
+        console.log("Current user is :", currentUser);
+
+        const personToView = request.params.otherID;
+        const profiledUser = await User.findById(personToView).lean();
+        //console.log("Profile to see is :", profiledUser);
+
+        //If current user is viewing own profile go to home
+        if (currentUserId === personToView)
+        {
+          const walkways = await Trail.find ( { creator: currentUserId } ).populate('walkways').lean();
+          //console.log("walkways are : ", walkways);
+          return h.view('home', { title: 'Welcome to Walkways', user: currentUser, walkways: walkways });
+        }
+
+        //Search through currentUser Friends List to see if profiled user
+        // is in their friend list.
+        //let friends = currentUser.friends;
+        //console.log("Friends are : ", friends);
+        //let areFriends = friends.includes(personToView);
+        let areFriends = await User.findOne( { $and: [ { _id: currentUserId}, { friends: profiledUser._id } ] } );
+        console.log("Friends status is :", areFriends);
+
+        let requestSent = await User.findOne( { $and: [ { _id: currentUserId}, { requestsSent: profiledUser._id } ] } );
+        //console.log("REQS are:", reqs);
+        console.log("profiledUser is : ", profiledUser);
+        console.log("Request Sent is : ", requestSent);
+
+        let profiledUserName = profiledUser.firstName + ' ' + profiledUser.lastName;
+
+        let walkways = await Trail.find( { creator: profiledUser._id }).populate('trail').lean();
+
+        let POI_total = walkways.length;
+
+        let total_images = 0;
+
+        for (let i =0; i < walkways.length; i++)
+        {
+          let imageNumber = walkways[i].images.length;
+          total_images = total_images + imageNumber;
+        }
+
+        return h.view('viewProfile', { title: profiledUserName + ' Details', walkways: walkways,
+          user: profiledUser, currentUser: currentUser, areFriends: areFriends,
+          POI_total: POI_total, total_images: total_images, requestSent: requestSent});
+      }
+      catch (err) {
+        return h.view('main', { errors: [{ message: err.message }] });
+      }
+    }
+  },
 };
 
 module.exports = Walkways;

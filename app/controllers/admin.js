@@ -57,6 +57,12 @@ const Admin = {
         console.log("USER is ", user);
         const trails = await Trail.findByCreator(id).lean();
 
+        //************* Delete all user comments from trails
+
+
+
+        //************* Delete All User Images and Folders from Cloudinary
+
         let user_images=[];
         let profile_public_id= user.profilePID;
         let profile_folder = user._id + '/Profile_Picture';
@@ -64,10 +70,19 @@ const Admin = {
         try {
           if (user.profilePicture !== "") {
 
+            //Puts all the profile pictures in the user_images, for deletion
+            try {
+              user_images = await user.profileImages;
+              console.log("user_images are: ", user_images);
+            } catch (err)
+            {
+              console.log(err);
+            }
+
             await ImageStore.deleteProfilePicture(profile_public_id);
             try {
                   await cloudinary.api.delete_folder(profile_folder, function(error, result) {
-                  //console.log(result);
+                  console.log(result);
                     });
                   } catch (err) {
                   console.log(err)
@@ -79,7 +94,6 @@ const Admin = {
 
         if (user_images.length >= 0)
         {
-
           for (let index = 0; index < trails.length; index++) {
             let image_index = 0;
             let current_images = trails[index].images;
@@ -102,12 +116,16 @@ const Admin = {
 
           try {
             await cloudinary.api.delete_folder(user._id, function(error, result) {
-              //console.log(result);
+              console.log(result);
             });
           } catch (err) {
             console.log(err);
           }
         }
+
+        //delete the user id from all friends arrays;
+        // delete the user id from all the friendRequest arrays;
+        // delete the user id from all the requestsSent arrays;
 
         try {
           await Trail.deleteMany( { creator: user._id } );
@@ -142,6 +160,7 @@ const Admin = {
         const walkways = await Trail.find( { creator: id }).populate('trail').lean();
 
         let POI_total = walkways.length;
+        console.log("POI Total is:", POI_total);
 
         let total_images = 0;
 
@@ -152,8 +171,9 @@ const Admin = {
         }
 
         let userImages = await ImageStore.getUserImages(id);
+        total_images = userImages.length;
 
-        return h.view('viewUser', { title: username + ' Details', walkways: walkways,
+        return h.view('adminViewUser', { title: username + ' Details', walkways: walkways,
           user: user, POI_total: POI_total, total_images: total_images, images: userImages});
       }
       catch (err) {
@@ -170,16 +190,31 @@ const Admin = {
 
         let trails= await Trail.findByName(request.params.foldername);
         let trail = trails[0];
+        console.log("THE TRAIL IS : ", trail);
         let user = trail.creator;
         //console.log("TRail to delete image from is", trail);
 
+        let trailImages = trail.images;
+        let trailToBeDeleted = '';
+        let i =0;
+        for (i=0;i<trailImages.length;i++)
+        {
+          let n = trailImages[i].search(publicID);
+          if (n >= 0){
+            trailToBeDeleted = trailImages[i];
+          }
+        }
+        //console.log("TRAIL IMAGES ARE : ",trail.images);
+        //console.log("Trail to be deleted is : ", trailToBeDeleted);
 
-
-        let this_trail = await Trail.updateOne( { _id: trail._id }, { $pull: { images: { $in: [ publicID ] } } } );
+        try {
+          let updateImageArray = await Trail.updateOne({ _id: trail._id }, { $pull: { images: trailToBeDeleted } });
+        } catch (err){
+          console.log(err);
+        }
+        //console.log("Up Date image ARRAY result is: ",updateImageArray);
         //console.log("Delete image from Gallery is ", update_Trail);
-        //await Trail.save();
-
-
+        trail.save();
 
         return h.redirect('/viewUser/' + user );
       } catch (err) {

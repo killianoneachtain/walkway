@@ -71,11 +71,9 @@ const Accounts = {
             errorz[details[i].path] = details[i].message;
           }
         }
-
         //console.log("THE DETAILS ARE : ",details);
         //console.log(" THE ERRORZ ARE : ", errorz);
-        return h
-          .view('signup', {
+        return h.view('signup', {
             title: 'Sign up error',
             errors: error.details,
             values: request.payload,
@@ -103,7 +101,15 @@ const Accounts = {
         }
 
         const hash = await bCrypt.hash(payload.new_password, saltRounds);    // ADDED
-        //const email_hash = await bCrypt.hash(payload.email, saltRounds);    // ADDED
+
+
+        let m = new Date();
+        let joinDate =
+          m.getUTCFullYear() + "/" +
+          ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" +
+          ("0" + m.getUTCDate()).slice(-2);
+
+        //console.log(joinDate);
 
         const newUser = new User({
           firstName: payload.firstName.replace(/^./, payload.firstName[0].toUpperCase()),
@@ -112,10 +118,17 @@ const Accounts = {
           password: hash,
           type: "user",
           profilePicture: "",
-          profilePID: ""
+          profilePID: "",
+          profileImages: [],
+          friends: [],
+          friendRequests: [],
+          requestsSent: [],
+          dateJoined: joinDate,
+          online: false
         });
         user = await newUser.save();
         request.cookieAuth.set({ id: user.id });
+        await User.updateOne( { _id: user.id }, { "$set": { "online": true } } );
         return h.redirect('/home');
       } catch (err) {
         return h.view('signup', { errors: [{ message: err.message }] });
@@ -162,6 +175,7 @@ const Accounts = {
         {
           await user.comparePassword(password);
           request.cookieAuth.set({ id: user.id });
+          await User.updateOne( { _id: user.id }, { "$set": { "online": true } } );
           return h.redirect('/admin');
         } else if (user) {
           if (!await user.comparePassword(password)) {         // EDITED (next few lines)
@@ -169,6 +183,7 @@ const Accounts = {
             throw Boom.unauthorized(message);
           } else {
             request.cookieAuth.set({ id: user.id });
+            await User.updateOne( { _id: user.id }, { "$set": { "online": true } } );
             return h.redirect('/home');
           }                                                    // END
         }
@@ -209,8 +224,10 @@ const Accounts = {
     }
   },
   logout: {
-    auth: false,
-    handler: function(request, h) {
+    //auth: false,
+    handler: async function(request, h) {
+      let userId = request.auth.credentials.id;
+      await User.updateOne( { _id: userId }, { "$set": { "online": false } } );
       request.cookieAuth.clear();
       return h.redirect('/');
     }
@@ -318,7 +335,7 @@ const Accounts = {
         return h.view('settings', { errors: [{ message: err.message }] });
       }
     }
-  },
+  }
 };
 
 module.exports = Accounts;
