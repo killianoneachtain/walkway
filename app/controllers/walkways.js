@@ -4,6 +4,7 @@ const User = require('../models/user');
 const Trail = require('../models/trail');
 const ImageStore = require('../utils/image-store');
 const cloudinary = require('cloudinary').v2;
+const Event = require('../models/events');
 
 const googleMapsClient = require('@google/maps').createClient({
   key: process.env.google_maps_API
@@ -181,6 +182,36 @@ const Walkways = {
           profileImage: 'https://res.cloudinary.com/walkways/image/upload/v1590860161/walkways-poi_qhkm66.png'
         });
         await newTrail.save();
+
+        // Create an event to addTrail
+        let now = new Date();
+        let here = now.getTime();
+
+        let signUpCard = "<div class=\"ui fluid card\">\n" +
+          "  <div class=\"content\">\n" +
+          "    <div class=\"header\">New Walkway</div>\n" +
+          "    <div class=\"description\">\n" +
+          "      <p>" + user.firstName + ' ' + user.lastName + " has added a new Trail to Walkways. </p>\n" +
+          "    </div>\n" +
+          "  </div>\n" +
+          "  <div class=\"extra content\">\n" +
+          "    <div class=\"author\">\n" +
+          "      <i class=\"big user icon\"></i>" + user.firstName + " " + user.lastName + "\n" +
+          "    </div>\n" +
+          "  </div>\n" +
+          "</div>";
+
+        //console.log("SignUp card is", signUpCard);
+
+        const newEvent = new Event({
+          creator: user.id,
+          eventTime: here,
+          event: signUpCard
+        });
+        const event = await newEvent.save();
+
+
+
         return h.redirect('home');
       } catch (err) {
         return h.view('addPOI', { errors: [{ message: err.message }] });
@@ -438,6 +469,34 @@ const Walkways = {
           time: dateString
         });
         await trail.save();
+
+        // Create an Event here to say user has made a comment
+        let now = new Date();
+        let here = now.getTime();
+
+        let signUpCard = "<div class=\"ui fluid card\">\n" +
+          "  <div class=\"content\">\n" +
+          "    <div class=\"header\">New Comment</div>\n" +
+          "    <div class=\"description\">\n" +
+          "      <p>" + user.firstName + ' ' + user.lastName + " has Posted a comment on our community. </p>\n" +
+          "    </div>\n" +
+          "  </div>\n" +
+          "  <div class=\"extra content\">\n" +
+          "    <div class=\"author\">\n" +
+          "      <i class=\"big user icon\"></i>" + user.firstName + " " + user.lastName + "\n" +
+          "    </div>\n" +
+          "  </div>\n" +
+          "</div>";
+
+        //console.log("SignUp card is", signUpCard);
+
+        const newEvent = new Event({
+          creator: user.id,
+          eventTime: here,
+          category: "friends",
+          event: signUpCard
+        });
+        await newEvent.save();
 
         return h.redirect('/allTrails/' +userID);
 
