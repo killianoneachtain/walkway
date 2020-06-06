@@ -86,7 +86,11 @@
                     <div class="accordion">
                 {{/if}}
         {{else}}
-            <div class="ui styled fluid accordion">
+            {{#if @root.guest}}
+                <div class="ui accordion">
+            {{else}}
+                <div class="ui styled fluid accordion">
+            {{/if}}
         {{/if}}
             <div class="active title" style="color: olive;font-size: large">
                 <i class="dropdown icon"></i>{{comments.length}} comments
