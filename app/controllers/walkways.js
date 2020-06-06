@@ -3,6 +3,7 @@
 const User = require('../models/user');
 const Trail = require('../models/trail');
 const Comment = require('../models/comment');
+const Events = require('../models/events');
 const ImageStore = require('../utils/image-store');
 const cloudinary = require('cloudinary').v2;
 const Event = require('../models/events');
@@ -25,14 +26,79 @@ const Walkways = {
       return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user });
     }
   },
+  shareWalk: {
+    handler: async function(request, h) {
+      try {
+      const id = request.auth.credentials.id;
+      const user = await User.findById(id).lean();
+
+      let trailID = request.params.id;
+      console.log("The trail ID is :", trailID);
+      let trail= await Trail.findOne( { _id: trailID}).lean();
+
+      //let currentTrail=trail[0];
+      console.log(trail);
+
+      //Link to shared Trail in the route '/viewPOI/{id}/{trailId}'
+      // <a href="/viewPOI/{{@root.user._id}}/{{_id}}">{{ trailname }}</a>
+
+      let shareLink = "<a href=\"/viewPOI/" + trail._id + "\">" + trail.trailname + "</a>";
+      console.log("the sharelink is:", shareLink);
+
+      let now = new Date();
+      let here = now.getTime();
+
+      let profilePic = "";
+      if (user.profilePicture === '') {
+        profilePic = '/images/default_user.png';
+      } else {
+        profilePic = user.profilePicture;
+      }
+
+      let dateString = now.getUTCFullYear() + "/" +
+        ("0" + (now.getUTCMonth() + 1)).slice(-2) + "/" +
+        ("0" + now.getUTCDate()).slice(-2) + " " +
+        ("0" + now.getUTCHours()).slice(-2) + ":" +
+        ("0" + now.getUTCMinutes()).slice(-2) + ":" +
+        ("0" + now.getUTCSeconds()).slice(-2);
+      //console.log(dateString);
+
+      let signUpCard = "<div class=\"ui fluid card\" style=\"background: #CCD0A9\">\n" +
+        "  <div class=\"content\">\n" +
+        "    <div class=\"header\">Shared something Interesting</div>\n" +
+        "    <div class=\"meta\">" + dateString + "</div>\n" +
+        "    <div class=\"description\">\n" +
+        "      <p style=\"font-size: 140%\">" + user.firstName + ' ' + user.lastName + " found this would be interesting. </p>\n" +
+        "      <p style=\"font-size: 140%\">Check out " + shareLink + " </p>\n" +
+        "    </div>\n" +
+        "  </div>\n" +
+        "  <div class=\"extra content\">\n" +
+        "    <div class=\"author\">\n" +
+        "      <img class=\"ui avatar image\" src=\"" + profilePic + "\">" + user.firstName + " " + user.lastName + "\n" +
+        "    </div>\n" +
+        "  </div>\n" +
+        "</div>";
+
+      const newEvent = new Events({
+        creator: user._id,
+        eventTime: here,
+        category: "friends",
+        event: signUpCard
+      });
+      const event = await newEvent.save();
+
+      return h.redirect('/myNews/' + user._id);
+      } catch (err) {
+        return h.view('main', { errors: [{ message: err.message }] });
+        }
+    }
+  },
   trailform: {
     handler: async function(request, h) {
       const id = request.auth.credentials.id;
       const user = await User.findById(id).lean();
       let categories = user.trailtypes;
-
       console.log("Categories are : ", categories);
-
       return h.view('addPOI', { title: 'Add Trail to your Walkways', categories: categories, user: user });
     }
   },
@@ -274,6 +340,8 @@ const Walkways = {
       try {
         const id = request.auth.credentials.id;
         const user = await User.findById(id).lean();
+        let owner=false;
+        let areFriends = false;
 
         const trailID = request.params.id;
         let trail = await Trail.find( { _id : trailID }).lean();
@@ -281,13 +349,38 @@ const Walkways = {
         let current_trail = trail[0];
 
         let trail_name = current_trail.trailname;
+        //process.env.google_maps_API;
+        let currentUserID = JSON.stringify(user._id);
+        let trailOwnerID = JSON.stringify(current_trail.creator);
+        if( currentUserID === trailOwnerID)
+        {
+          owner = true;
+          //console.log("YOU ARE THE CREATOR");
+        }
+        else{
+          owner = false;
+          //console.log("YOU ARE NOT THE OWNER");
+        }
+
+        // Check if they are friends. If they are then the current viewer can upload an image to the
+        // trail. Need to create a news event.
+
+        let friends = user.friends;
+        for(let i = 0; i < friends.length; i++)
+        {
+          let currentFriend=JSON.stringify(friends[i]);
+          if ((currentFriend === trailOwnerID))
+          {
+            areFriends = true;
+          }
+        }
 
         let userImages = await ImageStore.getUserImages(trailID);
 
         process.env.google_maps_API;
 
-        return h.view('viewPOI', { title: trail_name + " Details" , trail: current_trail, user: user,
-          google_API: process.env.google_maps_API, images: userImages } );
+        return h.view('viewPOI', { title: trail_name + " Details" , trail: current_trail, user: user, owner: owner,
+          google_API: process.env.google_maps_API, images: userImages, areFriends: areFriends } );
       } catch (err) {
         return h.view('home', { errors: [{ message: err.message }] });
       }
@@ -605,6 +698,60 @@ const Walkways = {
       }
       catch (err) {
         return h.view('main', { errors: [{ message: err.message }] });
+      }
+    }
+  },
+  userViewTrail: {
+    handler: async function(request, h) {
+      try {
+        console.log("HERE THROUGH THE ALL VIEW");
+        const id = request.auth.credentials.id;
+        const user = await User.findById(id).lean();
+        console.log("The logged in user is : ", user.firstName);
+        let owner = false;
+        let areFriends = false;
+
+        const trailID = request.params.trailId;
+        let trail = await Trail.find( { _id : trailID }).lean();
+
+        let current_trail = trail[0];
+
+        let trail_name = current_trail.trailname;
+
+        let userImages = await ImageStore.getUserImages(trailID);
+
+        // Check to see if the current viewing user is the owner of the trail.
+        let currentUserID = JSON.stringify(user._id);
+        let trailOwnerID = JSON.stringify(current_trail.creator);
+        if( currentUserID === trailOwnerID)
+          {
+            owner = true;
+            areFriends = true;
+            //console.log("YOU ARE THE CREATOR");
+          }
+          else{
+            owner = false;
+            areFriends= false;
+            //console.log("YOU ARE NOT THE OWNER");
+          }
+
+        // Check if they are friends. If they are then the current viewer can upload an image to the
+        // trail. Need to create a news event.
+
+        let friends = user.friends;
+          for(let i = 0; i < friends.length; i++)
+          {
+            let currentFriend=JSON.stringify(friends[i]);
+            if ((currentFriend === trailOwnerID))
+            {
+              areFriends = true;
+            }
+          }
+
+        return h.view('viewPOI', { title: trail_name + " Details" , trail: current_trail, user: user,
+          google_API: process.env.google_maps_API, images: userImages, owner: owner, areFriends: areFriends } );
+      } catch (err) {
+        return h.view('home', { errors: [{ message: err.message }] });
       }
     }
   },

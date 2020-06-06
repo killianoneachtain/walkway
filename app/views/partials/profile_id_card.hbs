@@ -14,7 +14,7 @@
             <img class="ui bordered circular small image" src="{{user.profilePicture}}">
         </td>
         <td><h1>{{user.firstName}} {{user.lastName}}</h1>
-        <td>{{#unless guest._id}}
+        <td>{{#unless guest}}
 
             <!-- if statement here to see if already friends -->
             {{#if areFriends}}
