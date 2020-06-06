@@ -4,7 +4,16 @@
     </h1>
     <div class="ui link cards">
 {{#each friends }}
-        {{>friend_card}}</div>
+        {{>friend_card}}
+    <div>
+        <form class="ui form" action="/friends/removeFriend/{{@root.user._id}}/{{_id}}" method="POST">
+            <button class="ui large negative button">
+                <i class="user minus icon"></i>
+                Unfriend
+            </button>
+        </form>
+    </div>
+</div>
 {{/each}}
 
 </div>

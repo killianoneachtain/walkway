@@ -21,7 +21,13 @@
                 <div class="ui large buttons">
                     <button class="ui positive button"><i class="check icon"></i>Friends</button>
                     <div class="or"></div>
-                    <button class="ui negative button"><i class="user minus icon"></i>Unfriend</button>
+                    <form class="ui form" action="/viewProfile/removeFriend/{{currentUser._id}}/{{user._id}}" method="POST">
+                        <button class="ui large negative button">
+                            <i class="user minus icon"></i>
+                            Unfriend
+                        </button>
+                    </form>
+
                 </div>
                 <!-- else show a friends Button -->
             {{else}}
