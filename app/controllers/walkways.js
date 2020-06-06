@@ -32,6 +32,19 @@ const Walkways = {
       const id = request.auth.credentials.id;
       const user = await User.findById(id).lean();
 
+      let trailID = request.params.id;
+      console.log("The trail ID is :", trailID);
+      let trail= await Trail.findOne( { _id: trailID}).lean();
+
+      //let currentTrail=trail[0];
+      console.log(trail);
+
+      //Link to shared Trail in the route '/viewPOI/{id}/{trailId}'
+      // <a href="/viewPOI/{{@root.user._id}}/{{_id}}">{{ trailname }}</a>
+
+      let shareLink = "<a href=\"/viewPOI/" + trail._id + "\">" + trail.trailname + "</a>";
+      console.log("the sharelink is:", shareLink);
+
       let now = new Date();
       let here = now.getTime();
 
@@ -55,7 +68,8 @@ const Walkways = {
         "    <div class=\"header\">Shared something Interesting</div>\n" +
         "    <div class=\"meta\">" + dateString + "</div>\n" +
         "    <div class=\"description\">\n" +
-        "      <p style=\"font-size: 150%\">" + user.firstName + ' ' + user.lastName + " found this would be interesting. </p>\n" +
+        "      <p style=\"font-size: 140%\">" + user.firstName + ' ' + user.lastName + " found this would be interesting. </p>\n" +
+        "      <p style=\"font-size: 140%\">Check out " + shareLink + " </p>\n" +
         "    </div>\n" +
         "  </div>\n" +
         "  <div class=\"extra content\">\n" +
@@ -73,7 +87,7 @@ const Walkways = {
       });
       const event = await newEvent.save();
 
-      return h.redirect('myNews/' + user._id);
+      return h.redirect('/myNews/' + user._id);
       } catch (err) {
         return h.view('main', { errors: [{ message: err.message }] });
         }
@@ -326,9 +340,8 @@ const Walkways = {
       try {
         const id = request.auth.credentials.id;
         const user = await User.findById(id).lean();
-        let owner=true;
-        let areFriends = true;
-
+        let owner=false;
+        let areFriends = false;
 
         const trailID = request.params.id;
         let trail = await Trail.find( { _id : trailID }).lean();
@@ -347,6 +360,19 @@ const Walkways = {
         else{
           owner = false;
           //console.log("YOU ARE NOT THE OWNER");
+        }
+
+        // Check if they are friends. If they are then the current viewer can upload an image to the
+        // trail. Need to create a news event.
+
+        let friends = user.friends;
+        for(let i = 0; i < friends.length; i++)
+        {
+          let currentFriend=JSON.stringify(friends[i]);
+          if ((currentFriend === trailOwnerID))
+          {
+            areFriends = true;
+          }
         }
 
         let userImages = await ImageStore.getUserImages(trailID);

@@ -405,7 +405,7 @@ const Social = {
             {
               myEvents.splice(i,1);
               i--;
-              console.log("removed some news here");
+              //console.log("removed some news here");
             }
             /*for(let j=0; j < friends.length; j++)
             {
@@ -419,7 +419,7 @@ const Social = {
           }
         }
 
-        console.log("All general and friend only events shown here",myEvents);
+        //console.log("All general and friend only events shown here",myEvents);
 
         // Function to only get top 50 news or break the news down into manageable arrays
         /*let topNews = [];

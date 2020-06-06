@@ -8,6 +8,7 @@
                     <h1 id="{{_id}}"><a href="/viewPOI/guest/{{_id}}">{{ trailname }}</a></h1>
                 {{else}}
                     <h1 id="{{_id}}"><a href="/viewPOI/{{@root.user._id}}/{{_id}}">{{ trailname }}</a></h1>
+                            {{> share_button}}
                 {{/if}}
             </div>
             <div class="meta">
