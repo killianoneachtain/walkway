@@ -1,3 +1,7 @@
+{{#if guest}}
+    {{> guest_menu}}
+{{/if}}
+
 <section class="ui raised segment" style="margin-top: 65px">
     <div class="ui grid">
         <div class="twelve wide column">
@@ -8,14 +12,12 @@
 
 <section class="ui raised segment">
     <div class="eleven wide column">
-    <div class="ui grid">
-        <table class="ui large collapsing table">
-            <tbody>
+        <div class="ui grid">
+            <table class="ui large collapsing table">
+                <tbody>
                 <tr>
-                    <td class="blue" style="font-size: large">{{trail.trailname}} Overview Details</td>
-                    {{#if owner}}
-                    <td class="blue"><a href="/editTrail/{{trail._id}}">
-                        <i class="olive wrench icon"></i>Edit Trail</a></td>{{/if}}
+                    <td class="blue" style="font-size: large">{{trail.trailname}} Details</td>
+                    <td class="blue"></td>
                 </tr>
                 <tr>
                     <td class="olive">Grade</td>
@@ -45,15 +47,15 @@
                     <td>Start Coordinates (lat, long) : </td>
                     <td>{{trail.startcoordinates.latitude}}, {{trail.startcoordinates.longitude}}</td>
                 </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
 
-        <div class="one wide column"></div>
-        <div class="four wide column" style="font-size: 120%">
-            <article>Description of Trail:<br><br>
-            {{trail.description}}</article>
+            <div class="one wide column"></div>
+            <div class="four wide column" style="font-size: 120%">
+                <article>Description of Trail:<br><br>
+                    {{trail.description}}</article>
+            </div>
         </div>
-    </div>
     </div>
 </section>
 
@@ -61,11 +63,19 @@
     <div class="ui grid">
         <table class="ui fixed table">
             <tr>
-                <td>{{> POIgallery}}</td>
-            </tr>
-            <tr>
-                {{#if @root.areFriends}}
-                <td> {{> upload_modal}}</td>{{/if}}
+                <td><h1>Gallery for {{trail.trailname}}</h1>
+                    <br>
+                    <div class="ui three stackable cards">
+                        {{#each images}}
+                            <div class="card">
+                                <div class="ui centered image">
+                                    <img class="ui medium bordered fluid image" src="{{url}}">
+                                </div>
+                            </div>
+                        {{/each}}
+                        <br>
+                    </div>
+                </td>
             </tr>
         </table>
     </div>
