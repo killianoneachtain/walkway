@@ -54,13 +54,13 @@ const Admin = {
       try {
         const id = request.params.id;
         const user = await User.findById(id).lean();
-        console.log("USER is ", user);
+        //console.log("USER is ", user);
         const trails = await Trail.findByCreator(id).lean();
 
         //************* Delete all user comments from trails
 
-
-
+        let userComments = await user.comments;
+        console.log("Delete User Comments was:", deleteUserComments);
         //************* Delete All User Images and Folders from Cloudinary
 
         let user_images=[];
@@ -73,7 +73,7 @@ const Admin = {
             //Puts all the profile pictures in the user_images, for deletion
             try {
               user_images = await user.profileImages;
-              console.log("user_images are: ", user_images);
+              //console.log("user_images are: ", user_images);
             } catch (err)
             {
               console.log(err);
@@ -82,7 +82,7 @@ const Admin = {
             await ImageStore.deleteProfilePicture(profile_public_id);
             try {
                   await cloudinary.api.delete_folder(profile_folder, function(error, result) {
-                  console.log(result);
+                  //console.log(result);
                     });
                   } catch (err) {
                   console.log(err)
@@ -116,7 +116,7 @@ const Admin = {
 
           try {
             await cloudinary.api.delete_folder(user._id, function(error, result) {
-              console.log(result);
+              //console.log(result);
             });
           } catch (err) {
             console.log(err);
@@ -160,7 +160,7 @@ const Admin = {
         const walkways = await Trail.find( { creator: id }).populate('trail').lean();
 
         let POI_total = walkways.length;
-        console.log("POI Total is:", POI_total);
+        //console.log("POI Total is:", POI_total);
 
         let total_images = 0;
 
@@ -185,12 +185,12 @@ const Admin = {
     handler: async function(request, h) {
       try {
         const publicID = request.params.id + '/' + request.params.foldername + '/' + request.params.imagename;
-        console.log("PublicID to delete image from is", publicID);
+        //console.log("PublicID to delete image from is", publicID);
         await ImageStore.deleteImage(publicID);
 
         let trails= await Trail.findByName(request.params.foldername);
         let trail = trails[0];
-        console.log("THE TRAIL IS : ", trail);
+        //console.log("THE TRAIL IS : ", trail);
         let user = trail.creator;
         //console.log("TRail to delete image from is", trail);
 

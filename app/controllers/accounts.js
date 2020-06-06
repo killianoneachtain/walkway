@@ -128,7 +128,6 @@ const Accounts = {
           online: false
         });
         user = await newUser.save();
-
         request.cookieAuth.set({ id: user.id });
         await User.updateOne( { _id: user.id }, { "$set": { "online": true } } );
 
@@ -136,9 +135,18 @@ const Accounts = {
         let now = new Date();
         let here = now.getTime();
 
+        let dateString = now.getUTCFullYear() + "/" +
+          ("0" + (now.getUTCMonth()+1)).slice(-2) + "/" +
+          ("0" + now.getUTCDate()).slice(-2) + " " +
+          ("0" + now.getUTCHours()).slice(-2) + ":" +
+          ("0" + now.getUTCMinutes()).slice(-2) + ":" +
+          ("0" + now.getUTCSeconds()).slice(-2);
+        //console.log(dateString);
+
         let signUpCard = "<div class=\"ui fluid card\">\n" +
           "  <div class=\"content\">\n" +
           "    <div class=\"header\">New Member</div>\n" +
+          "    <div class=\"meta\">" + dateString + "</div>\n" +
           "    <div class=\"description\">\n" +
           "      <p>" + user.firstName + ' ' + user.lastName + " has Joined our community. </p>\n" +
           "    </div>\n" +
@@ -155,6 +163,7 @@ const Accounts = {
         const newEvent = new Event({
           creator: user.id,
           eventTime: here,
+          category: "general",
           event: signUpCard
         });
         const event = await newEvent.save();

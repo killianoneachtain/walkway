@@ -7,7 +7,6 @@ const util = require('util');
 const writeFile = util.promisify(fs.writeFile);
 const Trail = require('../models/trail');
 
-
 const ImageStore = {
   configure: function() {
     const credentials = {
@@ -77,6 +76,7 @@ const ImageStore = {
       console.log(err);
     }
   },
+
   deleteProfilePicture: async function(id)
   {
     try{

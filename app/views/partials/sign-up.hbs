@@ -1,10 +1,10 @@
 
 <div class="ui grid">
         <div class="ui column">
-            <div class="ui stacked fluid form segment">
+            <div class="ui stacked fluid form segment" style="background: #93BD09">
                 <form action="/signup" method="POST" id="signup">
-                    <h1 class="ui header">Sign Up</h1>
-                    <h4>It's quick and easy.</h4>
+                    <h1 class="ui header" style="font-size: 250%">Create a New Account</h1>
+                    <h3>It's quick and easy.</h3>
                     <div class="two fields">
                         <div class="field {{#if errorz.firstName}}error{{/if}}">
                             <label>First Name</label> <input value="{{values.firstName}}" type="text" name="firstName"/>
@@ -57,8 +57,14 @@
         } else {
             y.type = "password";
         }
-    }
+    };
+
 </script>
+
+
+
+
+
 
 <!-- https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_toggle_password -->
 

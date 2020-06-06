@@ -2,6 +2,7 @@
 
 const User = require('../models/user');
 const Trail = require('../models/trail');
+const Comment = require('../models/comment');
 const ImageStore = require('../utils/image-store');
 const cloudinary = require('cloudinary').v2;
 const Event = require('../models/events');
@@ -83,10 +84,10 @@ const Walkways = {
         description: Joi.string().trim().min(6).max(500).regex(/^[a-zA-Z0-9 ,-.]{6,500}$/)
           .messages({ 'string.pattern.base': 'Description must be between alphanumeric or "-,."' })
           .required(),
-        startlat: Joi.number().precision(6).required(),
-        startlong: Joi.number().precision(6).negative().required(),
-        endlat: Joi.number().precision(6) ,
-        endlong: Joi.number().precision(6).negative()
+        startlat: Joi.number().precision(6).min(51.419956).max(55.313026).required(),
+        startlong: Joi.number().precision(6).min(-10.669592).max(-5.485242).negative().required(),
+        endlat: Joi.number().precision(6).min(51.419956).max(55.313026) ,
+        endlong: Joi.number().precision(6).min(-10.669592).max(-5.485242).negative()
       },
       options: {
         abortEarly: false,
@@ -181,22 +182,39 @@ const Walkways = {
           },
           profileImage: 'https://res.cloudinary.com/walkways/image/upload/v1590860161/walkways-poi_qhkm66.png'
         });
-        await newTrail.save();
+        let trail = await newTrail.save();
 
-        // Create an event to addTrail
+        let profilePic='';
+        if (user.profilePicture === '')
+        {
+          profilePic = '/images/default_user.png';
+        }
+        else
+        {
+          profilePic = user.profilePicture;
+        }
+
         let now = new Date();
         let here = now.getTime();
+        let dateString = now.getUTCFullYear() + "/" +
+          ("0" + (now.getUTCMonth()+1)).slice(-2) + "/" +
+          ("0" + now.getUTCDate()).slice(-2) + " " +
+          ("0" + now.getUTCHours()).slice(-2) + ":" +
+          ("0" + now.getUTCMinutes()).slice(-2) + ":" +
+          ("0" + now.getUTCSeconds()).slice(-2);
+        //console.log(dateString);
 
         let signUpCard = "<div class=\"ui fluid card\">\n" +
           "  <div class=\"content\">\n" +
-          "    <div class=\"header\">New Walkway</div>\n" +
+          "    <div class=\"header\">New Trail Added to Our Community.</div>\n" +
+          "    <div class=\"meta\">" + dateString + "</div>\n" +
           "    <div class=\"description\">\n" +
-          "      <p>" + user.firstName + ' ' + user.lastName + " has added a new Trail to Walkways. </p>\n" +
+          "      <p>" + user.firstName + ' ' + user.lastName + " has posted a new Walkway to the community : " + trail.trailname + ". </p>\n" +
           "    </div>\n" +
           "  </div>\n" +
           "  <div class=\"extra content\">\n" +
           "    <div class=\"author\">\n" +
-          "      <i class=\"big user icon\"></i>" + user.firstName + " " + user.lastName + "\n" +
+          "      <img class=\"ui avatar image\" src=\"" + profilePic + "\">" + user.firstName + " " + user.lastName + "\n" +
           "    </div>\n" +
           "  </div>\n" +
           "</div>";
@@ -206,11 +224,10 @@ const Walkways = {
         const newEvent = new Event({
           creator: user.id,
           eventTime: here,
+          category: "friends",
           event: signUpCard
         });
-        const event = await newEvent.save();
-
-
+        await newEvent.save();
 
         return h.redirect('home');
       } catch (err) {
@@ -339,10 +356,10 @@ const Walkways = {
         description: Joi.string().trim().min(6).max(500).regex(/^[a-zA-Z0-9 ,-.]{6,500}$/)
           .messages({ 'string.pattern.base': 'Description must be between alphanumeric or "-,."' })
           .required(),
-        startlat: Joi.number().precision(6).required(),
-        startlong: Joi.number().precision(6).negative().required(),
-        endlat: Joi.number().precision(6) ,
-        endlong: Joi.number().precision(6).negative()
+        startlat: Joi.number().precision(6).min(51.419956).max(55.313026).required(),
+        startlong: Joi.number().precision(6).min(-10.669592).max(-5.485242).negative().required(),
+        endlat: Joi.number().precision(6).min(51.419956).max(55.313026) ,
+        endlong: Joi.number().precision(6).min(-10.669592).max(-5.485242).negative()
       },
       options: {
         abortEarly: false
@@ -396,15 +413,15 @@ const Walkways = {
   viewAll: {
     handler: async function(request, h) {
       try {
-        console.log("HERE IN VIEW ALL");
+        //console.log("HERE IN VIEW ALL");
         const userId = request.auth.credentials.id;
         const user = await User.findById(userId).lean();
-        console.log("The current user is :", user);
+        //console.log("The current user is :", user);
 
         const walkways = await Trail.find().populate('walkways').lean();
-        console.log("The Walkways are :",walkways);
+        //console.log("The Walkways are :",walkways);
         const users = await User.find( { type: { $ne: 'admin' } }).populate('users').lean();
-        console.log("The users are:", users);
+        //console.log("The users are:", users);
 
         const allTrails = true;
 
@@ -459,7 +476,7 @@ const Walkways = {
           ("0" + m.getUTCSeconds()).slice(-2);
         //console.log(dateString);
 
-        trail.comments.push({
+        const newComment = new Comment({
           content: request.payload.comment,
           postedBy: {
             userId: userID,
@@ -467,16 +484,29 @@ const Walkways = {
             profilePicture: user.profilePicture
           },
           time: dateString
-        });
+        })
+
+        await trail.comments.push(newComment);
         await trail.save();
+
+        await user.comments.push(trail._id);
 
         // Create an Event here to say user has made a comment
         let now = new Date();
         let here = now.getTime();
 
+        let eventDateString = now.getUTCFullYear() + "/" +
+          ("0" + (now.getUTCMonth()+1)).slice(-2) + "/" +
+          ("0" + now.getUTCDate()).slice(-2) + " " +
+          ("0" + now.getUTCHours()).slice(-2) + ":" +
+          ("0" + now.getUTCMinutes()).slice(-2) + ":" +
+          ("0" + now.getUTCSeconds()).slice(-2);
+        //console.log(eventDateString);
+
         let signUpCard = "<div class=\"ui fluid card\">\n" +
           "  <div class=\"content\">\n" +
           "    <div class=\"header\">New Comment</div>\n" +
+          "    <div class=\"meta\">" + eventDateString + "</div>\n" +
           "    <div class=\"description\">\n" +
           "      <p>" + user.firstName + ' ' + user.lastName + " has Posted a comment on our community. </p>\n" +
           "    </div>\n" +
