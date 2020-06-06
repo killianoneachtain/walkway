@@ -70,7 +70,7 @@ const ImageStore = {
     try {
       //console.log("VALUE OF ID is : ", id);
       let deleteFunction = await cloudinary.api.delete_resources([id], {type: 'authenticated' },function(error, result)
-      { console.log( "RESULT: ",result,error) });
+      { console.log( "Error: ",error) });
       //console.log("result of delete is ", deleteFunction);
     } catch (err) {
       console.log(err);
@@ -81,8 +81,8 @@ const ImageStore = {
   {
     try{
       let deleteFunction = await cloudinary.api.delete_resources( [id], {type: 'authenticated' },function(error,result)
-      {console.log ( "Result", result, error) });
-      console.log("result of profile picture delete for ", id, " is ", deleteFunction);
+      {console.log ("Error: ", error) });
+      //console.log("result of profile picture delete for ", id, " is ", deleteFunction);
     } catch (err) {
       console.log(err);
     }

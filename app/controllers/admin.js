@@ -24,7 +24,7 @@ const Admin = {
 
         let total_users = members.length;
 
-        const assets = await cloudinary.api.resources( function(error, result) {console.log(result, error); });
+        const assets = await cloudinary.api.resources( /*function(error, result) {console.log("Cloudinary Error: ",error); }*/);
 
         let total_resources = assets.resources.length;
 
@@ -59,8 +59,26 @@ const Admin = {
 
         //************* Delete all user comments from trails
 
-        let userComments = await user.comments;
-        console.log("Delete User Comments was:", deleteUserComments);
+        let userComments = user.comments;
+        console.log("the users comments are:", userComments);
+
+        if (userComments.length > 0) {
+          for (let i=0; i < userComments.length; i++)
+            {
+              try{
+                //let deleteAll =  await User.updateOne({ _id: userId }, { $pull: { friendRequests: friendID } }).lean();
+                let commentID = userComments[i].commentID;
+                console.log("The comment Id is", commentID);
+                let trailID= userComments[i].commentTrailID;
+                console.log("The trailID is : ", trailID)
+                 let deleteAll = await Trail.updateOne( { _id: trailID }, { $pull: { comments: { _id: commentID } } });
+                 console.log("DELETE ALL COMMENTS ARE: ", deleteAll);
+              } catch(err){
+                console.log(err);
+              }
+            }
+        }
+
         //************* Delete All User Images and Folders from Cloudinary
 
         let user_images=[];
@@ -92,7 +110,7 @@ const Admin = {
               console.log(err);
             }
 
-        if (user_images.length >= 0)
+        if (user_images.length > 0)
         {
           for (let index = 0; index < trails.length; index++) {
             let image_index = 0;

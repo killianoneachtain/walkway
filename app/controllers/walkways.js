@@ -448,9 +448,9 @@ const Walkways = {
       try {
 
         const userID = request.params.userID;
-        console.log("userID is : ", userID);
+        //console.log("userID is : ", userID);
         const trailID = request.params.trailID;
-        console.log("trailId is : ", trailID);
+        //console.log("trailId is : ", trailID);
 
 
         const user = await User.findById(userID);
@@ -489,7 +489,14 @@ const Walkways = {
         await trail.comments.push(newComment);
         await trail.save();
 
-        await user.comments.push(trail._id);
+        let commentTrail = await Trail.findByID(trail.id);
+        //console.log("The trail commented on is: ", commentTrail);
+
+        let commentTrailID = commentTrail._id;
+        let commentID = newComment._id;
+        //console.log("New Comment Id is ", commentID);
+
+        await User.updateOne( { _id: userID}, { $push: { comments: { commentID, commentTrailID } } } );
 
         // Create an Event here to say user has made a comment
         let now = new Date();
