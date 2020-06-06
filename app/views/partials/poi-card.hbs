@@ -10,7 +10,7 @@
                 <h2 style="color: olive">
                     Trail Type : {{trailtype}}
                 </h2>
-                {{#if @root.user._id}}
+                {{#if @root.user.email}}
                     <h2 style="color: #cb3232">
                         <a href="/viewProfile/{{@root.user._id}}/{{creator}}">{{creatorName}}</a>
                     </h2>
@@ -96,7 +96,9 @@
                 <i class="dropdown icon"></i>{{comments.length}} comments
             </div>
             <div class="content">
-                {{> comments}}
+                {{#unless @root.guest}}
+                    {{> comments}}
+                {{/unless}}
             </div>
         </div>
     </div>

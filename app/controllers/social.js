@@ -439,7 +439,7 @@ const Social = {
     }
   },
   removeFriend: {
-    handler: async function(request,h) {
+    handler: async function(request, h) {
       try {
         const path = request.route.path;
         console.log("Got here by : ", path);
@@ -485,33 +485,33 @@ const Social = {
         }
         //console.log("Requests are : ", requestsList);
 
-        if (path === "/viewProfile/removeFriend/{id}/{friendID}")
-        {
+        if (path === "/viewProfile/removeFriend/{id}/{friendID}") {
           let currentUser = await User.findById(userId).lean();
           //console.log("Current user is :", currentUser);
 
           const profiledUser = await User.findById(friendID).lean()
 
-          let areFriends = await User.findOne( { $and: [ { _id: currentUser._id }, { friends: profiledUser._id } ] } );
-          let requestSent = await User.findOne( { $and: [ { _id: currentUser._id }, { requestsSent: profiledUser._id } ] } );
+          let areFriends = await User.findOne({ $and: [{ _id: currentUser._id }, { friends: profiledUser._id }] });
+          let requestSent = await User.findOne({ $and: [{ _id: currentUser._id }, { requestsSent: profiledUser._id }] });
 
           let profiledUserName = profiledUser.firstName + ' ' + profiledUser.lastName;
 
-          let walkways = await Trail.find( { creator: profiledUser._id }).populate('trail').lean();
+          let walkways = await Trail.find({ creator: profiledUser._id }).populate('trail').lean();
 
           let POI_total = walkways.length;
 
           let total_images = 0;
 
-          for (let i =0; i < walkways.length; i++)
-          {
+          for (let i = 0; i < walkways.length; i++) {
             let imageNumber = walkways[i].images.length;
             total_images = total_images + imageNumber;
           }
 
-          return h.view('viewProfile', { title: profiledUserName + ' Details', walkways: walkways,
+          return h.view('viewProfile', {
+            title: profiledUserName + ' Details', walkways: walkways,
             user: profiledUser, currentUser: currentUser, areFriends: areFriends,
-            POI_total: POI_total, total_images: total_images, requestSent: requestSent});
+            POI_total: POI_total, total_images: total_images, requestSent: requestSent
+          });
         }
 
         // If path is '/friends/removeFriend/{id}/{friendID}'
@@ -527,7 +527,7 @@ const Social = {
       } catch (err) {
         return h.view('main', { errors: [{ message: err.message }] });
       }
-    }
+    },
   }
 };
 

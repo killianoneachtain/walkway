@@ -3,6 +3,7 @@
 const Trails = require('./app/api/trails');
 const Users = require('./app/api/users');
 
+
 module.exports = [
   { method: 'GET', path: '/api/trails', config: Trails.find },
   { method: 'GET', path: '/api/trails/{id}', config: Trails.findOne },

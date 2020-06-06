@@ -15,8 +15,10 @@ const Guest = {
       const users = await User.find( { type: { $ne: 'admin' } }).populate('users').lean();
       //console.log("USERS for GUEST are: ",users);
 
+      const guest = true;
+
       // Guest user which has null values. No access to social features.
-      const guest = await User.findByID('5ed6c2e3d23245e1338f503b').lean();
+      //const guest = await User.findByID('5ed6c2e3d23245e1338f503b').lean();
       //console.log("GUEST is: ",guest);
 
       return h.view('guest_view', { title: 'Guest at Walkways', walkways: walkways, users: users, guest: guest });
@@ -32,7 +34,7 @@ const Guest = {
 
         let username = user.firstName + ' ' + user.lastName;
 
-        const guest = await User.findByID('5ed6c2e3d23245e1338f503b').lean();
+        const guest = true;
         //console.log("GUEST is: ",guest);
 
         const walkways = await Trail.find( { creator: id }).populate('trail').lean();

@@ -67,6 +67,8 @@ module.exports = [
   { method: 'POST', path: '/viewProfile/removeFriend/{id}/{friendID}', config: Social.removeFriend },
   { method: 'POST', path: '/friends/removeFriend/{id}/{friendID}', config: Social.removeFriend },
 
+  //{ method: 'POST', path: '/trail/share/{id}', config: Social.trailShare },
+
   { method: 'GET', path: '/allUsers/{id}', config: Social.allUsers },
 
   { method: 'GET', path: '/myNews/{id}', config: Social.myNews },
