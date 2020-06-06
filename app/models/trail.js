@@ -77,6 +77,11 @@ trailSchema.statics.findByType = function(type) {
   return this.find({ trailtype : type });
 }
 
+trailSchema.methods.deleteUserComments = async function(id)
+{
+  return this.update( { } , { $pull : { comments: { _id: id } } }, { multi: true } );
+}
+
 trailSchema.statics.returnTrailTypes = function()
 {
 
