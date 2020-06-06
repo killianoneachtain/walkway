@@ -34,6 +34,9 @@ const Gallery = {
           let user = await User.findOne( { _id: user_id } ).lean();
           let trail = await Trail.findOne( { _id: trailID } ).lean();
 
+          console.log("Gallery User is:", user);
+          console.log("Gallery Trail is:", trail);
+
           // Create an Event here to say user has added a Picture to a trail
           let now = new Date();
           let here = now.getTime();
@@ -126,13 +129,13 @@ const Gallery = {
           }
         }
 
-        console.log("TRAIL IMAGES ARE : ",trail.images);
+        //console.log("TRAIL IMAGES ARE : ",trail.images);
 
-        console.log("Trail to be delted is : ", trailToBeDeleted);
+        //console.log("Trail to be deleted is : ", trailToBeDeleted);
 
 
         let updateImageArray = await Trail.updateOne( { _id: trail._id }, { $pull: { images: trailToBeDeleted } } );
-        console.log("Up Date image ARRAY result is: ",updateImageArray);
+        //console.log("Up Date image ARRAY result is: ",updateImageArray);
 
         //console.log("Delete image from Gallery is ", update_Trail);
 

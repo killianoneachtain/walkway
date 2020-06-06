@@ -389,7 +389,66 @@ const Social = {
         console.log(err);
       }
     }
+  },
+  removeFriend: {
+    handler: async function(request,h) {
+      try {
+        const userId = request.auth.credentials.id;
 
+        let friend = await User.findById(request.params.friendID).lean();
+        let friendID = friend._id;
+        //console.log("friendID is :", friendID);
+        //console.log("UserId is : ", userId);
+
+        // To remove a friend we need to :
+        // 1. Remove the friendID from the currentUsers friend array
+
+        try {
+          try {
+            await User.updateOne({ _id: userId }, { $pull: { friends: friendID } }).lean();
+          } catch (err) {
+            console.log(err);
+          }
+
+          let user = await User.find({ _id: userId });
+          //console.log("THE USER AFTER removeFriend UPDATE IS:", user);
+          let currentUser = user[0];
+          await currentUser.save;
+        } catch (err) {
+          console.log(err);
+        }
+
+        // 2. Remove the userID from the friend user's friend array
+        try {
+          try {
+            await User.updateOne({ _id: friendID }, { $pull: { friends: userId } }).lean();
+          } catch (err) {
+            console.log(err);
+          }
+
+          let user = await User.find({ _id: friendID });
+          //console.log("THE USER AFTER removeFriend UPDATE IS:", user);
+          let currentUser = user[0];
+          await currentUser.save;
+        } catch (err) {
+          console.log(err);
+        }
+
+        let currentUser = await User.findById(userId).lean();
+        let requestsList = currentUser.friendRequests; //Updated friendRequests;
+        let friends = currentUser.friends;
+        let friendsList = [];
+        for (let i = 0; i < friends.length; i++) {
+          friendsList.push(await User.findById(friends[i]).lean());
+        }
+
+        //console.log("Requests are : ", requestsList);
+
+        return h.view('friends', { friends: friendsList, user: currentUser, friendRequests: requestsList });
+      } catch (err) {
+        return h.view('main', { errors: [{ message: err.message }] });
+      }
+    }
   }
 };
 

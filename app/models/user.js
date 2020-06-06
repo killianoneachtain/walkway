@@ -45,7 +45,7 @@ const userSchema = new Schema({
     type: String,
     trim: true
   },
-  profileImages: Array,
+  allImages: Array,
   comments: Array,
   friends: [{ type: Schema.Types.ObjectId, ref: 'User'}],
   friendRequests : [{ type: Schema.Types.ObjectId, ref: 'User'}],
