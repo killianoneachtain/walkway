@@ -135,6 +135,16 @@ const Accounts = {
         let now = new Date();
         let here = now.getTime();
 
+        let profilePic='';
+        if (user.profilePicture === '')
+        {
+          profilePic = '/images/default_user.png';
+        }
+        else
+        {
+          profilePic = user.profilePicture;
+        }
+
         let dateString = now.getUTCFullYear() + "/" +
           ("0" + (now.getUTCMonth()+1)).slice(-2) + "/" +
           ("0" + now.getUTCDate()).slice(-2) + " " +
@@ -153,7 +163,7 @@ const Accounts = {
           "  </div>\n" +
           "  <div class=\"extra content\">\n" +
           "    <div class=\"author\">\n" +
-          "      <i class=\"big user icon\"></i>" + user.firstName + " " + user.lastName + "\n" +
+          "      <img class=\"ui avatar image\" src=\"" + profilePic + "\">" + user.firstName + " " + user.lastName + "\n" +
           "    </div>\n" +
           "  </div>\n" +
           "</div>";

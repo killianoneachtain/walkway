@@ -164,6 +164,16 @@ const Social = {
         let now = new Date();
         let here = now.getTime();
 
+        let profilePic='';
+        if (currentUser.profilePicture === '')
+        {
+          profilePic = '/images/default_user.png';
+        }
+        else
+        {
+          profilePic = currentUser.profilePicture;
+        }
+
         let dateString = now.getUTCFullYear() + "/" +
           ("0" + (now.getUTCMonth()+1)).slice(-2) + "/" +
           ("0" + now.getUTCDate()).slice(-2) + " " +
@@ -182,7 +192,7 @@ const Social = {
           "  </div>\n" +
           "  <div class=\"extra content\">\n" +
           "    <div class=\"author\">\n" +
-          "      <i class=\"big user icon\"></i>" + currentUser.firstName + " " + currentUser.lastName + "\n" +
+          "      <img class=\"ui avatar image\" src=\"" + profilePic + "\">" + currentUser.firstName + " " + currentUser.lastName + "\n" +
           "    </div>\n" +
           "  </div>\n" +
           "</div>";
