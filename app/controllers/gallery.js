@@ -77,7 +77,7 @@ const Gallery = {
           //console.log("SignUp card is", signUpCard);
 
           const newEvent = new Event({
-            creator: user.id,
+            creator: user._id,
             eventTime: here,
             category: "friends",
             event: signUpCard
@@ -189,7 +189,7 @@ const Gallery = {
           //console.log("SignUp card is", signUpCard);
 
           const newEvent = new Event({
-            creator: user.id,
+            creator: user._id,
             eventTime: here,
             category: "friends",
             event: signUpCard
