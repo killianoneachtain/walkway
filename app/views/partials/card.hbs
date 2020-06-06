@@ -4,7 +4,9 @@
         <img class="ui medium bordered fluid image" src="{{url}}">
     </div>
     <div class="content">
-        <a href="/deleteimage/{{public_id}}"><i class="large red trash alternate outline icon"></i></a>
+        {{#if @root.owner}}
+            <a href="/deleteimage/{{public_id}}"><i class="large red trash alternate outline icon"></i></a>
+        {{/if}}
     </div>
     <br>
 </div>

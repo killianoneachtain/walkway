@@ -39,6 +39,9 @@ module.exports = [
   { method: 'GET', path: '/deleteTrail/{id}', config: Walkways.deleteTrail },
 
   { method: 'GET', path: '/viewPOI/{id}', config: Walkways.viewTrail },
+  { method: 'GET', path: '/viewPOI/{id}/{trailId}', config: Walkways.userViewTrail },
+  { method: 'GET', path: '/viewPOI/guest/{trailId}', config: Guest.viewTrail},
+
 
   { method: 'GET', path:  '/deleteUser/{id}', config: Admin.deleteUser },
 
@@ -66,6 +69,8 @@ module.exports = [
 
   { method: 'POST', path: '/viewProfile/removeFriend/{id}/{friendID}', config: Social.removeFriend },
   { method: 'POST', path: '/friends/removeFriend/{id}/{friendID}', config: Social.removeFriend },
+
+  { method: 'POST', path: '/friends/share/{id}', config: Walkways.shareWalk },
 
   { method: 'GET', path: '/allUsers/{id}', config: Social.allUsers },
 
