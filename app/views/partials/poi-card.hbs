@@ -4,7 +4,11 @@
     </div>
     <div class="content">
             <div class="header">
-                <h1 id="{{_id}}">{{ trailname }}</h1>
+                {{#if @root.guest}}
+                    <h1 id="{{_id}}"><a href="/viewPOI/guest/{{_id}}">{{ trailname }}</a></h1>
+                {{else}}
+                    <h1 id="{{_id}}"><a href="/viewPOI/{{@root.user._id}}/{{_id}}">{{ trailname }}</a></h1>
+                {{/if}}
             </div>
             <div class="meta">
                 <h2 style="color: olive">

@@ -4,6 +4,7 @@ const User = require('../models/user');
 const Trail = require('../models/trail');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
+const ImageStore = require('../utils/image-store');
 
 const Guest = {
   guest: {
@@ -60,12 +61,25 @@ const Guest = {
     auth: false,
     handler: async function(request, h) {
       try {
-        let trailId = request.params.id;
-        const trail = Trail.findOne( { _id: trailId } );
+        const guest = true;
+        console.log("Guest PARAMS ARE: ", request.params);
+        const trailID = request.params.trailId;
+        let trail = await Trail.find( { _id : trailID }).lean();
 
-      }
-      catch (err) {
-        return h.view('main', { errors: [{ message: err.message }] });
+        let current_trail = trail[0];
+
+        let trail_name = current_trail.trailname;
+
+        let trailImages = current_trail.images;
+
+        let userImages = await ImageStore.getUserImages(trailID);
+
+        let google = process.env.google_maps_API;
+
+        return h.view('guest_POI', { title: trail_name + " Details" , trail: current_trail,
+          google_API: google, guest: guest, images: userImages } );
+      } catch (err) {
+        return h.view('home', { errors: [{ message: err.message }] });
       }
     }
 
