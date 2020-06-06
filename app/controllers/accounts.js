@@ -128,8 +128,8 @@ const Accounts = {
           online: false
         });
         user = await newUser.save();
-        request.cookieAuth.set({ id: user.id });
-        await User.updateOne( { _id: user.id }, { "$set": { "online": true } } );
+        request.cookieAuth.set({ id: user._id });
+        await User.updateOne( { _id: user._id }, { "$set": { "online": true } } );
 
         // Create an Event here to say user has Joined
         let now = new Date();
@@ -171,7 +171,7 @@ const Accounts = {
         //console.log("SignUp card is", signUpCard);
 
         const newEvent = new Event({
-          creator: user.id,
+          creator: user._id,
           eventTime: here,
           category: "general",
           event: signUpCard
@@ -224,17 +224,17 @@ const Accounts = {
         if ((user) && (user.type === "admin"))
         {
           await user.comparePassword(password);
-          request.cookieAuth.set({ id: user.id });
-          await User.updateOne( { _id: user.id }, { "$set": { "online": true } } );
+          request.cookieAuth.set({ id: user._id });
+          await User.updateOne( { _id: user._id }, { "$set": { "online": true } } );
           return h.redirect('/admin');
         } else if (user) {
           if (!await user.comparePassword(password)) {         // EDITED (next few lines)
             const message = 'Password does not match our records.';
             throw Boom.unauthorized(message);
           } else {
-            request.cookieAuth.set({ id: user.id });
-            await User.updateOne( { _id: user.id }, { "$set": { "online": true } } );
-            user = await User.findOne( { _id: user.id }).lean();
+            request.cookieAuth.set({ id: user._id });
+            await User.updateOne( { _id: user._id }, { "$set": { "online": true } } );
+            user = await User.findOne( { _id: user._id }).lean();
             let sortEvents = await Events.aggregate( [ { $sort: { eventTime: -1 } } ] );
             return h.redirect('myNews/' + user._id , {title: "My News",user: user, friendEvents: sortEvents} );
           }                                                    // END

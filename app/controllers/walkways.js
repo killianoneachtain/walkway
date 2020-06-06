@@ -222,9 +222,9 @@ const Walkways = {
         //console.log("SignUp card is", signUpCard);
 
         const newEvent = new Event({
-          creator: user.id,
+          creator: user._id,
           eventTime: here,
-          category: "friends",
+          category: "general",
           event: signUpCard
         });
         await newEvent.save();
@@ -538,7 +538,7 @@ const Walkways = {
         //console.log("SignUp card is", signUpCard);
 
         const newEvent = new Event({
-          creator: user.id,
+          creator: user._id,
           eventTime: here,
           category: "friends",
           event: signUpCard

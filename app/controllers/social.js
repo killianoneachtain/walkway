@@ -200,9 +200,9 @@ const Social = {
         //console.log("SignUp card is", signUpCard);
 
         const newEvent = new Events({
-          creator: currentUser.id,
+          creator: currentUser._id,
           eventTime: here,
-          category: "friends",
+          category: "general",
           event: signUpCard
         });
         const event = await newEvent.save();
@@ -369,10 +369,59 @@ const Social = {
         //order by time newest first to oldest last
         // limit the amount of news items to 50;
 
-        let sortEvents = await Events.aggregate( [ { $sort: { eventTime: -1 } } ] );
+        let allEvents = await Events.aggregate( [ { $sort: { eventTime: -1 } } ] );
+        //console.log("Events are:", allEvents);
+
+        let myEvents = allEvents;
+
+        let friends=[];
+        let userID=JSON.stringify(user._id);
+        friends.push(userID);
+
+        let JSONFriends = user.friends;
+        for(let i = 0; i < JSONFriends.length; i++)
+        {
+          let s = JSON.stringify(JSONFriends[i]);
+          friends.push(s);
+        }
+
+        //console.log("friends now are", friends);
+        // search allEvents one by one if the category is friends then use the creator field
+        // to lookup the currentuser friends
+        //if the creator is not in the friends array
+        //then delete it.
+
+        for (let i=0; i < myEvents.length; i++)
+        {
+          //console.log("myEvents ", i ," are :",myEvents[i]);
+          if (myEvents[i].category === 'friends')
+          {
+            //console.log("Creator is", myEvents[i].creator);
+            let creatorString = JSON.stringify(myEvents[i].creator);
+            //console.log("CreatorString is", myEvents[i].creator);
+            //console.log("friends are", friends);
+            //console.log("friend on list", friends.includes(creatorString));
+            if (friends.includes(creatorString) === false)
+            {
+              myEvents.splice(i,1);
+              i--;
+              console.log("removed some news here");
+            }
+            /*for(let j=0; j < friends.length; j++)
+            {
+              if (myEvents[i].creator !== friends[j])
+              {
+                myEvents.splice(i,1);
+                console.log("removed some news here");
+                i--;
+              }
+            }*/
+          }
+        }
+
+        console.log("All general and friend only events shown here",myEvents);
 
         // Function to only get top 50 news or break the news down into manageable arrays
-        // for displaying to users.
         /*let topNews = [];
         if (sortEvents.length >= 50)
         {
@@ -380,10 +429,9 @@ const Social = {
               topNews.push(sortEvents[i]);
             }
         };*/
-
         //console.log("Sorted Events are", sortEvents);
-        return h.view('myNews', {title: 'My News', user: user, friendEvents: sortEvents })
 
+        return h.view('myNews', {title: 'My News', user: user, friendEvents: myEvents })
       } catch(err)
       {
         console.log(err);
