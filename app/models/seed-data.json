@@ -9,9 +9,9 @@
       "type": "user",
       "trailtypes": [ "Loop" ],
       "comments": [],
-      "friends": [ "->users.killian"],
+      "friends": [],
       "friendRequests": [],
-      "requestsSent": [ "->users.bart"],
+      "requestsSent": [],
       "allImages": [],
       "online": false,
       "dateJoined": "1591398000000"
@@ -30,8 +30,8 @@
       "password": "$2a$05$.cwDLHBgysqwrS6poRmawuFC5tv7ubZsjjDQDki.dx55oWPJbfoEq",
       "type": "user",
       "trailtypes": [ "Loop", "Linear" ],
-      "friends": [ "->users.homer" ],
-      "friendRequests": [ "->users.bart" ],
+      "friends": [],
+      "friendRequests": [],
       "requestsSent": [],
       "comments": [],
       "allImages": [],
@@ -47,9 +47,9 @@
       "password": "$2a$05$.cwDLHBgysqwrS6poRmawuFC5tv7ubZsjjDQDki.dx55oWPJbfoEq",
       "type": "user",
       "trailtypes": [ "Linear" ],
-      "friends": [ "->users.homer" ],
+      "friends": [],
       "friendRequests": [],
-      "requestsSent": [ "->users.killian"],
+      "requestsSent": [],
       "comments": [],
       "allImages": [],
       "profilePicture": "",
@@ -62,6 +62,7 @@
     "_model": "Trail",
     "one":    {
           "creator": "->users.killian",
+          "creatorName": "Killian O'Neachtain",
           "grade": [
             "Easy", "Moderate"
           ],
@@ -82,6 +83,7 @@
         },
     "two":   {
           "creator": "->users.killian",
+          "creatorName": "Killian O'Neachtain",
           "grade": [
             "Moderate"
           ],
@@ -106,6 +108,7 @@
           "Easy"
         ],
         "creator": "->users.killian",
+        "creatorName": "Killian O'Neachtain",
         "county": "Waterford",
         "trailname": "Doneraile Walk",
         "trailtype": "Linear",
@@ -124,6 +127,7 @@
     "four":
       {
         "creator": "->users.bart",
+        "creatorName": "Bart Simpson",
         "grade": [
           "Easy"
         ],
@@ -145,6 +149,7 @@
     "five":
       {
         "creator": "->users.homer",
+        "creatorName": "Homer Simpson",
         "grade": [
           "Easy"
         ],
@@ -166,6 +171,7 @@
     "six":
     {
       "creator": "->users.homer",
+      "creatorName": "Homer Simpson",
       "grade": [
         "Moderate"
       ],
@@ -187,6 +193,7 @@
     "seven":
     {
       "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Modearte"
       ],
@@ -208,6 +215,7 @@
     "eight":
     {
       "creator": "->users.homer",
+      "creatorName": "Homer Simpson",
       "grade": [
         "Very Difficult"
       ],
@@ -229,6 +237,7 @@
     "nine":
     {
       "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Moderate"
       ],
@@ -250,6 +259,7 @@
     "ten":
     {
       "creator": "->users.killian",
+      "creatorName": "Killian O'Neachtain",
       "grade": [
         "Moderate"
       ],
@@ -271,6 +281,7 @@
     "eleven":
     {
       "creator": "->users.killian",
+      "creatorName": "Killian O'Neachtain",
       "grade": [
         "Moderate"
       ],
@@ -292,6 +303,7 @@
     "twelve":
     {
       "creator": "->users.homer",
+      "creatorName": "Homer Simpson",
       "grade": [
         "Moderate"
       ],
@@ -313,6 +325,7 @@
     "thirteen":
     {
       "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Easy"
       ],
@@ -334,6 +347,7 @@
     "fourteen":
     {
       "creator": "->users.homer",
+      "creatorName": "Homer Simpson",
       "grade": [
         "Moderate", "Strenuous"
       ],
@@ -355,6 +369,7 @@
     "fifteen":
     {
       "creator": "->users.killian",
+      "creatorName": "Killian O'Neachtain",
       "grade": [
         "Easy", "Moderate", "Wheelchair and Buggy Accessible"
       ],
@@ -376,6 +391,7 @@
     "sixteen":
     {
       "creator": "->users.homer",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Moderate"
       ],
@@ -397,6 +413,7 @@
     "seventeen":
     {
       "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Moderate"
       ],
@@ -422,6 +439,7 @@
     "eighteen":
     {
       "creator": "->users.killian",
+      "creatorName": "Killian O'Neachtain",
       "grade": [
         "Easy"
       ],
@@ -447,6 +465,7 @@
     "nineteen":
     {
       "creator": "->users.homer",
+      "creatorName": "Homer Simpson",
       "grade": [
         "Moderate"
       ],
@@ -467,6 +486,7 @@
     "twenty":
     {
       "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Easy"
       ],
@@ -488,6 +508,7 @@
     "twenty one":
     {
       "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Easy", "Wheelchair and Buggy Accessible"
       ],
@@ -513,6 +534,7 @@
     "twenty two":
     {
       "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Moderate", "Strenuous"
       ],

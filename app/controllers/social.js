@@ -164,7 +164,7 @@ const Social = {
         let now = new Date();
         let here = now.getTime();
 
-        let profilePic='';
+        let profilePic = "";
         if (currentUser.profilePicture === '')
         {
           profilePic = '/images/default_user.png';
@@ -393,6 +393,9 @@ const Social = {
   removeFriend: {
     handler: async function(request,h) {
       try {
+        const path = request.route.path;
+        console.log("Got here by : ", path);
+
         const userId = request.auth.credentials.id;
 
         let friend = await User.findById(request.params.friendID).lean();
@@ -402,7 +405,6 @@ const Social = {
 
         // To remove a friend we need to :
         // 1. Remove the friendID from the currentUsers friend array
-
         try {
           try {
             await User.updateOne({ _id: userId }, { $pull: { friends: friendID } }).lean();
@@ -433,7 +435,38 @@ const Social = {
         } catch (err) {
           console.log(err);
         }
+        //console.log("Requests are : ", requestsList);
 
+        if (path === "/viewProfile/removeFriend/{id}/{friendID}")
+        {
+          let currentUser = await User.findById(userId).lean();
+          //console.log("Current user is :", currentUser);
+
+          const profiledUser = await User.findById(friendID).lean()
+
+          let areFriends = await User.findOne( { $and: [ { _id: currentUser._id }, { friends: profiledUser._id } ] } );
+          let requestSent = await User.findOne( { $and: [ { _id: currentUser._id }, { requestsSent: profiledUser._id } ] } );
+
+          let profiledUserName = profiledUser.firstName + ' ' + profiledUser.lastName;
+
+          let walkways = await Trail.find( { creator: profiledUser._id }).populate('trail').lean();
+
+          let POI_total = walkways.length;
+
+          let total_images = 0;
+
+          for (let i =0; i < walkways.length; i++)
+          {
+            let imageNumber = walkways[i].images.length;
+            total_images = total_images + imageNumber;
+          }
+
+          return h.view('viewProfile', { title: profiledUserName + ' Details', walkways: walkways,
+            user: profiledUser, currentUser: currentUser, areFriends: areFriends,
+            POI_total: POI_total, total_images: total_images, requestSent: requestSent});
+        }
+
+        // If path is '/friends/removeFriend/{id}/{friendID}'
         let currentUser = await User.findById(userId).lean();
         let requestsList = currentUser.friendRequests; //Updated friendRequests;
         let friends = currentUser.friends;
@@ -441,8 +474,6 @@ const Social = {
         for (let i = 0; i < friends.length; i++) {
           friendsList.push(await User.findById(friends[i]).lean());
         }
-
-        //console.log("Requests are : ", requestsList);
 
         return h.view('friends', { friends: friendsList, user: currentUser, friendRequests: requestsList });
       } catch (err) {

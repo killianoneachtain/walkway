@@ -214,18 +214,6 @@ const Admin = {
         //Need to delete the PID from users image list;
         //await Trail.updateOne( { _id: trail._id}, { $pull: { images: publicID} });
 
-        let trailImages = trail.images;
-        let trailToBeDeleted = '';
-        for (let i=0;i<trailImages.length;i++)
-        {
-          let n = trailImages[i].search(publicID);
-          if (n >= 0){
-            trailToBeDeleted = trailImages[i];
-          }
-        }
-        //console.log("TRAIL IMAGES ARE : ",trail.images);
-        //console.log("Trail to be deleted is : ", trailToBeDeleted);
-
         try {
           let updateImageArray = await Trail.updateOne({ _id: trail._id }, { $pull: { images: publicID } });
         } catch (err){
