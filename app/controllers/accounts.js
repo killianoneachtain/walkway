@@ -9,7 +9,7 @@ const bCrypt = require('bcrypt');           // ADDED week9
 const saltRounds = 10;                      // ADDED week9
 const Bell = require('@hapi/bell');
 const AuthCookie = require('@hapi/cookie');
-const Event = require('../models/events');
+const Events = require('../models/events');
 
 const Accounts = {
   index: {
@@ -234,7 +234,9 @@ const Accounts = {
           } else {
             request.cookieAuth.set({ id: user.id });
             await User.updateOne( { _id: user.id }, { "$set": { "online": true } } );
-            return h.redirect('/home');
+            user = await User.findOne( { _id: user.id }).lean();
+            let sortEvents = await Events.aggregate( [ { $sort: { eventTime: -1 } } ] );
+            return h.redirect('myNews/' + user._id , {title: "My News",user: user, friendEvents: sortEvents} );
           }                                                    // END
         }
 

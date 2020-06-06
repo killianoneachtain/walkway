@@ -8,9 +8,13 @@
       "password": "$2a$10$JywZTCuCquuwOwoUeR2Zeey1MC5vOGOkN3ruDuT14fSsI6ZdQ/hJe",
       "type": "user",
       "trailtypes": [ "Loop" ],
-      "friends": [ "->users.killian"],
+      "comments": [],
+      "friends": [],
       "friendRequests": [],
-      "requestsSent": [ "->users.bart"]
+      "requestsSent": [],
+      "allImages": [],
+      "online": false,
+      "dateJoined": "1591398000000"
     },
     "marge": {
       "firstName": "Marge",
@@ -26,37 +30,39 @@
       "password": "$2a$05$.cwDLHBgysqwrS6poRmawuFC5tv7ubZsjjDQDki.dx55oWPJbfoEq",
       "type": "user",
       "trailtypes": [ "Loop", "Linear" ],
-      "friends": [ "->users.homer" ],
-      "friendRequests": [ "->users.bart" ]
+      "friends": [],
+      "friendRequests": [],
+      "requestsSent": [],
+      "comments": [],
+      "allImages": [],
+      "profilePicture": "",
+      "profilePID": "",
+      "dateJoined": "1593398000000",
+      "online": false
     },
     "bart": {
-      "firstName":"Bart",
-      "lastName":"Simpson",
-      "email":"bart@simpson.com",
-      "password":"$2b$10$neSjFkFmaGL2Khngumn8y.VaWXSem6XvcQpehZ4KSTARG/o4Ixhxe",
-      "type":"user",
-      "trailtypes":[],
-      "profilePicture":"https://res.cloudinary.com/walkways/image/authenticated/s--Ka98Xt2---/v1591354421/5eda2303a54ec51842c2a3d8/Profile_Picture/temp_jggpyx.jpg",
-      "profilePID":"5eda2303a54ec51842c2a3d8/Profile_Picture/temp_jggpyx",
-      "profileImages":["5eda2303a54ec51842c2a3d8/Profile_Picture/temp_samezp","5eda2303a54ec51842c2a3d8/Profile_Picture/temp_jggpyx"],
-      "dateJoined":"2020-06-04",
+      "firstName": "Bart",
+      "lastName": "Simpson",
+      "email": "bart@simpson.com",
+      "password": "$2a$05$.cwDLHBgysqwrS6poRmawuFC5tv7ubZsjjDQDki.dx55oWPJbfoEq",
+      "type": "user",
+      "trailtypes": [ "Linear" ],
       "friends": [],
-      "friendRequests":[ "->users.homer" ],
-      "requestsSent":[ "->users.killian" ]
-    },
-    "guest": {
-      "firstName": null,
-      "lastName": null,
-      "email": null,
-      "password": null,
-      "type": null,
-      "trailtypes": []
+      "friendRequests": [],
+      "requestsSent": [],
+      "comments": [],
+      "allImages": [],
+      "profilePicture": "",
+      "profilePID": "",
+      "dateJoined": "1591498000000",
+      "online": false
     }
   },
   "trails": {
     "_model": "Trail",
     "one":    {
           "creator": "->users.killian",
+          "creatorName": "Killian O'Neachtain",
           "grade": [
             "Easy", "Moderate"
           ],
@@ -70,10 +76,14 @@
           "startcoordinates": {
             "latitude": 52.159796,
             "longitude": -7.137537
-          }
+          },
+          "profileImage":"/images/walkways-poi.png",
+          "images":[],
+          "comments": []
         },
     "two":   {
           "creator": "->users.killian",
+          "creatorName": "Killian O'Neachtain",
           "grade": [
             "Moderate"
           ],
@@ -87,7 +97,10 @@
           "startcoordinates": {
             "latitude": 52.159796,
             "longitude": -7.137537
-          }
+          },
+          "profileImage":"/images/walkways-poi.png",
+          "images":[],
+          "comments": []
         },
     "three":
       {
@@ -95,6 +108,7 @@
           "Easy"
         ],
         "creator": "->users.killian",
+        "creatorName": "Killian O'Neachtain",
         "county": "Waterford",
         "trailname": "Doneraile Walk",
         "trailtype": "Linear",
@@ -105,11 +119,15 @@
         "startcoordinates": {
           "latitude": 52.159796,
           "longitude": -7.137537
-        }
+        },
+        "profileImage":"/images/walkways-poi.png",
+        "images":[],
+        "comments": []
       },
     "four":
       {
-        "creator": "->users.homer",
+        "creator": "->users.bart",
+        "creatorName": "Bart Simpson",
         "grade": [
           "Easy"
         ],
@@ -123,11 +141,15 @@
         "startcoordinates": {
           "latitude": 52.159796,
           "longitude": -7.137537
-        }
+        },
+        "profileImage":"/images/walkways-poi.png",
+        "images":[],
+        "comments": []
       },
     "five":
       {
         "creator": "->users.homer",
+        "creatorName": "Homer Simpson",
         "grade": [
           "Easy"
         ],
@@ -141,11 +163,15 @@
         "startcoordinates": {
           "latitude": 52.159796,
           "longitude": -7.137537
-        }
+        },
+        "profileImage":"/images/walkways-poi.png",
+        "images":[],
+        "comments": []
       },
     "six":
     {
       "creator": "->users.homer",
+      "creatorName": "Homer Simpson",
       "grade": [
         "Moderate"
       ],
@@ -159,11 +185,15 @@
       "startcoordinates": {
         "latitude": 51.562142,
         "longitude": -9.764004
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "seven":
     {
-      "creator": "->users.killian",
+      "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Modearte"
       ],
@@ -177,11 +207,15 @@
       "startcoordinates": {
         "latitude": 53.255632,
         "longitude": -6.251329
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "eight":
     {
       "creator": "->users.homer",
+      "creatorName": "Homer Simpson",
       "grade": [
         "Very Difficult"
       ],
@@ -195,11 +229,15 @@
       "startcoordinates": {
         "latitude": 53.004904,
         "longitude": -6.346000
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "nine":
     {
-      "creator": "->users.homer",
+      "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Moderate"
       ],
@@ -213,11 +251,15 @@
       "startcoordinates": {
         "latitude": 53.919080,
         "longitude": -6.792333
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "ten":
     {
       "creator": "->users.killian",
+      "creatorName": "Killian O'Neachtain",
       "grade": [
         "Moderate"
       ],
@@ -231,11 +273,15 @@
       "startcoordinates": {
         "latitude": 53.919080,
         "longitude": -6.792333
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "eleven":
     {
       "creator": "->users.killian",
+      "creatorName": "Killian O'Neachtain",
       "grade": [
         "Moderate"
       ],
@@ -249,11 +295,15 @@
       "startcoordinates": {
         "latitude": 52.953432,
         "longitude": -8.828016
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "twelve":
     {
       "creator": "->users.homer",
+      "creatorName": "Homer Simpson",
       "grade": [
         "Moderate"
       ],
@@ -267,11 +317,15 @@
       "startcoordinates": {
         "latitude": 54.710066,
         "longitude": -8.721229
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "thirteen":
     {
-      "creator": "->users.homer",
+      "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Easy"
       ],
@@ -285,11 +339,15 @@
       "startcoordinates": {
         "latitude": 51.915866,
         "longitude": -8.062202
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "fourteen":
     {
       "creator": "->users.homer",
+      "creatorName": "Homer Simpson",
       "grade": [
         "Moderate", "Strenuous"
       ],
@@ -303,11 +361,15 @@
       "startcoordinates": {
         "latitude": 51.915866,
         "longitude": -8.062202
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "fifteen":
     {
       "creator": "->users.killian",
+      "creatorName": "Killian O'Neachtain",
       "grade": [
         "Easy", "Moderate", "Wheelchair and Buggy Accessible"
       ],
@@ -321,11 +383,15 @@
       "startcoordinates": {
         "latitude": 52.247604,
         "longitude": -6.331684
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "sixteen":
     {
       "creator": "->users.homer",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Moderate"
       ],
@@ -339,11 +405,15 @@
       "startcoordinates": {
         "latitude": 53.091633,
         "longitude":  -7.684729
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "seventeen":
     {
-      "creator": "->users.killian",
+      "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Moderate"
       ],
@@ -361,11 +431,15 @@
       "endcoordinates": {
         "latitude": 51.608086,
         "longitude": -9.664904
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "eighteen":
     {
       "creator": "->users.killian",
+      "creatorName": "Killian O'Neachtain",
       "grade": [
         "Easy"
       ],
@@ -383,11 +457,15 @@
       "endcoordinates": {
         "latitude": 51.473731,
         "longitude": -9.387866
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "nineteen":
     {
       "creator": "->users.homer",
+      "creatorName": "Homer Simpson",
       "grade": [
         "Moderate"
       ],
@@ -400,11 +478,15 @@
       "startcoordinates": {
         "latitude": 51.482246,
         "longitude": -9.374937
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "twenty":
     {
-      "creator": "->users.homer",
+      "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Easy"
       ],
@@ -418,11 +500,15 @@
       "startcoordinates": {
         "latitude": 51.482246,
         "longitude": -9.374938
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "twenty one":
     {
-      "creator": "->users.killian",
+      "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Easy", "Wheelchair and Buggy Accessible"
       ],
@@ -440,11 +526,15 @@
       "endcoordinates": {
         "latitude": 52.091675,
         "longitude": -7.615516
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "twenty two":
     {
-      "creator": "->users.homer",
+      "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Moderate", "Strenuous"
       ],
@@ -458,11 +548,18 @@
       "startcoordinates": {
         "latitude": 52.266946,
         "longitude": -7.595808
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
+    }
+  },
+  "events": {
+    "_model": "Events",
+    "one": {
+      "creator": "->users.marge",
+      "category": "general",
+      "event": "<h1>Welcome to Walkways. We hope you enjoy the experience!</h1>"
     }
   }
-}
-
-
-{"_id":{"$oid":"5e8c7c8c02e68d04f4973ddb"},"grade":["Moderate"],"images":["5e8c7c8c02e68d04f4973dd9/Metal Man/temp_xu6naz","https://res.cloudinary.com/walkways/image/authenticated/s--alpfbkGz--/v1590184870/5e8c7c8c02e68d04f4973dd9/Metal%20Man/temp_fym4bj.jpg","https://res.cloudinary.com/walkways/image/authenticated/s--7qF4Dt9N--/v1591449178/5e8c7c8c02e68d04f4973dd9/Metal%20Man/temp_p57the.jpg"],"creator":{"$oid":"5e8c7c8c02e68d04f4973dd9"},"county":"Waterford","trailname":"Metal Man","trailtype":"Linear","traillength":{"$numberDouble":"2.5"},"time":"01:15","nearesttown":"Tramore","description":"Walk Around Newtown","startcoordinates":{"latitude":{"$numberDouble":"52.159796"},"longitude":{"$numberDouble":"-7.137537"}},"profileImage":"https://res.cloudinary.com/walkways/image/authenticated/s--7qF4Dt9N--/v1591449178/5e8c7c8c02e68d04f4973dd9/Metal%20Man/temp_p57the.jpg","__v":{"$numberInt":"52"},"comments":[{"_id":{"$oid":"5edb9a4328a53e058811ed90"},"content":"test for comments 1","postedBy":{"userId":{"$oid":"5edb9a3728a53e058811ed8e"},"userName":"Killian O'Neachtain","profilePicture":""},"time":"2020/06/06 13:29:39"}]}
-
+  }

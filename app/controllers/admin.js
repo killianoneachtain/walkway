@@ -58,93 +58,92 @@ const Admin = {
         const trails = await Trail.findByCreator(id).lean();
 
         //************* Delete all user comments from trails
-
         let userComments = user.comments;
         console.log("the users comments are:", userComments);
 
-        if (userComments.length > 0) {
-          for (let i=0; i < userComments.length; i++)
-            {
-              try{
+        try {
+          if (userComments.length > 0) {
+            for (let i = 0; i < userComments.length; i++) {
+              try {
                 //let deleteAll =  await User.updateOne({ _id: userId }, { $pull: { friendRequests: friendID } }).lean();
                 let commentID = userComments[i].commentID;
                 console.log("The comment Id is", commentID);
-                let trailID= userComments[i].commentTrailID;
+                let trailID = userComments[i].commentTrailID;
                 console.log("The trailID is : ", trailID)
-                 let deleteAll = await Trail.updateOne( { _id: trailID }, { $pull: { comments: { _id: commentID } } });
-                 console.log("DELETE ALL COMMENTS ARE: ", deleteAll);
-              } catch(err){
-                console.log(err);
-              }
-            }
-        }
-
-        //************* Delete All User Images and Folders from Cloudinary
-
-        let user_images=[];
-        let profile_public_id= user.profilePID;
-        let profile_folder = user._id + '/Profile_Picture';
-
-        try {
-          if (user.profilePicture !== "") {
-
-            //Puts all the profile pictures in the user_images, for deletion
-            try {
-              user_images = await user.profileImages;
-              //console.log("user_images are: ", user_images);
-            } catch (err)
-            {
-              console.log(err);
-            }
-
-            await ImageStore.deleteProfilePicture(profile_public_id);
-            try {
-                  await cloudinary.api.delete_folder(profile_folder, function(error, result) {
-                  //console.log(result);
-                    });
-                  } catch (err) {
-                  console.log(err)
-                  }
-              }
-            } catch(err) {
-              console.log(err);
-            }
-
-        if (user_images.length > 0)
-        {
-          for (let index = 0; index < trails.length; index++) {
-            let image_index = 0;
-            let current_images = trails[index].images;
-            for (image_index = 0; image_index < current_images.length; image_index++) {
-              try {
-                user_images.push(current_images[image_index]);
+                let deleteAll = await Trail.updateOne({ _id: trailID }, { $pull: { comments: { _id: commentID } } });
+                console.log("DELETE ALL COMMENTS ARE: ", deleteAll);
               } catch (err) {
                 console.log(err);
               }
             }
+            console.log("All USER comments deleted.");
           }
+        } catch(err)
+        {
+          console.log(err);
+        }
 
-          for (let index = 0; index < user_images.length; index++) {
-            try {
-              await ImageStore.deleteImage(user_images[index]);
-            } catch (err) {
-              console.log(err);
-            }
-          }
+        //************* Delete All User Images and Folders from Cloudinary
+        console.log("Here deleting the Images and Folders");
+        let user_images= user.allImages;
+        console.log("User Images are", user_images);
 
-          try {
-            await cloudinary.api.delete_folder(user._id, function(error, result) {
-              //console.log(result);
-            });
-          } catch (err) {
+        let profile_folder = user._id + '/Profile_Picture';
+        try {
+              if (user_images.length > 0) {
+
+                for (let i = 0; i < user_images.length; i++) {
+                  try {
+                    await ImageStore.deleteImage(user_images[i]);
+                  } catch(err)
+                  {
+                    console.log("Error with deleting Image for user",err);
+                  }
+                }
+                try {
+                  await cloudinary.api.delete_folder(profile_folder, function(error, result) {
+                    //console.log(result);
+                  });
+                } catch (err) {
+                  console.log(err)
+                }
+                try {
+                  await cloudinary.api.delete_folder(user._id, function(error, result) {
+                    //console.log(result);
+                  });
+                } catch (err) {
+                  console.log(err);
+                }
+              }
+          } catch(err) {
             console.log(err);
+          }
+
+
+
+        // Delete User from all Friend status arrays of other Users
+
+        // delete the user id from all friends arrays;
+
+        let friends = user.friends;
+        if (friends.length > 0){
+          for (let i = 0; i < friends.length; i++) {
+            try {
+              await User.updateOne( { _id: friends[i] }, { $pull: { friends : user._id } } );
+            } catch(err)
+            {
+              console.log("Error Deleting Friends", err);
+            }
           }
         }
 
-        //delete the user id from all friends arrays;
+
         // delete the user id from all the friendRequest arrays;
         // delete the user id from all the requestsSent arrays;
 
+
+
+        // Delete all tr
         try {
           await Trail.deleteMany( { creator: user._id } );
         } catch (err) {
@@ -209,24 +208,14 @@ const Admin = {
         let trails= await Trail.findByName(request.params.foldername);
         let trail = trails[0];
         //console.log("THE TRAIL IS : ", trail);
-        let user = trail.creator;
+        let userID = trail.creator;
         //console.log("TRail to delete image from is", trail);
 
-        let trailImages = trail.images;
-        let trailToBeDeleted = '';
-        let i =0;
-        for (i=0;i<trailImages.length;i++)
-        {
-          let n = trailImages[i].search(publicID);
-          if (n >= 0){
-            trailToBeDeleted = trailImages[i];
-          }
-        }
-        //console.log("TRAIL IMAGES ARE : ",trail.images);
-        //console.log("Trail to be deleted is : ", trailToBeDeleted);
+        //Need to delete the PID from users image list;
+        //await Trail.updateOne( { _id: trail._id}, { $pull: { images: publicID} });
 
         try {
-          let updateImageArray = await Trail.updateOne({ _id: trail._id }, { $pull: { images: trailToBeDeleted } });
+          let updateImageArray = await Trail.updateOne({ _id: trail._id }, { $pull: { images: publicID } });
         } catch (err){
           console.log(err);
         }
@@ -234,7 +223,7 @@ const Admin = {
         //console.log("Delete image from Gallery is ", update_Trail);
         trail.save();
 
-        return h.redirect('/viewUser/' + user );
+        return h.redirect('/viewUser/' + userID );
       } catch (err) {
         console.log(err);
       }
