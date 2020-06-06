@@ -3,6 +3,7 @@
 const User = require('../models/user');
 const Admin = require('../models/admin');
 const Trail = require('../models/trail');
+const Events = require('../models/events');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
 
@@ -10,7 +11,7 @@ const Social = {
   addFriend: {
     handler: async function(request,h) {
       try {
-        console.log("HERE I AM TRYING TO ADD A FRIEND");
+        //console.log("HERE I AM TRYING TO ADD A FRIEND");
         const userId = request.auth.credentials.id;
         let currentUser = await User.findById(userId).lean();
 
@@ -111,8 +112,8 @@ const Social = {
           }
 
           try {
-            console.log("friendID is :", friendID);
-            console.log("UserId is : ", userId);
+            //console.log("friendID is :", friendID);
+            //console.log("UserId is : ", userId);
 
             let user = await User.find( { _id : userId });
             let Friend = await User.find( { _id : friendID });
@@ -157,7 +158,54 @@ const Social = {
           friendsList.push(await User.findById(friends[i]).lean());
         }
 
-        console.log("Requests are : ", requestsList);
+        //console.log("Requests are : ", requestsList);
+
+        // Create an Event here to say Users have become friends
+        let now = new Date();
+        let here = now.getTime();
+
+        let profilePic='';
+        if (currentUser.profilePicture === '')
+        {
+          profilePic = '/images/default_user.png';
+        }
+        else
+        {
+          profilePic = currentUser.profilePicture;
+        }
+
+        let dateString = now.getUTCFullYear() + "/" +
+          ("0" + (now.getUTCMonth()+1)).slice(-2) + "/" +
+          ("0" + now.getUTCDate()).slice(-2) + " " +
+          ("0" + now.getUTCHours()).slice(-2) + ":" +
+          ("0" + now.getUTCMinutes()).slice(-2) + ":" +
+          ("0" + now.getUTCSeconds()).slice(-2);
+        //console.log(dateString);
+
+        let signUpCard = "<div class=\"ui fluid card\">\n" +
+          "  <div class=\"content\">\n" +
+          "    <div class=\"header\">New Friendship</div>\n" +
+          "    <div class=\"meta\">" + dateString + "</div>\n" +
+          "    <div class=\"description\">\n" +
+          "      <p>" + currentUser.firstName + ' ' + currentUser.lastName + " and " + friend.firstName + " " + friend.lastName + " are now Friends. </p>\n" +
+          "    </div>\n" +
+          "  </div>\n" +
+          "  <div class=\"extra content\">\n" +
+          "    <div class=\"author\">\n" +
+          "      <img class=\"ui avatar image\" src=\"" + profilePic + "\">" + currentUser.firstName + " " + currentUser.lastName + "\n" +
+          "    </div>\n" +
+          "  </div>\n" +
+          "</div>";
+
+        //console.log("SignUp card is", signUpCard);
+
+        const newEvent = new Events({
+          creator: currentUser.id,
+          eventTime: here,
+          category: "friends",
+          event: signUpCard
+        });
+        const event = await newEvent.save();
 
         return h.view('friends', {friends: friendsList, user: currentUser, friendRequests: requestsList});
       }
@@ -196,7 +244,7 @@ const Social = {
         {
           pendingList.push(await User.findById(pending[i]).lean());
         }
-        console.log("Pending are : ", pendingList);
+        //console.log("Pending are : ", pendingList);
 
         return h.view('friends', {title: 'My Friends', friends: friendsList, user: user, friendRequests: requestsList,
         friendsPending: pendingList});
@@ -260,7 +308,7 @@ const Social = {
           friendsList.push(await User.findById(friends[i]).lean());
         }
 
-        console.log("Requests are : ", requestsList);
+        //console.log("Requests are : ", requestsList);
 
         return h.view('friends', {friends: friendsList, user: currentUser, friendRequests: requestsList});
       }
@@ -276,7 +324,7 @@ const Social = {
         const user = await User.findById(id).lean();
 
         const allUsers = await User.find( { $and: [ { type: { $eq: "user" } }, { _id: { $ne: id } } ] } ).lean();
-        console.log("All Users are:", allUsers);
+        //console.log("All Users are:", allUsers);
 
         let friends = user.friends;
         //console.log("Friends are : ", friends);
@@ -292,7 +340,7 @@ const Social = {
         {
           requestsList.push(await User.findById(requests[i]).lean());
         }
-        console.log("Requests are : ", requestsList);
+        //console.log("Requests are : ", requestsList);
 
         let pending = user.requestsSent;
         let pendingList=[];
@@ -300,7 +348,7 @@ const Social = {
         {
           pendingList.push(await User.findById(pending[i]).lean());
         }
-        console.log("Pending are : ", pendingList);
+        //console.log("Pending are : ", pendingList);
 
         return h.view('allUsers',{title: 'Search for Friends', currentUser: user, user: user,
           friends: friendsList, friendRequests: requestsList, friendsPending: pendingList,
@@ -310,7 +358,39 @@ const Social = {
         console.log(err)
       }
       }
+    },
+  myNews:{
+    handler:  async function(request, h) {
+      try {
+        const id = request.auth.credentials.id;
+        const user = await User.findById(id).lean();
+
+        // create an array with all events from my friends
+        //order by time newest first to oldest last
+        // limit the amount of news items to 50;
+
+        let sortEvents = await Events.aggregate( [ { $sort: { eventTime: -1 } } ] );
+
+        // Function to only get top 50 news or break the news down into manageable arrays
+        // for displaying to users.
+        /*let topNews = [];
+        if (sortEvents.length >= 50)
+        {
+            for (let i=0; i<49;i++) {
+              topNews.push(sortEvents[i]);
+            }
+        };*/
+
+        //console.log("Sorted Events are", sortEvents);
+        return h.view('myNews', {title: 'My News', user: user, friendEvents: sortEvents })
+
+      } catch(err)
+      {
+        console.log(err);
+      }
     }
+
+  }
 };
 
 module.exports = Social;

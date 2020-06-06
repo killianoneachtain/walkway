@@ -1,0 +1,14 @@
+{{> mainmenu _id="news"}}
+
+<div class="ui raised segment" style="margin-top: 65px">
+
+<h1 style="color: olive">Hello {{user.firstName}}</h1>
+    <div class="ui cards">
+        {{#each friendEvents}}
+            <h2>{{this.category}}</h2>
+            {{{this.event}}}
+        {{/each}}
+    </div>
+</div>
+
+

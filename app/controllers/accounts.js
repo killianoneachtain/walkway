@@ -9,6 +9,7 @@ const bCrypt = require('bcrypt');           // ADDED week9
 const saltRounds = 10;                      // ADDED week9
 const Bell = require('@hapi/bell');
 const AuthCookie = require('@hapi/cookie');
+const Event = require('../models/events');
 
 const Accounts = {
   index: {
@@ -129,6 +130,55 @@ const Accounts = {
         user = await newUser.save();
         request.cookieAuth.set({ id: user.id });
         await User.updateOne( { _id: user.id }, { "$set": { "online": true } } );
+
+        // Create an Event here to say user has Joined
+        let now = new Date();
+        let here = now.getTime();
+
+        let profilePic='';
+        if (user.profilePicture === '')
+        {
+          profilePic = '/images/default_user.png';
+        }
+        else
+        {
+          profilePic = user.profilePicture;
+        }
+
+        let dateString = now.getUTCFullYear() + "/" +
+          ("0" + (now.getUTCMonth()+1)).slice(-2) + "/" +
+          ("0" + now.getUTCDate()).slice(-2) + " " +
+          ("0" + now.getUTCHours()).slice(-2) + ":" +
+          ("0" + now.getUTCMinutes()).slice(-2) + ":" +
+          ("0" + now.getUTCSeconds()).slice(-2);
+        //console.log(dateString);
+
+        let signUpCard = "<div class=\"ui fluid card\">\n" +
+          "  <div class=\"content\">\n" +
+          "    <div class=\"header\">New Member</div>\n" +
+          "    <div class=\"meta\">" + dateString + "</div>\n" +
+          "    <div class=\"description\">\n" +
+          "      <p>" + user.firstName + ' ' + user.lastName + " has Joined our community. </p>\n" +
+          "    </div>\n" +
+          "  </div>\n" +
+          "  <div class=\"extra content\">\n" +
+          "    <div class=\"author\">\n" +
+          "      <img class=\"ui avatar image\" src=\"" + profilePic + "\">" + user.firstName + " " + user.lastName + "\n" +
+          "    </div>\n" +
+          "  </div>\n" +
+          "</div>";
+
+        //console.log("SignUp card is", signUpCard);
+
+        const newEvent = new Event({
+          creator: user.id,
+          eventTime: here,
+          category: "general",
+          event: signUpCard
+        });
+        const event = await newEvent.save();
+
+
         return h.redirect('/home');
       } catch (err) {
         return h.view('signup', { errors: [{ message: err.message }] });

@@ -66,6 +66,8 @@ module.exports = [
 
   { method: 'GET', path: '/allUsers/{id}', config: Social.allUsers },
 
+  { method: 'GET', path: '/myNews/{id}', config: Social.myNews },
+
   {
     method: 'GET',
     path: '/{param*}',

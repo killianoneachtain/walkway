@@ -7,7 +7,6 @@ const util = require('util');
 const writeFile = util.promisify(fs.writeFile);
 const Trail = require('../models/trail');
 
-
 const ImageStore = {
   configure: function() {
     const credentials = {
@@ -71,18 +70,19 @@ const ImageStore = {
     try {
       //console.log("VALUE OF ID is : ", id);
       let deleteFunction = await cloudinary.api.delete_resources([id], {type: 'authenticated' },function(error, result)
-      { console.log( "RESULT: ",result,error) });
+      { console.log( "Error: ",error) });
       //console.log("result of delete is ", deleteFunction);
     } catch (err) {
       console.log(err);
     }
   },
+
   deleteProfilePicture: async function(id)
   {
     try{
       let deleteFunction = await cloudinary.api.delete_resources( [id], {type: 'authenticated' },function(error,result)
-      {console.log ( "Result", result, error) });
-      console.log("result of profile picture delete for ", id, " is ", deleteFunction);
+      {console.log ("Error: ", error) });
+      //console.log("result of profile picture delete for ", id, " is ", deleteFunction);
     } catch (err) {
       console.log(err);
     }
