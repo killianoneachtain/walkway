@@ -1,8 +1,10 @@
 {{> mainmenu _id="home" }}
 
 <section class="ui raised segment" style="margin-top: 65px; padding: 0px">
-    <h1> Welcome {{ user.firstName }} {{ user.lastName }} </h1>
+{{> multi_trail_map}}
+</section>
 
+<section class="ui segment" style="margin-bottom: 50px">
     {{> traillist}}
 </section>
 
