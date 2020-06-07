@@ -119,8 +119,6 @@ const Admin = {
             console.log(err);
           }
 
-
-
         // Delete User from all Friend status arrays of other Users
         let friendRequests = user.friends;
         if (friendRequests.length > 0){
@@ -135,7 +133,6 @@ const Admin = {
         }
 
         // delete the user id from all friends arrays;
-
         let friends = user.friends;
         if (friends.length > 0){
           for (let i = 0; i < friends.length; i++) {
@@ -147,7 +144,6 @@ const Admin = {
             }
           }
         }
-
 
         // delete the user id from all the requestsSent arrays;
         let friendRequestsSent = user.friends;
@@ -161,11 +157,7 @@ const Admin = {
             }
           }
         }
-
-
-
-
-        // Delete all tr
+        // Delete all trails
         try {
           await Trail.deleteMany( { creator: user._id } );
         } catch (err) {

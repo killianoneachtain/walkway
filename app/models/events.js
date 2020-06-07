@@ -2,7 +2,7 @@
 
 const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
-//const Boom = require('@hapi/boom');
+const Boom = require('@hapi/boom');
 
 
 const eventSchema = new Schema({
@@ -10,7 +10,6 @@ const eventSchema = new Schema({
       type: Schema.Types.ObjectId,
         ref: 'User'
   },
-  //creatorName: String,
   eventTime: Date,
   category: String,
   event: String //HTML Code of the event
@@ -19,6 +18,15 @@ const eventSchema = new Schema({
 eventSchema.statics.findById = function(id) {
   return this.findOne({ _id : id});
 };
+
+eventSchema.statics.find = function() {
+  return this.find();
+};
+
+eventSchema.statics.findByCategory = function(string)
+{
+  return this.findMany( { category: string });
+}
 
 eventSchema.statics.findByCreator = function(id)
 {
