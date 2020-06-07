@@ -170,7 +170,7 @@ const Accounts = {
 
         //console.log("SignUp card is", signUpCard);
 
-        const newEvent = new Event({
+        const newEvent = new Events({
           creator: user._id,
           eventTime: here,
           category: "general",
@@ -179,7 +179,7 @@ const Accounts = {
         const event = await newEvent.save();
 
 
-        return h.redirect('/home');
+        return h.redirect('/myNews/'+ user._id);
       } catch (err) {
         return h.view('signup', { errors: [{ message: err.message }] });
       }
