@@ -1,4 +1,3 @@
-
 <div class="ui grid">
         <div class="ui column">
             <div class="ui stacked fluid form segment" style="background: #93BD09">
@@ -24,18 +23,14 @@
                         <label>Confirm Password</label>
                         <input type="password" name="confirm_password" id="confirm" required>
                     </div>
-                    <div class="ui small checkbox">
-                        <input type="checkbox" name="showpassowrds" onclick="togglePassword()">
-                        <label>Show Passwords</label>
-                    </div>
-                    <div class="ui success message">
-                        <div class="header">Form Completed</div>
-                        <p>You're all signed up for the newsletter.</p>
-                    </div>
                     <div>
                         <br><button class="ui submit button" style="background: #cb3232;color: whitesmoke"> Sign Up</button>
                     </div>
                 </form>
+                <div class="ui small checkbox" style="margin-top: 15px">
+                    <input type="checkbox" name="showpasswords" onclick="togglePassword()">
+                    <label>Show Passwords</label>
+                </div>
                 {{> error}}
             </div>
             {{>oauth-signups}}
@@ -45,8 +40,8 @@
 
 <script>
     function togglePassword() {
-        var x = document.getElementById("new");
-        var y = document.getElementById("confirm");
+        let x = document.getElementById("new");
+        let y = document.getElementById("confirm");
         if (x.type === "password") {
             x.type = "text";
         } else {
