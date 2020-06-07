@@ -25,19 +25,19 @@
                             <label>Confirm Password</label>
                             <input type="password" name="confirm_password" id="confirm" required>
                         </div>
-                        <div class="ui small checkbox">
-                            <input type="checkbox" name="showpassowrds" onclick="togglePassword()">
-                            <label>Show Passwords</label>
-                        </div>
                         <div>
                             <br><button class="ui green submit button"> Submit</button>
                         </div>
                     </form>
+                    <div class="ui small checkbox">
+                    <input type="checkbox" name="showpasswords" onclick="togglePassword()">
+                    <label>Show Passwords</label>
+                </div>
                     {{> error}}
                 </div>
                 {{>oauth-signups}}
             </div>
-            <aside class="ui six wide column"><img src="images/family.png" class="ui image"/></aside>
+            <aside class="ui six wide column"><img src="/images/family.png" class="ui image"/></aside>
         </div>
 
 
@@ -45,8 +45,8 @@
 
 <script>
     function togglePassword() {
-        var x = document.getElementById("new");
-        var y = document.getElementById("confirm");
+        let x = document.getElementById("new");
+        let y = document.getElementById("confirm");
         if (x.type === "password") {
             x.type = "text";
         } else {
