@@ -247,6 +247,7 @@ const Walkways = {
             latitude: payload.endlat,
             longitude: payload.endlong
           },
+          info: "<strong>" + name + "</strong>",
           profileImage: 'https://res.cloudinary.com/walkways/image/upload/v1590860161/walkways-poi_qhkm66.png'
         });
         let trail = await newTrail.save();

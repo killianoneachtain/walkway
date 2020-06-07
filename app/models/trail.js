@@ -45,7 +45,8 @@ const trailSchema = new Schema({
         },
         images: Array,
         profileImage: String,
-        comments: Array
+        comments: Array,
+        info: String,
         /*{ The structure of the commenting system.
             comment: {
               content: String,
