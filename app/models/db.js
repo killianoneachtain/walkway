@@ -20,7 +20,7 @@ db.on('disconnected', function() {
 
 db.once('open', function() {
   console.log(`database connected to ${this.name} on ${this.host}`);
-  //seed()
+  //seed();
 });
 
 // Removal of seed function as app is live on Heroku and Glitch
@@ -31,6 +31,9 @@ async function seed() {
   const Trail = require('./trail');
   const User = require('./user');
   const Category = require('./category');
+  const Comment = require('./comment');
+  const Events = require('./events');
+  const Admin = require('./admin');
   const dbData = await seeder.seed(data, { dropDatabase: false, dropCollections: true });
   //console.log(dbData);
 }

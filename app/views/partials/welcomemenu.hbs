@@ -1,12 +1,44 @@
-<nav class="ui inverted borderless olive menu">
-    <header class="header item"> <a href="/"> Walkway </a> </header>
+<nav class="ui inverted borderless olive fixed  secondary menu" style="overflow: hidden;width: 100%;top: 0; z-index: 101;
+margin-left: auto; margin-right: auto; border-radius: 0">
+    <div class="left menu">
+        <div class="item">
+            <a href="/"><img class="ui image" src="../images/walkways-logo.png" width="217px" height="34px"></a>
+        </div>
+    </div>
     <div class="right menu">
-        <a id="signup" class="item" href="/signup"> Signup</a>
-        <a id="login" class="item" href="/login">  Login</a>
+        <div class="item" style="padding: 0">
+            <table>
+                <tbody>
+                <tr>
+                    <td>
+                        <label>Email </label>
+                    </td>
+                    <td>
+                        <label>Password </label>
+                    </td>
+                </tr>
+                <tr>
+                    <form class="ui form" action="/login" method="POST">
+                        <div class="two fields">
+                            <td>
+                                <div class="field"><input placeholder="Email" type="text" name="email" /></div>
+                            </td>
+                            <td>
+                                <div class="field"><input type="password" name="password" /></div>
+                             </td>
+                            <td>
+                                <button class="ui olive submit button" style="border-color: whitesmoke;
+                                 background: #8209BD; font-size: 110%;padding-bottom: 10px;padding-top: -10px">Login</button>
+                            </td>
+                        </div>
+                    </form>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </nav>
 
 <script>
     $("#{{_id}}").addClass("active item");
 </script>
-

@@ -1,3 +1,6 @@
+{{#if guest}}
+    {{>guest_menu}}
+{{else}}
 {{> mainmenu _id="home" }}
-
+{{/if}}
     {{> full_POI }}

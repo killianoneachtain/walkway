@@ -1,0 +1,43 @@
+<section class="ui segment" style="margin-top: 65px">
+    {{>profile_id_card}}
+</section>
+
+<div class="ui grid">
+    <article class="sixteen wide column">
+        <table class="ui inverted olive celled striped table">
+            <thead>
+            <tr>
+                <th class="sorted ascending"><h2>{{user.firstName}}'s Trails</h2></th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each walkways}}
+                <tr>
+                    <td>
+                        <div class="ui styled fluid accordion">
+                            <div class="active title" style="color: olive;font-size: large">
+                                <i class="dropdown icon"></i>
+                                {{trailname}}
+                                {{#unless comments.length}}0{{else}}
+                                    {{comments.length}}{{/unless}} comments
+                            </div>
+                            <div class="content">
+                                <div class="ui grid">
+                                    {{>poi-card}}
+                                </div>
+                            </div>
+                        </div>{{/each}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </article>
+</div>
+
+
+<script>
+    $('.ui.accordion')
+            .accordion({ exclusive: false })
+    ;
+</script>
+

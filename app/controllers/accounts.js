@@ -2,8 +2,14 @@
 
 const User = require('../models/user');
 const Admin = require('../models/admin');
+const Trail = require('../models/trail');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
+const bCrypt = require('bcrypt');           // ADDED week9
+const saltRounds = 10;                      // ADDED week9
+const Bell = require('@hapi/bell');
+const AuthCookie = require('@hapi/cookie');
+const Events = require('../models/events');
 
 const Accounts = {
   index: {
@@ -26,13 +32,16 @@ const Accounts = {
           .alphanum()
           .min(2)
           .max(30)
+          .regex(/^[A-Za-z-']{1,30}$/)
           .trim()
-          .messages({ 'string.pattern.base': 'First Name must be between 3 and 30 characters' })
+          .messages({ 'string.pattern.base': 'First Name must be between 2 and 30 characters' })
           .required(),
         lastName: Joi.string()
           .min(2)
           .max(30)
+          .regex(/^[A-Za-z'-]{1,30}$/)
           .trim()
+          .messages({ 'string.pattern.base': 'Last Name must be between 2 and 30 characters' })
           .required(),
         email: Joi.string()
           .email()
@@ -40,7 +49,7 @@ const Accounts = {
         new_password: Joi.string()
           .min(8)
           .max(15)
-          .regex(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,15}$/)
+          .regex(/^(?=.*[0-9])(?=.*[!@#$^&*])[a-zA-Z0-9!@#$^&*]{8,15}$/)
           .messages({
             'string.pattern.base': '8 - 15 character PASSWORD must contain numbers, upper, lower and special characters.  '
           })
@@ -63,11 +72,9 @@ const Accounts = {
             errorz[details[i].path] = details[i].message;
           }
         }
-
-        console.log("THE DETAILS ARE : ",details);
-        console.log(" THE ERRORZ ARE : ", errorz);
-        return h
-          .view('signup', {
+        //console.log("THE DETAILS ARE : ",details);
+        //console.log(" THE ERRORZ ARE : ", errorz);
+        return h.view('signup', {
             title: 'Sign up error',
             errors: error.details,
             values: request.payload,
@@ -94,16 +101,85 @@ const Accounts = {
           throw Boom.badData(message);
         }
 
+        const hash = await bCrypt.hash(payload.new_password, saltRounds);    // ADDED
+
+
+        let m = new Date();
+        let joinDate =
+          m.getUTCFullYear() + "/" +
+          ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" +
+          ("0" + m.getUTCDate()).slice(-2);
+
+        //console.log(joinDate);
+
         const newUser = new User({
-          firstName: payload.firstName,
-          lastName: payload.lastName,
+          firstName: payload.firstName.replace(/^./, payload.firstName[0].toUpperCase()),
+          lastName: payload.lastName.replace(/^./, payload.lastName[0].toUpperCase()),
           email: payload.email,
-          password: payload.confirm_password,
-          type: "user"
+          password: hash,
+          type: "user",
+          profilePicture: "",
+          profilePID: "",
+          profileImages: [],
+          friends: [],
+          friendRequests: [],
+          requestsSent: [],
+          dateJoined: joinDate,
+          online: false
         });
         user = await newUser.save();
-        request.cookieAuth.set({ id: user.id });
-        return h.redirect('/home');
+        request.cookieAuth.set({ id: user._id });
+        await User.updateOne( { _id: user._id }, { "$set": { "online": true } } );
+
+        // Create an Event here to say user has Joined
+        let now = new Date();
+        let here = now.getTime();
+
+        let profilePic='';
+        if (user.profilePicture === '')
+        {
+          profilePic = '/images/default_user.png';
+        }
+        else
+        {
+          profilePic = user.profilePicture;
+        }
+
+        let dateString = now.getUTCFullYear() + "/" +
+          ("0" + (now.getUTCMonth()+1)).slice(-2) + "/" +
+          ("0" + now.getUTCDate()).slice(-2) + " " +
+          ("0" + now.getUTCHours()).slice(-2) + ":" +
+          ("0" + now.getUTCMinutes()).slice(-2) + ":" +
+          ("0" + now.getUTCSeconds()).slice(-2);
+        //console.log(dateString);
+
+        let signUpCard = "<div class=\"ui fluid card\">\n" +
+          "  <div class=\"content\">\n" +
+          "    <div class=\"header\">New Member</div>\n" +
+          "    <div class=\"meta\">" + dateString + "</div>\n" +
+          "    <div class=\"description\">\n" +
+          "      <p>" + user.firstName + ' ' + user.lastName + " has Joined our community. </p>\n" +
+          "    </div>\n" +
+          "  </div>\n" +
+          "  <div class=\"extra content\">\n" +
+          "    <div class=\"author\">\n" +
+          "      <img class=\"ui avatar image\" src=\"" + profilePic + "\">" + user.firstName + " " + user.lastName + "\n" +
+          "    </div>\n" +
+          "  </div>\n" +
+          "</div>";
+
+        //console.log("SignUp card is", signUpCard);
+
+        const newEvent = new Events({
+          creator: user._id,
+          eventTime: here,
+          category: "general",
+          event: signUpCard
+        });
+        const event = await newEvent.save();
+
+
+        return h.redirect('/myNews/'+ user._id);
       } catch (err) {
         return h.view('signup', { errors: [{ message: err.message }] });
       }
@@ -140,29 +216,40 @@ const Accounts = {
     handler: async function(request, h) {
       const { email, password } = request.payload;
       try {
+
         let user = await User.findByEmail(email);
+
+        let user_email=user.email;
 
         if ((user) && (user.type === "admin"))
         {
-          user.comparePassword(password);
-          request.cookieAuth.set({ id: user.id });
+          await user.comparePassword(password);
+          request.cookieAuth.set({ id: user._id });
+          await User.updateOne( { _id: user._id }, { "$set": { "online": true } } );
           return h.redirect('/admin');
         } else if (user) {
-          user.comparePassword(password);
-          request.cookieAuth.set({ id: user.id });
-          return h.redirect('/home');
+          if (!await user.comparePassword(password)) {         // EDITED (next few lines)
+            const message = 'Password does not match our records.';
+            throw Boom.unauthorized(message);
+          } else {
+            request.cookieAuth.set({ id: user._id });
+            await User.updateOne( { _id: user._id }, { "$set": { "online": true } } );
+            user = await User.findOne( { _id: user._id }).lean();
+            let sortEvents = await Events.aggregate( [ { $sort: { eventTime: -1 } } ] );
+            return h.redirect('myNews/' + user._id , {title: "My News",user: user, friendEvents: sortEvents} );
+          }                                                    // END
         }
 
         else if (!user)
         {
           try {
-            console.log(email);
+            //console.log(email);
             let admin = await Admin.findByEmail(email);
-            console.log("Here in Admin : ", Admin.findByEmail(email));
+            //console.log("Here in Admin : ", Admin.findByEmail(email));
 
             if (admin)
             {
-              user.comparePassword(password);
+              await user.comparePassword(password);
               request.cookieAuth.set({ id: admin.id });
               return h.redirect('/admin');
             }
@@ -178,9 +265,21 @@ const Accounts = {
       }
     }
   },
+  github_login: {
+    auth: 'github-oauth',
+    handler: function (request, h) {
+      if (request.auth.isAuthenticated) {
+        request.cookieAuth.set(request.auth.credentials);
+        return ('Hello ' + request.auth.credentials.profile.displayName);
+      }
+      return('Not logged in...');
+    }
+  },
   logout: {
-    auth: false,
-    handler: function(request, h) {
+    //auth: false,
+    handler: async function(request, h) {
+      let userId = request.auth.credentials.id;
+      await User.updateOne( { _id: userId }, { "$set": { "online": false } } );
       request.cookieAuth.clear();
       return h.redirect('/');
     }
@@ -195,12 +294,12 @@ const Accounts = {
           throw Boom.unauthorized();
         }
 
-        if (user.type == "user")
+        if (user.type === "user")
         {
           return h.view('settings', { title: 'Walkway Settings', user: user });
         }
 
-        if (user.type == "admin")
+        if (user.type === "admin")
         {
           return h.view('adminsettings', { title: 'Walkway Adminstrator Settings', user: user });
         }
@@ -217,13 +316,16 @@ const Accounts = {
           .alphanum()
           .min(2)
           .max(30)
+          .regex(/^[A-Za-z-']{1,30}$/)
           .trim()
-          .messages({ 'string.pattern.base': 'First Name must be between 3 and 30 characters' })
+          .messages({ 'string.pattern.base': 'First Name must be between 2 and 30 characters' })
           .required(),
         lastName: Joi.string()
           .min(2)
           .max(30)
+          .regex(/^[A-Za-z'-]{1,30}$/)
           .trim()
+          .messages({ 'string.pattern.base': 'Last Name must be between 2 and 30 characters' })
           .required(),
         email: Joi.string()
           .email()
@@ -251,7 +353,6 @@ const Accounts = {
           }
         }
 
-
         return h
           .view('settings', {
             title: 'Update error',
@@ -266,24 +367,27 @@ const Accounts = {
     handler: async function(request, h) {
       try {
         const userEdit = request.payload;
-        console.log("Request. auth is : ", request.auth);
+        //console.log("Request. auth is : ", request.auth);
         const id = request.auth.credentials.id;
         const user = await User.findById(id);
         if (!user) {
           throw Boom.unauthorized();
         }
 
-        user.firstName = userEdit.firstName;
-        user.lastName = userEdit.lastName;
+        const hash = await bCrypt.hash(userEdit.new_password, saltRounds);    // ADDED
+        //const emailHash = await bCrypt.hash(userEdit.email, saltRounds);    // ADDED
+
+        user.firstName = userEdit.firstName.replace(/^./, userEdit.firstName[0].toUpperCase()),
+        user.lastName = userEdit.lastName.replace(/^./, userEdit.lastName[0].toUpperCase()),
         user.email = userEdit.email;
-        user.password = userEdit.new_password;
+        user.password = hash;
         await user.save();
         return h.redirect('/settings');
       } catch (err) {
         return h.view('settings', { errors: [{ message: err.message }] });
       }
     }
-  },
+  }
 };
 
 module.exports = Accounts;

@@ -1,6 +1,6 @@
 {{> adminmenu _id="home" }}
 
-<section class="ui raised segment">
+<section class="ui raised segment" style="margin-top: 65px">
     <h2> Welcome {{user.firstName}} {{user.lastName}} to Walkways Administration.</h2>
 
     <div class="ui styled fluid accordion">
@@ -27,9 +27,3 @@
         </div>
     </div>
 </section>
-
-<script>
-$('.ui.accordion')
-.accordion({ exclusive: false })
-;
-</script>

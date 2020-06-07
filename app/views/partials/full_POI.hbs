@@ -1,4 +1,4 @@
-<section class="ui raised segment">
+<section class="ui raised segment" style="margin-top: 65px">
     <div class="ui grid">
         <div class="twelve wide column">
             {{> map }}
@@ -13,8 +13,9 @@
             <tbody>
                 <tr>
                     <td class="blue" style="font-size: large">{{trail.trailname}} Overview Details</td>
+                    {{#if owner}}
                     <td class="blue"><a href="/editTrail/{{trail._id}}">
-                        <i class="olive wrench icon"></i>Edit Trail</a></td>
+                        <i class="olive wrench icon"></i>Edit Trail</a></td>{{/if}}
                 </tr>
                 <tr>
                     <td class="olive">Grade</td>
@@ -63,7 +64,8 @@
                 <td>{{> POIgallery}}</td>
             </tr>
             <tr>
-                <td> {{> upload_modal}}</td>
+                {{#if @root.areFriends}}
+                <td> {{> upload_modal}}</td>{{/if}}
             </tr>
         </table>
     </div>

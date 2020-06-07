@@ -1,6 +1,6 @@
-{{> welcomemenu _id="signup" }}
+{{> signup-menu }}
 
-<section class="ui raised segment">
+<section class="ui raised segment" style="margin-top: 65px">
         <div class="ui grid">
             <div class="ui ten wide column">
                 <div class="ui stacked fluid form segment">
@@ -25,27 +25,28 @@
                             <label>Confirm Password</label>
                             <input type="password" name="confirm_password" id="confirm" required>
                         </div>
-
                         <div>
-                            <button class="ui green submit button"> Submit</button>
+                            <br><button class="ui green submit button"> Submit</button>
                         </div>
                     </form>
+                    <div class="ui small checkbox">
+                    <input type="checkbox" name="showpasswords" onclick="togglePassword()">
+                    <label>Show Passwords</label>
+                </div>
                     {{> error}}
                 </div>
-                <div class="ui small checkbox">
-                <input type="checkbox" name="showpassowrds" onclick="togglePassword()">
-                <label>Show Passwords</label>
-            </div><br><br>
+                {{>oauth-signups}}
             </div>
-            <aside class="ui six wide column"><img src="images/family.png" class="ui image"/></aside>
+            <aside class="ui six wide column"><img src="/images/family.png" class="ui image"/></aside>
         </div>
+
 
     </section>
 
 <script>
     function togglePassword() {
-        var x = document.getElementById("new");
-        var y = document.getElementById("confirm");
+        let x = document.getElementById("new");
+        let y = document.getElementById("confirm");
         if (x.type === "password") {
             x.type = "text";
         } else {

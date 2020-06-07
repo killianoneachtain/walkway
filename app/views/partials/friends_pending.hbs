@@ -1,0 +1,17 @@
+<h1>You have
+    {{#unless friendsPending.length}}
+        0
+    {{/unless}}
+    {{#if friendsPending.length}}
+        {{friendsPending.length}}
+    {{/if}}
+    requests  pending approval</h1>
+
+<div class="section">
+    <div class="ui fluid link cards">
+        {{#each friendsPending}}
+            {{> friend_card}}
+        {{/each}}</div>
+    </div>
+</div>
+</div>
