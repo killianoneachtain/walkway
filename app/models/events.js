@@ -19,13 +19,9 @@ eventSchema.statics.findById = function(id) {
   return this.findOne({ _id : id});
 };
 
-eventSchema.statics.find = function() {
-  return this.find();
-};
-
 eventSchema.statics.findByCategory = function(string)
 {
-  return this.findMany( { category: string });
+  return this.find( { category: string });
 }
 
 eventSchema.statics.findByCreator = function(id)

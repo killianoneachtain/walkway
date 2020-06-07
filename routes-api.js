@@ -2,7 +2,7 @@
 
 const Trails = require('./app/api/trails');
 const Users = require('./app/api/users');
-const Evetns = require('./app/api/events');
+const Events = require('./app/api/events');
 
 module.exports = [
   { method: 'GET', path: '/api/trails', config: Trails.find },
@@ -19,5 +19,12 @@ module.exports = [
 
   { method: 'POST', path: '/api/users/authenticate', config: Users.authenticate },
 
-  { method: 'GET', path: '/api/events', config: Events.find},
+  { method: 'GET', path: '/api/events', config: Events.find },
+  { method: 'GET', path: '/api/events/{id}', config: Events.findOne },
+  { method: 'GET', path: '/api/events/creator/{userID}', config: Events.findByCreator },
+  { method: 'GET', path: '/api/events/category/{category}', config: Events.findByCategory },
+  { method: 'GET', path: '/api/events/time/{time}', config: Events.findByTime },
+  { method: 'POST', path: '/api/events', config: Events.create },
+  { method: 'DELETE', path: '/api/events/{id}', config: Events.deleteOne },
+  { method: 'DELETE', path: '/api/events', config: Events.deleteAll },
 ];
