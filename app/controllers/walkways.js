@@ -21,7 +21,7 @@ const Walkways = {
       const user = await User.findById(id).lean();
 
       const walkways = await Trail.find ( { creator: id } ).populate('walkways').lean();
-      //console.log("walkways are : ", walkways);
+      console.log("walkways are : ", walkways);
 
       return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user,
         google_API: process.env.google_maps_API,});
@@ -217,17 +217,21 @@ const Walkways = {
 
         let name = request.payload.trailname;
         name = name.replace(/ /g, '-');
-        console.log("NAME IS: ", name);
+        //console.log("NAME IS: ", name);
 
         let creatorName = user.firstName + ' ' + user.lastName;
 
-        const checkName = await Trail.find({ trailname: name, creator: id });
+        const checkName = await Trail.find({ trailname: name}).lean();
 
-        console.log("CheckName is : ", checkName);
+        //console.log("CheckName is : ", checkName);
+
+        let getInfoName = name.replace(/[^a-zA-Z]/g, "");
+        //console.log("infoName is", getInfoName);
 
         if (checkName.trailname === name) {
-
+          name = name + "-walkway";
         }
+
         const newTrail = new Trail({
           creator: user._id,
           creatorName: creatorName,
@@ -247,7 +251,7 @@ const Walkways = {
             latitude: payload.endlat,
             longitude: payload.endlong
           },
-          info: "<strong>" + name + "</strong>",
+          info: getInfoName,
           profileImage: 'https://res.cloudinary.com/walkways/image/upload/v1590860161/walkways-poi_qhkm66.png'
         });
         let trail = await newTrail.save();
@@ -514,14 +518,14 @@ const Walkways = {
         //console.log("The current user is :", user);
 
         const walkways = await Trail.find().populate('walkways').lean();
-        //console.log("The Walkways are :",walkways);
+        console.log("The Walkways are :",walkways);
         const users = await User.find( { type: { $ne: 'admin' } }).populate('users').lean();
         //console.log("The users are:", users);
 
         const allTrails = true;
 
         return h.view('allTrails', { title: "All Trails on Walkways ", users: users, walkways: walkways,
-          user: user, currentUser: user, allTrails: allTrails } );
+          user: user, currentUser: user, allTrails: allTrails, google_API: process.env.google_maps_API  } );
       } catch (err) {
         return h.view('home', { errors: [{ message: err.message }] });
       }
