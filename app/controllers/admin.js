@@ -122,6 +122,17 @@ const Admin = {
 
 
         // Delete User from all Friend status arrays of other Users
+        let friendRequests = user.friends;
+        if (friendRequests.length > 0){
+          for (let i = 0; i < friendRequests.length; i++) {
+            try {
+              await User.updateOne( { _id: friendRequests[i] }, { $pull: { friendRequests : user._id } } );
+            } catch(err)
+            {
+              console.log("Error Deleting Friend Requests", err);
+            }
+          }
+        }
 
         // delete the user id from all friends arrays;
 
@@ -138,8 +149,19 @@ const Admin = {
         }
 
 
-        // delete the user id from all the friendRequest arrays;
         // delete the user id from all the requestsSent arrays;
+        let friendRequestsSent = user.friends;
+        if (friendRequestsSent.length > 0){
+          for (let i = 0; i < friendRequests.length; i++) {
+            try {
+              await User.updateOne( { _id: friendRequestsSent[i] }, { $pull: { requestsSent : user._id } } );
+            } catch(err)
+            {
+              console.log("Error Deleting Friends", err);
+            }
+          }
+        }
+
 
 
 
