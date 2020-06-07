@@ -23,7 +23,8 @@ const Walkways = {
       const walkways = await Trail.find ( { creator: id } ).populate('walkways').lean();
       //console.log("walkways are : ", walkways);
 
-      return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user });
+      return h.view('home', { title: 'Welcome to Walkways', walkways: walkways, user: user,
+        google_API: process.env.google_maps_API,});
     }
   },
   shareWalk: {
