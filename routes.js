@@ -4,9 +4,13 @@ const Accounts = require('./app/controllers/accounts');
 const Walkways = require('./app/controllers/walkways');
 const Admin = require('./app/controllers/admin');
 const Gallery = require('./app/controllers/gallery');
+const Guest = require('./app/controllers/guest');
+const Social = require('./app/controllers/social');
 
 module.exports = [
   { method: 'GET', path: '/', config: Accounts.index },
+
+  { method: 'GET', path: '/guest_view', config: Guest.guest },
 
   { method: 'GET', path: '/login', config: Accounts.showLogin },
   { method: 'GET', path: '/logout', config: Accounts.logout },
@@ -15,6 +19,7 @@ module.exports = [
   { method: 'POST', path: '/signup', config: Accounts.signup },
 
   { method: 'POST', path: '/login', config: Accounts.login },
+  //{ method: 'POST', path: '/github_login', config: Accounts.github_login },
 
   { method: 'GET', path: '/home', config: Walkways.home },
   { method: 'GET', path: '/admin', config: Admin.admin },
@@ -24,8 +29,9 @@ module.exports = [
 
   { method: 'POST', path: '/adminsettings', config: Accounts.updateSettings },
   { method: 'POST', path: '/settings', config: Accounts.updateSettings },
+  { method: 'GET', path:'/friends/{id}', config: Social.friends},
 
-  { method: 'GET', path: '/addPOI', config: Walkways.trailform },
+  { method: 'GET', path: '/addPOI/{id}', config: Walkways.trailform },
   { method: 'POST', path: '/addPOI', config: Walkways.addtrail },
 
   { method: 'GET', path: '/editTrail/{id}', config: Walkways.showTrail },
@@ -33,6 +39,9 @@ module.exports = [
   { method: 'GET', path: '/deleteTrail/{id}', config: Walkways.deleteTrail },
 
   { method: 'GET', path: '/viewPOI/{id}', config: Walkways.viewTrail },
+  { method: 'GET', path: '/viewPOI/{id}/{trailId}', config: Walkways.userViewTrail },
+  { method: 'GET', path: '/viewPOI/guest/{trailId}', config: Guest.viewTrail},
+
 
   { method: 'GET', path:  '/deleteUser/{id}', config: Admin.deleteUser },
 
@@ -43,7 +52,29 @@ module.exports = [
 
   { method: 'GET', path: '/viewUser/{id}', config: Admin.viewUser },
   { method: 'POST', path: '/viewUser/{id}', config: Admin.resetPassword },
+  { method: 'GET', path: '/deleteUserImage/{id}/{foldername}/{imagename}', config: Admin.deleteUserImage },
 
+  { method: 'GET', path: '/viewProfile/{id}', config: Guest.viewProfile },
+
+  { method: 'GET', path: '/viewProfile/{id}/{otherID}', config: Walkways.viewProfile },
+
+  { method: 'GET', path: '/allTrails/{id}', config: Walkways.viewAll },
+  { method: 'POST', path: '/allTrails/{trailID}/{userID}', config: Walkways.postComment },
+
+  { method: 'POST', path: '/uploadProfilePicture/{id}', config: Gallery.uploadProfilePicture },
+
+  { method: 'POST', path: '/addFriend/{id}/{friendID}', config: Social.addFriend},
+  { method: 'POST', path: '/acceptFriend/{id}/{friendID}', config: Social.acceptFriend},
+  { method: 'POST', path: '/denyFriend/{id}/{friendID}', config: Social.denyFriend },
+
+  { method: 'POST', path: '/viewProfile/removeFriend/{id}/{friendID}', config: Social.removeFriend },
+  { method: 'POST', path: '/friends/removeFriend/{id}/{friendID}', config: Social.removeFriend },
+
+  { method: 'POST', path: '/friends/share/{id}', config: Walkways.shareWalk },
+
+  { method: 'GET', path: '/allUsers/{id}', config: Social.allUsers },
+
+  { method: 'GET', path: '/myNews/{id}', config: Social.myNews },
 
   {
     method: 'GET',

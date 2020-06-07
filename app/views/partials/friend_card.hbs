@@ -1,0 +1,47 @@
+<div class="card">
+    <div class="image">
+        {{#if @root.user}}
+        <a href="/viewProfile/{{@root.user._id}}/{{_id}}">
+        {{else}}
+        <a href="/viewProfile/{{_id}}">
+        {{/if}}
+
+        {{#if profilePicture}}
+            <img src="{{profilePicture}}"></a>
+        {{else}}
+            <img src="/images/default_user.png"></a>
+        {{/if}}
+    </div>
+    <div class="content">
+        <a class="header">
+            {{#if @root.user}}
+            <a href="/viewProfile/{{@root.user._id}}/{{_id}}">
+            {{else}}
+            <a href="/viewProfile/{{_id}}">
+            {{/if}}
+            <h1 style="color: #32CD32">{{firstName}} {{lastName}}</h1>
+        </a>
+        <div class="meta">
+            <span class="date">Member since {{dateJoined}}</span>
+        </div>
+    </div>
+    <div class="extra content">
+        <div>
+            <a>
+                <i class="user icon"></i>
+                {{#unless friends.length}}
+                    0 Friends
+                {{/unless}}
+                {{#if friends.length}}
+                   {{friends.length}} Friends
+                {{/if}}
+            </a>
+            <p></p>
+            {{#if online}}
+                <i class="user circle outline green icon"></i>Online
+            {{else}}
+                <i class="user circle outline red icon"></i> Offline
+            {{/if}}
+        </div>
+    </div>
+

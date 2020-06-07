@@ -33,8 +33,25 @@ const userSchema = new Schema({
     required: true
   },
   trailtypes:[ {
-    type: String
+    type: String,
+    trim: true
   }],
+  profilePicture: {
+    type: String,
+    trim: true
+  },
+  profilePID:
+  {
+    type: String,
+    trim: true
+  },
+  allImages: Array,
+  comments: Array,
+  friends: [{ type: Schema.Types.ObjectId, ref: 'User'}],
+  friendRequests : [{ type: Schema.Types.ObjectId, ref: 'User'}],
+  requestsSent : [{ type: Schema.Types.ObjectId, ref: 'User'}],
+  dateJoined: Date,
+  online: Boolean
 });
 
 userSchema.statics.findByEmail = function(email) {
@@ -45,10 +62,35 @@ userSchema.statics.findByID = function(id) {
   return this.findOne({ _id : id});
 };
 
+userSchema.statics.findInRequests = function(id, friendID) {
+  return this.findOne( { $and: [ { _id: id }, { requestsSent: { friendID } } ] } );
+}
+
 userSchema.statics.findByType = function(type) {
   return this.findOne({ type : type});
 };
 
+/*userSchema.statics.save = function(id)
+{
+  return this.save(id);
+}*/
+
+userSchema.statics.addToFriends = function(id,friendID) {
+  try {
+      this.updateOne({ _id: id }, { $push: { friends: friendID } });
+      this.updateOne({ _id: friendID}, { $push: { friends: id } } );
+      this.save(id);
+      this.save(friendID);
+      return true;
+  } catch (err)
+  {
+    return err;
+  }
+}
+
+
+
+// noinspection JSValidateTypes
 userSchema.methods.comparePassword = async function(candidatePassword) {
   const isMatch = await bCrypt.compare(candidatePassword, this.password);
   if (!isMatch) {

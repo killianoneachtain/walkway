@@ -1,0 +1,13 @@
+<div class="ui large search selection dropdown olive button" style="margin-top: 65px" data-tooltip="Search by First Name"
+     data-position="right center">
+    <div class="text">Search / Go To User</div>
+    <i class="dropdown icon"></i>
+    <div class="menu">
+        {{#each allUsers as | user | }}
+            <div class="item">
+                <span class="description">{{user.firstName}}</span>
+                <a href="#{{user._id}}"> {{user.lastName}}</a>
+            </div>
+        {{/each}}
+    </div>
+</div>

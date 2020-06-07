@@ -7,7 +7,16 @@
       "email": "homer@simpson.com",
       "password": "$2a$10$JywZTCuCquuwOwoUeR2Zeey1MC5vOGOkN3ruDuT14fSsI6ZdQ/hJe",
       "type": "user",
-      "trailtypes": [ "Loop" ]
+      "trailtypes": [ "Loop" ],
+      "comments": [],
+      "friends": [],
+      "friendRequests": [],
+      "requestsSent": [],
+      "allImages": [],
+      "profilePicture": "",
+      "profilePID": "",
+      "online": false,
+      "dateJoined": "1591398000000"
     },
     "marge": {
       "firstName": "Marge",
@@ -22,18 +31,46 @@
       "email": "killianoneachtain@hotmail.com",
       "password": "$2a$05$.cwDLHBgysqwrS6poRmawuFC5tv7ubZsjjDQDki.dx55oWPJbfoEq",
       "type": "user",
-      "trailtypes": [ "Loop", "Linear" ]
+      "trailtypes": [ "Loop", "Linear" ],
+      "friends": [],
+      "friendRequests": [],
+      "requestsSent": [],
+      "comments": [],
+      "allImages": [],
+      "profilePicture": "",
+      "profilePID": "",
+      "dateJoined": "1593398000000",
+      "online": false
+    },
+    "bart": {
+      "firstName": "Bart",
+      "lastName": "Simpson",
+      "email": "bart@simpson.com",
+      "password": "$2a$05$.cwDLHBgysqwrS6poRmawuFC5tv7ubZsjjDQDki.dx55oWPJbfoEq",
+      "type": "user",
+      "trailtypes": [ "Linear" ],
+      "friends": [],
+      "friendRequests": [],
+      "requestsSent": [],
+      "comments": [],
+      "allImages": [],
+      "profilePicture": "",
+      "profilePID": "",
+      "dateJoined": "1591498000000",
+      "online": false
     }
   },
   "trails": {
     "_model": "Trail",
     "one":    {
           "creator": "->users.killian",
+          "creatorName": "Killian O'Neachtain",
           "grade": [
             "Easy", "Moderate"
           ],
           "county": "Waterford",
-          "trailname": "Back Strand Walk",
+          "trailname": "Back-Strand-Walk",
+          "info": "BackStrandWalk",
           "trailtype": "Loop",
           "traillength": 1.5,
           "time": "01:05",
@@ -42,15 +79,20 @@
           "startcoordinates": {
             "latitude": 52.159796,
             "longitude": -7.137537
-          }
+          },
+          "profileImage":"/images/walkways-poi.png",
+          "images":[],
+          "comments": []
         },
     "two":   {
           "creator": "->users.killian",
+          "creatorName": "Killian O'Neachtain",
           "grade": [
             "Moderate"
           ],
           "county": "Waterford",
-          "trailname": "Metal Man",
+          "trailname": "Metal-Man",
+          "info": "MetalMan",
           "trailtype": "Linear",
           "traillength": 2.5,
           "time": "01:15",
@@ -59,7 +101,10 @@
           "startcoordinates": {
             "latitude": 52.159796,
             "longitude": -7.137537
-          }
+          },
+          "profileImage":"/images/walkways-poi.png",
+          "images":[],
+          "comments": []
         },
     "three":
       {
@@ -67,8 +112,10 @@
           "Easy"
         ],
         "creator": "->users.killian",
+        "creatorName": "Killian O'Neachtain",
         "county": "Waterford",
-        "trailname": "Doneraile Walk",
+        "trailname": "Doneraile-Walk",
+        "info": "DoneraileWalk",
         "trailtype": "Linear",
         "traillength": 3.5,
         "time": "01:05",
@@ -77,16 +124,21 @@
         "startcoordinates": {
           "latitude": 52.159796,
           "longitude": -7.137537
-        }
+        },
+        "profileImage":"/images/walkways-poi.png",
+        "images":[],
+        "comments": []
       },
     "four":
       {
-        "creator": "->users.homer",
+        "creator": "->users.bart",
+        "creatorName": "Bart Simpson",
         "grade": [
           "Easy"
         ],
         "county": "Waterford",
-        "trailname": "Back Strand",
+        "trailname": "Back-Strand",
+        "info": "BackStrand",
         "trailtype": "Loop",
         "traillength": 6.3,
         "time": "02:45",
@@ -95,16 +147,21 @@
         "startcoordinates": {
           "latitude": 52.159796,
           "longitude": -7.137537
-        }
+        },
+        "profileImage":"/images/walkways-poi.png",
+        "images":[],
+        "comments": []
       },
     "five":
       {
         "creator": "->users.homer",
+        "creatorName": "Homer Simpson",
         "grade": [
           "Easy"
         ],
         "county": "Waterford",
-        "trailname": "Metal Man Loop",
+        "trailname": "Metal-Man-Loop",
+        "info": "MetalManLoop",
         "trailtype": "Loop",
         "traillength": 4.5,
         "time": "01:35",
@@ -113,16 +170,21 @@
         "startcoordinates": {
           "latitude": 52.159796,
           "longitude": -7.137537
-        }
+        },
+        "profileImage":"/images/walkways-poi.png",
+        "images":[],
+        "comments": []
       },
     "six":
     {
       "creator": "->users.homer",
+      "creatorName": "Homer Simpson",
       "grade": [
         "Moderate"
       ],
       "county": "Cork",
-      "trailname": "Sheep's Head - Cahergal Loop",
+      "trailname": "Sheep's-Head-Cahergal-Loop",
+      "info": "SheepsHeadCahergalLoop",
       "trailtype": "Loop",
       "traillength": 7.8,
       "time": "03:15",
@@ -131,16 +193,21 @@
       "startcoordinates": {
         "latitude": 51.562142,
         "longitude": -9.764004
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "seven":
     {
-      "creator": "->users.killian",
+      "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Modearte"
       ],
       "county": "Dublin",
-      "trailname": "Ticknock - Fairy Castle",
+      "trailname": "Ticknock-Fairy-Castle",
+      "info": "TicknockFairyCastle",
       "trailtype": "Loop",
       "traillength": 5.5,
       "time": "01:45",
@@ -149,16 +216,21 @@
       "startcoordinates": {
         "latitude": 53.255632,
         "longitude": -6.251329
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "eight":
     {
       "creator": "->users.homer",
+      "creatorName": "Homer Simpson",
       "grade": [
         "Very Difficult"
       ],
       "county": "Wicklow",
       "trailname": "Spinc & Wicklow Way - Glendalough",
+      "info": "SpincWicklowWayGlendalough",
       "trailtype": "Loop",
       "traillength": 11.2,
       "time": "04:15",
@@ -167,16 +239,21 @@
       "startcoordinates": {
         "latitude": 53.004904,
         "longitude": -6.346000
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "nine":
     {
-      "creator": "->users.homer",
+      "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Moderate"
       ],
       "county": "Cavan",
       "trailname": "Dun a Ri - River Walk",
+      "info": "DunARiRiverWalk",
       "trailtype": "Loop",
       "traillength": 3.1,
       "time": "01:35",
@@ -185,16 +262,21 @@
       "startcoordinates": {
         "latitude": 53.919080,
         "longitude": -6.792333
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "ten":
     {
       "creator": "->users.killian",
+      "creatorName": "Killian O'Neachtain",
       "grade": [
         "Moderate"
       ],
       "county": "Cavan",
       "trailname": "Dun a Ri - River Walk",
+      "info": "DunARiRiverWalk2",
       "trailtype": "Loop",
       "traillength": 3.1,
       "time": "01:35",
@@ -203,16 +285,21 @@
       "startcoordinates": {
         "latitude": 53.919080,
         "longitude": -6.792333
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "eleven":
     {
       "creator": "->users.killian",
+      "creatorName": "Killian O'Neachtain",
       "grade": [
         "Moderate"
       ],
       "county": "Clare",
       "trailname": "Ballinruan Loop",
+      "info": "BallinruanLoop",
       "trailtype": "Loop",
       "traillength": 10.50,
       "time": "03:45",
@@ -221,16 +308,21 @@
       "startcoordinates": {
         "latitude": 52.953432,
         "longitude": -8.828016
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "twelve":
     {
       "creator": "->users.homer",
+      "creatorName": "Homer Simpson",
       "grade": [
         "Moderate"
       ],
       "county": "Donegal",
       "trailname": "Glencolmcille - Drum loop",
+      "info": "GlencolmcilleDrumloop",
       "trailtype": "Loop",
       "traillength": 13.0,
       "time": "04:10",
@@ -239,16 +331,21 @@
       "startcoordinates": {
         "latitude": 54.710066,
         "longitude": -8.721229
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "thirteen":
     {
-      "creator": "->users.homer",
+      "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Easy"
       ],
       "county": "Cork",
       "trailname": "Castlemartyr - Mitchell's Wood Loop",
+      "info": "CastlemartyrMitchellsWoodLoop",
       "trailtype": "Loop",
       "traillength": 2.4,
       "time": "00:45",
@@ -257,16 +354,21 @@
       "startcoordinates": {
         "latitude": 51.915866,
         "longitude": -8.062202
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "fourteen":
     {
       "creator": "->users.homer",
+      "creatorName": "Homer Simpson",
       "grade": [
         "Moderate", "Strenuous"
       ],
       "county": "Kerry",
       "trailname": "Shannon Way",
+      "info": "ShannonWay",
       "trailtype": "Linear",
       "traillength": 35.4,
       "time": "09:30",
@@ -275,16 +377,21 @@
       "startcoordinates": {
         "latitude": 51.915866,
         "longitude": -8.062202
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "fifteen":
     {
       "creator": "->users.killian",
+      "creatorName": "Killian O'Neachtain",
       "grade": [
         "Easy", "Moderate", "Wheelchair and Buggy Accessible"
       ],
       "county": "Wexford",
       "trailname": "Rosslare Harbour Village Trail",
+      "info": "RosslareHarbourVillageTrail",
       "trailtype": "Loop",
       "traillength": 2.9,
       "time": "00:50",
@@ -293,16 +400,21 @@
       "startcoordinates": {
         "latitude": 52.247604,
         "longitude": -6.331684
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "sixteen":
     {
       "creator": "->users.homer",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Moderate"
       ],
       "county": "Offaly",
       "trailname": "Glenregan Loop",
+      "info": "GlenreganLoop",
       "trailtype": "Loop",
       "traillength": 11.0,
       "time": "03:15",
@@ -311,16 +423,21 @@
       "startcoordinates": {
         "latitude": 53.091633,
         "longitude":  -7.684729
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "seventeen":
     {
-      "creator": "->users.killian",
+      "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Moderate"
       ],
       "county": "Cork",
       "trailname": "Sheeps Head - Mass Path",
+      "info": "SheepsHeadMassPath",
       "trailtype": "Linear",
       "traillength": 2.0,
       "time": "02:15",
@@ -333,16 +450,21 @@
       "endcoordinates": {
         "latitude": 51.608086,
         "longitude": -9.664904
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "eighteen":
     {
       "creator": "->users.killian",
+      "creatorName": "Killian O'Neachtain",
       "grade": [
         "Easy"
       ],
       "county": "Cork",
       "trailname": "Beacon Walk",
+      "info": "BeaconWalk",
       "trailtype": "Linear",
       "traillength": 3.3,
       "time": "01:15",
@@ -355,16 +477,21 @@
       "endcoordinates": {
         "latitude": 51.473731,
         "longitude": -9.387866
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "nineteen":
     {
       "creator": "->users.homer",
+      "creatorName": "Homer Simpson",
       "grade": [
         "Moderate"
       ],
       "county": "Cork",
       "trailname": "Beacon Walk",
+      "info": "BeaconWalk2",
       "trailtype": "Loop",
       "traillength": 3.3,
       "time": "01:15",
@@ -372,16 +499,21 @@
       "startcoordinates": {
         "latitude": 51.482246,
         "longitude": -9.374937
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "twenty":
     {
-      "creator": "->users.homer",
+      "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Easy"
       ],
       "county": "Waterford",
       "trailname": "Ardmore Cliff Walk",
+      "info": "ArdmoreCliffWalk",
       "trailtype": "Out and Back",
       "traillength": 4.1,
       "time": "01:15",
@@ -390,16 +522,21 @@
       "startcoordinates": {
         "latitude": 51.482246,
         "longitude": -9.374938
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "twenty one":
     {
-      "creator": "->users.killian",
+      "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Easy", "Wheelchair and Buggy Accessible"
       ],
       "county": "Waterford",
       "trailname": "Waterford Greenway",
+      "info": "WaterfordGreenway",
       "trailtype": "Linear",
       "traillength": 46.5,
       "time": "09:15",
@@ -412,16 +549,21 @@
       "endcoordinates": {
         "latitude": 52.091675,
         "longitude": -7.615516
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
     },
     "twenty two":
     {
-      "creator": "->users.homer",
+      "creator": "->users.bart",
+      "creatorName": "Bart Simpson",
       "grade": [
         "Moderate", "Strenuous"
       ],
       "county": "Waterford",
       "trailname": "Nire Valley Trails - Coumlara loop",
+      "info": "NireValleyTrailsCoumlaraloop",
       "trailtype": "Loop",
       "traillength": 6.5,
       "time": "03:45",
@@ -430,9 +572,18 @@
       "startcoordinates": {
         "latitude": 52.266946,
         "longitude": -7.595808
-      }
+      },
+      "profileImage":"/images/walkways-poi.png",
+      "images":[],
+      "comments": []
+    }
+  },
+  "events": {
+    "_model": "Events",
+    "one": {
+      "creator": "->users.marge",
+      "category": "general",
+      "event": "<h1>Welcome to Walkways. We hope you enjoy the experience!</h1>"
     }
   }
-}
-
-
+  }
