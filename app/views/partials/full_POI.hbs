@@ -65,7 +65,12 @@
             </tr>
             <tr>
                 {{#if @root.areFriends}}
-                <td> {{> upload_modal}}</td>{{/if}}
+                <td> {{> upload_modal}}</td>
+                {{else}}
+                    {{#if owner}}
+                        <td> {{> upload_modal}}</td>
+                    {{/if}}
+                {{/if}}
             </tr>
         </table>
     </div>
