@@ -383,7 +383,7 @@ const Walkways = {
 
         let userImages = await ImageStore.getUserImages(trailID);
 
-        process.env.google_maps_API;
+        //process.env.google_maps_API;
 
         return h.view('viewPOI', { title: trail_name + " Details" , trail: current_trail, user: user, owner: owner,
           google_API: process.env.google_maps_API, images: userImages, areFriends: areFriends } );
